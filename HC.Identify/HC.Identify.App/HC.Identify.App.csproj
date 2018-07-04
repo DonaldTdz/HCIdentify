@@ -32,7 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -65,6 +72,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,11 +88,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HC.Identify.Application\HC.Identify.Application.csproj">
-      <Project>{483c66c4-5eeb-44ae-8366-c789af95e8ae}</Project>
+      <Project>{15f7eb09-c9fe-4b4d-a39d-9d64253d4323}</Project>
       <Name>HC.Identify.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\HC.Identify.Dto\HC.Identify.Dto.csproj">
-      <Project>{1315d4c7-c038-4b48-93d3-fb4f8d548832}</Project>
+      <Project>{be50f75c-a99a-432d-abda-4ca3a75f4f2f}</Project>
       <Name>HC.Identify.Dto</Name>
     </ProjectReference>
   </ItemGroup>

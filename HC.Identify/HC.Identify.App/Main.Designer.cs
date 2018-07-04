@@ -30,6 +30,8 @@
         {
             this.grdUser = new System.Windows.Forms.DataGridView();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Role = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grdUser)).BeginInit();
             this.SuspendLayout();
@@ -41,11 +43,14 @@
             this.grdUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdUser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UserName,
+            this.Id,
+            this.Role,
             this.RoleName});
             this.grdUser.Location = new System.Drawing.Point(3, 50);
             this.grdUser.Name = "grdUser";
             this.grdUser.ReadOnly = true;
             this.grdUser.RowTemplate.Height = 23;
+            this.grdUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdUser.Size = new System.Drawing.Size(797, 150);
             this.grdUser.TabIndex = 0;
             // 
@@ -55,6 +60,22 @@
             this.UserName.HeaderText = "用户名";
             this.UserName.Name = "UserName";
             this.UserName.ReadOnly = true;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // Role
+            // 
+            this.Role.DataPropertyName = "Role";
+            this.Role.HeaderText = "角色code";
+            this.Role.Name = "Role";
+            this.Role.ReadOnly = true;
+            this.Role.Visible = false;
             // 
             // RoleName
             // 
@@ -81,6 +102,8 @@
 
         private System.Windows.Forms.DataGridView grdUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Role;
         private System.Windows.Forms.DataGridViewTextBoxColumn RoleName;
     }
 }

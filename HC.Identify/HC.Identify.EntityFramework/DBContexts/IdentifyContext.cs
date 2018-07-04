@@ -10,7 +10,7 @@ namespace HC.Identify.EntityFramework.DBContexts
 {
     public class IdentifyContext : DbContext
     {
-        private static string IdentifyDSN = "IdentifyDSN";//"Data Source=.;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa;Password=qaz;";
+        private static string IdentifyDSN = "IdentifyDSN"; //"Data Source=.;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa;Password=qaz;";
         public IdentifyContext() : base(IdentifyDSN) { }
 
         static IdentifyContext()

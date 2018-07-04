@@ -17,7 +17,8 @@ namespace HC.Identify.Application.Identify
 
         public IList<UserDto> GetUserList()
         {
-            return userService.GetUserList();
+            return userService.GetUserListByQuery("唐");
+            //return userService.GetUserList();
         }
     }
 }
