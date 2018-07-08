@@ -20,6 +20,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                 {
                     Id = u.Id,
                     Name = u.Name,
+                    Account = u.Account,
                     Role = u.Role
                 });
 

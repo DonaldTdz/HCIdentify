@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.grdUser = new System.Windows.Forms.DataGridView();
+            this.Account = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Role = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,6 +43,7 @@
             this.grdUser.AllowUserToDeleteRows = false;
             this.grdUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdUser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Account,
             this.UserName,
             this.Id,
             this.Role,
@@ -53,6 +55,13 @@
             this.grdUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdUser.Size = new System.Drawing.Size(797, 150);
             this.grdUser.TabIndex = 0;
+            // 
+            // Account
+            // 
+            this.Account.DataPropertyName = "Account";
+            this.Account.HeaderText = "用户账号";
+            this.Account.Name = "Account";
+            this.Account.ReadOnly = true;
             // 
             // UserName
             // 
@@ -91,7 +100,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.grdUser);
             this.Name = "Main";
-            this.Text = "Form1";
+            this.Text = "智能视觉识别系统";
             this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdUser)).EndInit();
             this.ResumeLayout(false);
@@ -101,6 +110,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView grdUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Account;
         private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Role;
