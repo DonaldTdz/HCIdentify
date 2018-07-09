@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cognex.InSight, Version=5.4.31.1, Culture=neutral, PublicKeyToken=6b9774afddb09935, processorArchitecture=x86" />
+    <Reference Include="Cognex.InSight.Controls.Display, Version=5.4.31.1, Culture=neutral, PublicKeyToken=6b9774afddb09935, processorArchitecture=x86" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -69,6 +71,12 @@
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="Workbench.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Workbench.Designer.cs">
+      <DependentUpon>Workbench.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,6 +89,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Workbench.resx">
+      <DependentUpon>Workbench.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -104,6 +115,17 @@
       <Project>{be50f75c-a99a-432d-abda-4ca3a75f4f2f}</Project>
       <Name>HC.Identify.Dto</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
