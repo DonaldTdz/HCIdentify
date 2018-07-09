@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Identify\OrderInfo.cs" />
+    <Compile Include="Identify\OrderSum.cs" />
     <Compile Include="Identify\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
