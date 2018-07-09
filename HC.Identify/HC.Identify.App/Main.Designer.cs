@@ -28,93 +28,216 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.grdUser = new System.Windows.Forms.DataGridView();
-            this.Account = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Role = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.grdUser)).BeginInit();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.视觉配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.切换用户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.操作手册ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // grdUser
+            // toolStrip1
             // 
-            this.grdUser.AllowUserToAddRows = false;
-            this.grdUser.AllowUserToDeleteRows = false;
-            this.grdUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdUser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Account,
-            this.UserName,
-            this.Id,
-            this.Role,
-            this.RoleName});
-            this.grdUser.Location = new System.Drawing.Point(3, 50);
-            this.grdUser.Name = "grdUser";
-            this.grdUser.ReadOnly = true;
-            this.grdUser.RowTemplate.Height = 23;
-            this.grdUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdUser.Size = new System.Drawing.Size(797, 150);
-            this.grdUser.TabIndex = 0;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3,
+            this.toolStripButton4});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 25);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(984, 39);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
             // 
-            // Account
+            // toolStripButton1
             // 
-            this.Account.DataPropertyName = "Account";
-            this.Account.HeaderText = "用户账号";
-            this.Account.Name = "Account";
-            this.Account.ReadOnly = true;
+            this.toolStripButton1.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(45, 36);
+            this.toolStripButton1.Text = "工作台";
+            this.toolStripButton1.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // UserName
+            // toolStripButton2
             // 
-            this.UserName.DataPropertyName = "Name";
-            this.UserName.HeaderText = "用户名";
-            this.UserName.Name = "UserName";
-            this.UserName.ReadOnly = true;
+            this.toolStripButton2.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(56, 36);
+            this.toolStripButton2.Text = "批次调整";
+            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // Id
+            // toolStripButton3
             // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
+            this.toolStripButton3.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(56, 36);
+            this.toolStripButton3.Text = "模板维护";
+            this.toolStripButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // Role
+            // toolStripButton4
             // 
-            this.Role.DataPropertyName = "Role";
-            this.Role.HeaderText = "角色code";
-            this.Role.Name = "Role";
-            this.Role.ReadOnly = true;
-            this.Role.Visible = false;
+            this.toolStripButton4.Font = new System.Drawing.Font("Microsoft YaHei UI", 8F);
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(34, 36);
+            this.toolStripButton4.Text = "异常";
+            this.toolStripButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // RoleName
+            // statusStrip1
             // 
-            this.RoleName.DataPropertyName = "RoleName";
-            this.RoleName.HeaderText = "用户角色";
-            this.RoleName.Name = "RoleName";
-            this.RoleName.ReadOnly = true;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(984, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // 系统管理ToolStripMenuItem
+            // 
+            this.系统管理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.系统配置ToolStripMenuItem,
+            this.系统配置ToolStripMenuItem1,
+            this.视觉配置ToolStripMenuItem});
+            this.系统管理ToolStripMenuItem.Name = "系统管理ToolStripMenuItem";
+            this.系统管理ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.系统管理ToolStripMenuItem.Text = "系统";
+            // 
+            // 系统配置ToolStripMenuItem
+            // 
+            this.系统配置ToolStripMenuItem.Name = "系统配置ToolStripMenuItem";
+            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.系统配置ToolStripMenuItem.Text = "系统用户";
+            // 
+            // 系统配置ToolStripMenuItem1
+            // 
+            this.系统配置ToolStripMenuItem1.Name = "系统配置ToolStripMenuItem1";
+            this.系统配置ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.系统配置ToolStripMenuItem1.Text = "系统配置";
+            // 
+            // 视觉配置ToolStripMenuItem
+            // 
+            this.视觉配置ToolStripMenuItem.Name = "视觉配置ToolStripMenuItem";
+            this.视觉配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.视觉配置ToolStripMenuItem.Text = "视觉配置";
+            // 
+            // 数据查询ToolStripMenuItem
+            // 
+            this.数据查询ToolStripMenuItem.Name = "数据查询ToolStripMenuItem";
+            this.数据查询ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.数据查询ToolStripMenuItem.Text = "数据查询";
+            // 
+            // 切换用户ToolStripMenuItem
+            // 
+            this.切换用户ToolStripMenuItem.Name = "切换用户ToolStripMenuItem";
+            this.切换用户ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.切换用户ToolStripMenuItem.Text = "切换用户";
+            // 
+            // 帮助ToolStripMenuItem
+            // 
+            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.操作手册ToolStripMenuItem,
+            this.关于ToolStripMenuItem});
+            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.帮助ToolStripMenuItem.Text = "帮助";
+            // 
+            // 操作手册ToolStripMenuItem
+            // 
+            this.操作手册ToolStripMenuItem.Name = "操作手册ToolStripMenuItem";
+            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.操作手册ToolStripMenuItem.Text = "操作手册";
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.关于ToolStripMenuItem.Text = "关于本系统";
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.系统管理ToolStripMenuItem,
+            this.数据查询ToolStripMenuItem,
+            this.切换用户ToolStripMenuItem,
+            this.帮助ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(984, 25);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.grdUser);
+            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.statusStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsMdiContainer = true;
+            this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Main";
-            this.Text = "智能视觉识别系统";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "视觉识别控制系统";
             this.Load += new System.EventHandler(this.Main_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.grdUser)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView grdUser;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Account;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Role;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RoleName;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripMenuItem 系统管理ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 系统配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 系统配置ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 视觉配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 数据查询ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 切换用户ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 操作手册ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
     }
 }
 
