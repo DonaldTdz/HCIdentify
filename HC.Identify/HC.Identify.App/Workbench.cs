@@ -17,7 +17,7 @@ namespace HC.Identify.App
         //定义全局主窗口 刷新状态
         public Main MainForm;
         private int sequence = 1;
-        private int count=0;//当前选项的所有打包订单信息总数
+        private int count = 0;//当前选项的所有打包订单信息总数
         private IList<OrderSumDto> orderSums;//当前选项的所有打包订单信息
         private OrderSumAppService orderSumAppService;
         public Workbench()
@@ -25,23 +25,28 @@ namespace HC.Identify.App
             InitializeComponent();
             orderSumAppService = new OrderSumAppService();
             //获取下拉框数据
-            var datas = orderSumAppService.GetAreaList();
-            if (datas.Count > 0)
+            //var datas = orderSumAppService.GetAreaList();
+            //if (datas.Count > 0)
+            //{
+            //    //下拉框数据赋值
+            //    combo_area.DataSource = datas;
+            //    combo_area.DisplayMember = "name";
+            //    combo_area.ValueMember = "value";
+            //}
+            ComboxGetValue();
+            if (combo_area.SelectedValue != null)
             {
-                //下拉框数据赋值
-                combo_area.DataSource = datas;
-                combo_area.DisplayMember = "name";
-                combo_area.ValueMember = "value";
+                //获取下拉框选中的值
+                var item = combo_area.SelectedValue.ToString();
+                var code = int.Parse(item);
+                //获取当前选中项下的打包订单信息数量
+                count = orderSumAppService.GetOrderSumCount(code);
+                //获取当前选中项下的打包订单信息
+                orderSums = orderSumAppService.GetSigleOrderSum(code);
+                //获取单个用户订单信息
+                GetOrderSum(sequence);
             }
-            //获取下拉框选中的值
-            var item = combo_area.SelectedValue.ToString();
-            var code = int.Parse(item);
-            //获取当前选中项下的打包订单信息数量
-            count = orderSumAppService.GetOrderSumCount(code);
-            //获取当前选中项下的打包订单信息
-            orderSums = orderSumAppService.GetSigleOrderSum(code);
-            //获取单个用户订单信息
-            GetOrderSum(sequence);
+
         }
 
         public Workbench(Main mainForm)
@@ -58,9 +63,10 @@ namespace HC.Identify.App
         private void btn_nexthouse_Click(object sender, EventArgs e)
         {
             //var order = int.Parse(lab_areacode_hide.Text)+1;
-            sequence = sequence + 1;
-            if (sequence <= count)
+
+            if (sequence < count)
             {
+                sequence = sequence + 1;
                 GetOrderSum(sequence);
             }
             else
@@ -135,9 +141,22 @@ namespace HC.Identify.App
         {
             var item = combo_area.SelectedValue.ToString();
             var code = int.Parse(item);
+            sequence = 1;
             count = orderSumAppService.GetOrderSumCount(code);
             orderSums = orderSumAppService.GetSigleOrderSum(code);
-            GetOrderSum(1);
+            lab_areaName.Text = "";
+            lab_retaName.Text = "";
+            //lab_houseNum.Text = "第"+ orderSum.Sequence+"户/" + "共" + count + "户";
+            lab_houseNum.Text = "第" + 0 + "户/" + "共" + 0 + "户";
+            lab_num.Text = "";
+            lab_lastHose.Text = "";//上一户
+            lab_lastlHose.Text = "";//上上户
+            lab_nextHose.Text = "";//下一户
+            lab_nextnHose.Text = "";//下下户
+            if (count > 0)
+            {
+                GetOrderSum(1);
+            }
         }
 
         /// <summary>
@@ -156,6 +175,34 @@ namespace HC.Identify.App
             else
             {
                 MessageBox.Show("没有上一户了哦");
+            }
+        }
+
+        private void btn_dowload_Click(object sender, EventArgs e)
+        {
+            btn_dowload.Visible = false;
+            var result = orderSumAppService.DowloadData();
+            btn_dowload.Visible = true;
+            ComboxGetValue();
+            var item = combo_area.SelectedValue.ToString();
+            var code = int.Parse(item);
+            count = orderSumAppService.GetOrderSumCount(code);
+            orderSums = orderSumAppService.GetSigleOrderSum(code);
+            GetOrderSum(1);
+        }
+
+        /// <summary>
+        /// 下拉框赋值
+        /// </summary>
+        public void ComboxGetValue()
+        {
+            var datas = orderSumAppService.GetAreaList();
+            if (datas.Count > 0)
+            {
+                //下拉框数据赋值
+                combo_area.DataSource = datas;
+                combo_area.DisplayMember = "name";
+                combo_area.ValueMember = "value";
             }
         }
     }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBContexts\Ms01Context.cs" />
     <Compile Include="QueryExtension.cs" />
     <Compile Include="DBContexts\IdentifyContext.cs" />
     <Compile Include="NeverCreateDatabase.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Services\Identify\OrderInfoService.cs" />
     <Compile Include="Services\Identify\OrderSumService.cs" />
     <Compile Include="Services\Identify\UserService.cs" />
+    <Compile Include="Services\Ms01\OrderSumMsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -69,5 +71,6 @@
       <Name>HC.Identify.Dto</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
