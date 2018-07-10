@@ -73,7 +73,6 @@
             this.lab_lastlHose_title = new System.Windows.Forms.Label();
             this.lab_nextHose_title = new System.Windows.Forms.Label();
             this.lab_lastHose_title = new System.Windows.Forms.Label();
-            this.lab_areacode_hide = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -187,6 +186,7 @@
             this.btn_dowload.TabIndex = 1;
             this.btn_dowload.Text = "下载数据";
             this.btn_dowload.UseVisualStyleBackColor = true;
+            this.btn_dowload.Click += new System.EventHandler(this.btn_dowload_Click);
             // 
             // combo_area
             // 
@@ -228,7 +228,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.lab_areacode_hide);
             this.groupBox2.Controls.Add(this.lab_notcheck);
             this.groupBox2.Controls.Add(this.lab_check);
             this.groupBox2.Controls.Add(this.lab_notcheck_title);
@@ -289,18 +288,16 @@
             this.lab_num.AutoSize = true;
             this.lab_num.Location = new System.Drawing.Point(252, 90);
             this.lab_num.Name = "lab_num";
-            this.lab_num.Size = new System.Drawing.Size(29, 12);
+            this.lab_num.Size = new System.Drawing.Size(0, 12);
             this.lab_num.TabIndex = 3;
-            this.lab_num.Text = "10条";
             // 
             // lab_houseNum
             // 
             this.lab_houseNum.AutoSize = true;
             this.lab_houseNum.Location = new System.Drawing.Point(58, 88);
             this.lab_houseNum.Name = "lab_houseNum";
-            this.lab_houseNum.Size = new System.Drawing.Size(77, 12);
+            this.lab_houseNum.Size = new System.Drawing.Size(0, 12);
             this.lab_houseNum.TabIndex = 5;
-            this.lab_houseNum.Text = "第1户/共82户";
             // 
             // lab_num_title
             // 
@@ -325,18 +322,16 @@
             this.lab_retaName.AutoSize = true;
             this.lab_retaName.Location = new System.Drawing.Point(62, 59);
             this.lab_retaName.Name = "lab_retaName";
-            this.lab_retaName.Size = new System.Drawing.Size(41, 12);
+            this.lab_retaName.Size = new System.Drawing.Size(0, 12);
             this.lab_retaName.TabIndex = 3;
-            this.lab_retaName.Text = "李素珍";
             // 
             // lab_areaName
             // 
             this.lab_areaName.AutoSize = true;
             this.lab_areaName.Location = new System.Drawing.Point(56, 26);
             this.lab_areaName.Name = "lab_areaName";
-            this.lab_areaName.Size = new System.Drawing.Size(89, 12);
+            this.lab_areaName.Size = new System.Drawing.Size(0, 12);
             this.lab_areaName.TabIndex = 2;
-            this.lab_areaName.Text = "九龙城网送货域";
             // 
             // lab_retaName_title
             // 
@@ -533,15 +528,6 @@
             this.lab_lastHose_title.TabIndex = 0;
             this.lab_lastHose_title.Text = "上一户：";
             // 
-            // lab_areacode_hide
-            // 
-            this.lab_areacode_hide.AutoSize = true;
-            this.lab_areacode_hide.Location = new System.Drawing.Point(167, 26);
-            this.lab_areacode_hide.Name = "lab_areacode_hide";
-            this.lab_areacode_hide.Size = new System.Drawing.Size(47, 12);
-            this.lab_areacode_hide.TabIndex = 8;
-            this.lab_areacode_hide.Text = "label32";
-            // 
             // Workbench
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -622,6 +608,5 @@
         private System.Windows.Forms.Label lab_nextHose;
         private System.Windows.Forms.Label lab_lastlHose;
         private System.Windows.Forms.Label lab_lastHose;
-        private System.Windows.Forms.Label lab_areacode_hide;
     }
 }

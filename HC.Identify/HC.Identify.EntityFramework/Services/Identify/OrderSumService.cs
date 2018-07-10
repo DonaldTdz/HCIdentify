@@ -1,4 +1,5 @@
 ﻿using HC.Identify.Dto.Identify;
+using HC.Identify.Dto.Ms01;
 using HC.Identify.EntityFramework.DBContexts;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
             {
                 var query = context.OrderSums.Select(u => new AreaInfo
                 {
-                    Name = u.AreaCode.ToString() + u.AreaName,
+                    Name = u.AreaName,
                     Value = u.AreaCode
                 }).Distinct();
 
@@ -124,30 +125,27 @@ namespace HC.Identify.EntityFramework.Services.Identify
                     PostData = o.PostData,
                     RNum = o.RNum
                 }).ToList();
-                //var count = query.Count();
-                //var orderSum = query.OrderBy(o => o.Sequence).Skip(sequence - 1).Take(1).FirstOrDefault();
-                //var se = 0;
-                //if (sequence > 1)
-                //{
-                //    se = sequence - 1;
-                //    orderSum.LastHouse = query.OrderBy(o => o.Sequence).Skip(sequence - 2).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                //}
-                //if (sequence > 2)
-                //{
-                //    se = sequence - 2;
-                //    orderSum.LastLHouse = query.OrderBy(o => o.Sequence).Skip(sequence - 3).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                //}
-                //if (sequence < count)
-                //{
-                //    se = sequence + 1;
-                //    orderSum.NextHouse = query.OrderBy(o => o.Sequence).Skip(sequence).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                //}
-                //if (count - sequence > 2)
-                //{
-                //    se = sequence + 2;
-                //    orderSum.NextNHouse = query.OrderBy(o => o.Sequence).Skip(sequence + 1).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                //}
                 return query;
+            }
+        }
+
+        /// <summary>
+        /// 批量导入
+        /// </summary>
+        /// <param name="orderSumMsDto"></param>
+        public bool DowloadData(IList<OrderSumMsDto> orderSumMsDto)
+        {
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                var deSql = "delete from OrderSums";
+                context.Database.ExecuteSqlCommand(deSql);
+                var sql = new StringBuilder();
+                foreach (var item in orderSumMsDto)
+                {
+                     sql.AppendFormat("insert into OrderSums (Id,UUID,AreaCode,AreaName,RetailerCode,RetailerName,Sequence,Num,PostData,RNum) values(newid(),'{0}','{1}','{2}','{3}','{4}','{5}','{6}',GETDATE(),0);", item.OI_UUID ,item.B_CODE , item.OI_DL_NAME , item.OI_RETAILER_CODE , item.OI_RETAILER_NAME ,item.OI_SEQUENCE , item.OI_ALL_NUM);
+                }
+                var result = context.Database.ExecuteSqlCommand(sql.ToString());
+                return result > 0;
             }
         }
     }

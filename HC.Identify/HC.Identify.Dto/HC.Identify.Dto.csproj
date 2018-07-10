@@ -43,6 +43,7 @@
     <Compile Include="Identify\OrderInfoDto.cs" />
     <Compile Include="Identify\OrderSumDto.cs" />
     <Compile Include="Identify\UserDto.cs" />
+    <Compile Include="Ms01\OrderSumMsDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,5 +52,6 @@
       <Name>HC.Identify.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
