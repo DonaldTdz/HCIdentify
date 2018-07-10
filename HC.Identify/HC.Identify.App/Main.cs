@@ -30,13 +30,14 @@ namespace HC.Identify.App
         //初始化控件
         public void InitControles()
         {
-            Workbench frm = new Workbench(this);
-            frm.FormBorderStyle = FormBorderStyle.FixedDialog;
-            frm.MdiParent = this;
-            frm.WindowState = FormWindowState.Maximized;
-            frm.ParentMainForm = this;
-            this.MainChildList["Workbench"] = frm;
-            this.MainChildList["Workbench"].Show();
+            //Workbench frm = new Workbench(this);
+            //frm.FormBorderStyle = FormBorderStyle.FixedDialog;
+            //frm.MdiParent = this;
+            //frm.WindowState = FormWindowState.Maximized;
+            //frm.ParentMainForm = this;
+            //this.MainChildList["Workbench"] = frm;
+            //this.MainChildList["Workbench"].Show();
+            this.ShowForm("Workbench", new Workbench(this));
         }
 
         public void InitData()
@@ -47,6 +48,50 @@ namespace HC.Identify.App
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void 视觉配置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (this.MainChildList.ExistsForm("VisionProSetting"))
+            //{
+            //    this.MainChildList["VisionProSetting"].WindowState = FormWindowState.Maximized;
+            //    this.MainChildList["VisionProSetting"].Show();
+            //}
+            //else
+            //{
+            //    VisionProSetting visionProSetting;
+            //    visionProSetting = new VisionProSetting();
+            //    visionProSetting.MdiParent = this;
+            //    visionProSetting.WindowState = FormWindowState.Maximized;
+            //    visionProSetting.ParentMainForm = this;
+            //    this.MainChildList["VisionProSetting"] = visionProSetting;
+            //    visionProSetting.Show();
+            //}
+
+            this.ShowForm("VisionProSetting", new VisionProSetting(this));
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            this.ShowForm("Workbench", new Workbench(this));
+        }
+
+        private void ShowForm(string formName, FormMainChildren form)
+        {
+            if (this.MainChildList.ExistsForm(formName))
+            {
+                this.MainChildList[formName].WindowState = FormWindowState.Maximized;
+                this.MainChildList[formName].Show();
+                form.Dispose();
+            }
+            else
+            {
+                form.MdiParent = this;
+                form.WindowState = FormWindowState.Maximized;
+                form.ParentMainForm = this;
+                this.MainChildList[formName] = form;
+                form.Show();
+            }
         }
     }
 

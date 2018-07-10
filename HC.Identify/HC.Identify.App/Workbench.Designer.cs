@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -70,7 +69,6 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.cvsInSightDisplay1 = new Cognex.InSight.Controls.Display.CvsInSightDisplay();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -92,7 +90,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.cvsInSightDisplay1);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -487,22 +484,12 @@
             this.label24.TabIndex = 0;
             this.label24.Text = "上一户：";
             // 
-            // cvsInSightDisplay1
-            // 
-            this.cvsInSightDisplay1.DefaultTextScaleMode = Cognex.InSight.Controls.Display.CvsInSightDisplay.TextScaleModeType.Proportional;
-            this.cvsInSightDisplay1.DialogIcon = null;
-            this.cvsInSightDisplay1.Location = new System.Drawing.Point(3, 0);
-            this.cvsInSightDisplay1.Name = "cvsInSightDisplay1";
-            this.cvsInSightDisplay1.PreferredCropScaleMode = Cognex.InSight.Controls.Display.CvsInSightDisplayCropScaleMode.Default;
-            this.cvsInSightDisplay1.Size = new System.Drawing.Size(427, 331);
-            this.cvsInSightDisplay1.TabIndex = 6;
-            // 
             // Workbench
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(984, 476);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -573,6 +560,5 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
-        private Cognex.InSight.Controls.Display.CvsInSightDisplay cvsInSightDisplay1;
     }
 }
