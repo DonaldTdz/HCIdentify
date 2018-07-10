@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.cvsInSightDisplay1 = new Cognex.InSight.Controls.Display.CvsInSightDisplay();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -96,7 +94,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.cvsInSightDisplay1);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -106,16 +103,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "相机界面";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // cvsInSightDisplay1
-            // 
-            this.cvsInSightDisplay1.DefaultTextScaleMode = Cognex.InSight.Controls.Display.CvsInSightDisplay.TextScaleModeType.Proportional;
-            this.cvsInSightDisplay1.DialogIcon = null;
-            this.cvsInSightDisplay1.Location = new System.Drawing.Point(3, 0);
-            this.cvsInSightDisplay1.Name = "cvsInSightDisplay1";
-            this.cvsInSightDisplay1.PreferredCropScaleMode = Cognex.InSight.Controls.Display.CvsInSightDisplayCropScaleMode.Default;
-            this.cvsInSightDisplay1.Size = new System.Drawing.Size(427, 331);
-            this.cvsInSightDisplay1.TabIndex = 6;
             // 
             // groupBox4
             // 
@@ -546,7 +533,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(984, 476);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -617,7 +604,6 @@
         private System.Windows.Forms.Label lab_lastlHose_title;
         private System.Windows.Forms.Label lab_nextHose_title;
         private System.Windows.Forms.Label lab_lastHose_title;
-        private Cognex.InSight.Controls.Display.CvsInSightDisplay cvsInSightDisplay1;
         private System.Windows.Forms.Label lab_nextnHose;
         private System.Windows.Forms.Label lab_nextHose;
         private System.Windows.Forms.Label lab_lastlHose;

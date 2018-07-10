@@ -60,17 +60,17 @@
             // 
             // Account
             // 
-            this.Account.Location = new System.Drawing.Point(143, 42);
+            this.Account.Location = new System.Drawing.Point(108, 42);
             this.Account.Name = "Account";
-            this.Account.Size = new System.Drawing.Size(100, 21);
+            this.Account.Size = new System.Drawing.Size(135, 21);
             this.Account.TabIndex = 2;
             // 
             // Password
             // 
-            this.Password.Location = new System.Drawing.Point(143, 85);
+            this.Password.Location = new System.Drawing.Point(108, 85);
             this.Password.Name = "Password";
             this.Password.PasswordChar = '*';
-            this.Password.Size = new System.Drawing.Size(100, 21);
+            this.Password.Size = new System.Drawing.Size(135, 21);
             this.Password.TabIndex = 3;
             // 
             // button1
@@ -129,7 +129,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Login";
-            this.Text = "智能视觉识别系统";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "智能视觉识别控制系统";
             this.ResumeLayout(false);
             this.PerformLayout();
 

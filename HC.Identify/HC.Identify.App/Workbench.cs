@@ -23,6 +23,12 @@ namespace HC.Identify.App
         public Workbench()
         {
             InitializeComponent();
+        }
+
+        public Workbench(Main mainForm)
+        {
+            InitializeComponent();
+            this.MainForm = mainForm;
             orderSumAppService = new OrderSumAppService();
             //获取下拉框数据
             //var datas = orderSumAppService.GetAreaList();
@@ -47,12 +53,6 @@ namespace HC.Identify.App
                 GetOrderSum(sequence);
             }
 
-        }
-
-        public Workbench(Main mainForm)
-        {
-            InitializeComponent();
-            this.MainForm = mainForm;
         }
 
         /// <summary>

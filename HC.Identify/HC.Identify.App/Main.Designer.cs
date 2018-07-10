@@ -73,6 +73,7 @@
             this.toolStripButton1.Text = "工作台";
             this.toolStripButton1.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton2
             // 
@@ -106,7 +107,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(984, 22);
             this.statusStrip1.TabIndex = 2;
@@ -125,20 +126,21 @@
             // 系统配置ToolStripMenuItem
             // 
             this.系统配置ToolStripMenuItem.Name = "系统配置ToolStripMenuItem";
-            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.系统配置ToolStripMenuItem.Text = "系统用户";
             // 
             // 系统配置ToolStripMenuItem1
             // 
             this.系统配置ToolStripMenuItem1.Name = "系统配置ToolStripMenuItem1";
-            this.系统配置ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.系统配置ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.系统配置ToolStripMenuItem1.Text = "系统配置";
             // 
             // 视觉配置ToolStripMenuItem
             // 
             this.视觉配置ToolStripMenuItem.Name = "视觉配置ToolStripMenuItem";
-            this.视觉配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.视觉配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.视觉配置ToolStripMenuItem.Text = "视觉配置";
+            this.视觉配置ToolStripMenuItem.Click += new System.EventHandler(this.视觉配置ToolStripMenuItem_Click);
             // 
             // 数据查询ToolStripMenuItem
             // 
@@ -198,7 +200,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.ClientSize = new System.Drawing.Size(984, 646);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
