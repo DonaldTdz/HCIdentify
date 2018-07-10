@@ -182,13 +182,17 @@ namespace HC.Identify.App
         {
             btn_dowload.Visible = false;
             var result = orderSumAppService.DowloadData();
-            btn_dowload.Visible = true;
             ComboxGetValue();
             var item = combo_area.SelectedValue.ToString();
             var code = int.Parse(item);
+            sequence = 1;
             count = orderSumAppService.GetOrderSumCount(code);
             orderSums = orderSumAppService.GetSigleOrderSum(code);
-            GetOrderSum(1);
+            btn_dowload.Visible = true;
+            if (count > 0)
+            {
+                GetOrderSum(1);
+            }
         }
 
         /// <summary>
