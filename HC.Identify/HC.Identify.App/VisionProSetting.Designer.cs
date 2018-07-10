@@ -33,7 +33,7 @@
             this.cogToolBlockEditV2 = new Cognex.VisionPro.ToolBlock.CogToolBlockEditV2();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
             this.btnToolSetting = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnLiveDisplay = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupImgSaveBox = new System.Windows.Forms.GroupBox();
@@ -48,7 +48,7 @@
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkCamTrigOn = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -115,14 +115,14 @@
             this.btnToolSetting.Text = "工具设置";
             this.btnToolSetting.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnLiveDisplay
             // 
-            this.button2.Location = new System.Drawing.Point(876, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(80, 30);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "连续取像";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnLiveDisplay.Location = new System.Drawing.Point(876, 12);
+            this.btnLiveDisplay.Name = "btnLiveDisplay";
+            this.btnLiveDisplay.Size = new System.Drawing.Size(80, 30);
+            this.btnLiveDisplay.TabIndex = 9;
+            this.btnLiveDisplay.Text = "连续取像";
+            this.btnLiveDisplay.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -210,7 +210,7 @@
             this.groupSetBox.Controls.Add(this.checkBox4);
             this.groupSetBox.Controls.Add(this.checkBox3);
             this.groupSetBox.Controls.Add(this.checkBox2);
-            this.groupSetBox.Controls.Add(this.checkBox1);
+            this.groupSetBox.Controls.Add(this.chkCamTrigOn);
             this.groupSetBox.Location = new System.Drawing.Point(723, 206);
             this.groupSetBox.Name = "groupSetBox";
             this.groupSetBox.Size = new System.Drawing.Size(249, 92);
@@ -258,15 +258,15 @@
             this.checkBox2.Text = "保存数据";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // chkCamTrigOn
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(13, 21);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(96, 16);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "相机外部模式";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkCamTrigOn.AutoSize = true;
+            this.chkCamTrigOn.Location = new System.Drawing.Point(13, 21);
+            this.chkCamTrigOn.Name = "chkCamTrigOn";
+            this.chkCamTrigOn.Size = new System.Drawing.Size(96, 16);
+            this.chkCamTrigOn.TabIndex = 0;
+            this.chkCamTrigOn.Text = "相机外部模式";
+            this.chkCamTrigOn.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -434,13 +434,14 @@
             this.Controls.Add(this.groupImgSaveBox);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnLiveDisplay);
             this.Controls.Add(this.btnToolSetting);
             this.Controls.Add(this.cogToolBlockEditV2);
             this.Controls.Add(this.cogRecordDisplay);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "VisionProSetting";
             this.Text = "视觉配置";
+            this.Load += new System.EventHandler(this.VisionProSetting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).EndInit();
             this.groupImgSaveBox.ResumeLayout(false);
@@ -461,7 +462,7 @@
         private Cognex.VisionPro.ToolBlock.CogToolBlockEditV2 cogToolBlockEditV2;
         private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay;
         private System.Windows.Forms.Button btnToolSetting;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnLiveDisplay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.GroupBox groupImgSaveBox;
@@ -475,7 +476,7 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkCamTrigOn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
