@@ -51,6 +51,8 @@
     <Compile Include="DBContexts\IdentifyContext.cs" />
     <Compile Include="NeverCreateDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Identify\OrderInfoService.cs" />
+    <Compile Include="Services\Identify\OrderSumService.cs" />
     <Compile Include="Services\Identify\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

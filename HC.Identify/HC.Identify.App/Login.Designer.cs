@@ -126,6 +126,8 @@
             this.Controls.Add(this.Account);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Login";
             this.Text = "智能视觉识别系统";
             this.ResumeLayout(false);

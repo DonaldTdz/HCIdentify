@@ -58,6 +58,8 @@
     <Compile Include="COMServer.cs" />
     <Compile Include="Helpers\CommHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
+    <Compile Include="Identify\OrderInfoAppService.cs" />
+    <Compile Include="Identify\OrderSumAppService.cs" />
     <Compile Include="Identify\UserAppServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocketClient.cs" />

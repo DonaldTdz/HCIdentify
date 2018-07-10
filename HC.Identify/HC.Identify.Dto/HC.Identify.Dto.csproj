@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Identify\OrderInfoDto.cs" />
+    <Compile Include="Identify\OrderSumDto.cs" />
     <Compile Include="Identify\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
