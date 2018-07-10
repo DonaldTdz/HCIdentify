@@ -30,5 +30,8 @@ namespace HC.Identify.EntityFramework.DBContexts
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<OrderInfo> OrderInfo { get; set; }
+        public DbSet<OrderSum> OrderSums { get; set; }
+
     }
 }
