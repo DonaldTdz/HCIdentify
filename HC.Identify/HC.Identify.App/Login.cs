@@ -36,21 +36,28 @@ namespace HC.Identify.App
         {
             var accont = Account.Text;
             var password = Password.Text;
-          //var pas=FormsAuthentication.HashPasswordForStoringInConfigFile(password, "md5");
-
-            var isExtend = userAppService.UserIsExtend(accont, password);
-            if (isExtend)
+            //var pas=FormsAuthentication.HashPasswordForStoringInConfigFile(password, "md5");
+            if (string.IsNullOrEmpty(accont) || string.IsNullOrEmpty(password))
             {
-                //Session["Account"] =accont;
-                //Session["Password"] =password;
-                Main ma = new Main();
-                ma.Show();
-                this.Visible=false;
+                label3.Text = "请完善用户名或密码";
             }
             else
             {
-                label3.Text = "登录失败，请确认用户名或密码";
+                var isExtend = userAppService.UserIsExtend(accont, password);
+                if (isExtend)
+                {
+                    //Session["Account"] =accont;
+                    //Session["Password"] =password;
+                    Main ma = new Main();
+                    ma.Show();
+                    this.Visible = false;
+                }
+                else
+                {
+                    label3.Text = "登录失败，请确认用户名或密码";
+                }
             }
+
         }
 
         private void label2_Click(object sender, EventArgs e)
