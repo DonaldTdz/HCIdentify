@@ -14,11 +14,11 @@ namespace HC.Identify.App
     public partial class Main : Form
     {
         public MainChildrenCollection MainChildList = new MainChildrenCollection();
-        UserAppServer userAppServer;
+        UserAppService userAppServer;
         public Main()
         {
             InitializeComponent();
-            userAppServer = new UserAppServer();
+            userAppServer = new UserAppService();
             InitControles();
         }
 

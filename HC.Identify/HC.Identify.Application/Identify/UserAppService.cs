@@ -6,11 +6,11 @@ using System.Text;
 
 namespace HC.Identify.Application.Identify
 {
-    public class UserAppServer
+    public class UserAppService : IdentifyAppServiceBase
     {
         private UserService userService;
 
-        public UserAppServer()
+        public UserAppService()
         {
             userService = new UserService();
         }

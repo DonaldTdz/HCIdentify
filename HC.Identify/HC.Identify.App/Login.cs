@@ -15,11 +15,11 @@ namespace HC.Identify.App
 {
     public partial class Login : Form
     {
-        private UserAppServer userAppService;
+        private UserAppService userAppService;
         public Login()
         {
             InitializeComponent();
-            userAppService = new UserAppServer();
+            userAppService = new UserAppService();
         }
 
         private void label1_Click(object sender, EventArgs e)

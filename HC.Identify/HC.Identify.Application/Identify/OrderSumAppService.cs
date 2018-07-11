@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HC.Identify.Application.Identify
 {
-    public class OrderSumAppService
+    public class OrderSumAppService : IdentifyAppServiceBase
     {
         private OrderSumMsService orderSumMsService;
         private OrderSumService orderSumService;

@@ -35,33 +35,33 @@
             this.btnToolSetting = new System.Windows.Forms.Button();
             this.btnLiveDisplay = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboSpecBox = new System.Windows.Forms.ComboBox();
             this.groupImgSaveBox = new System.Windows.Forms.GroupBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtCurrentImgFileName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.btnSelectPath = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnSaveImgFileName = new System.Windows.Forms.Button();
+            this.txtImgFileName = new System.Windows.Forms.TextBox();
+            this.btnOpenImg = new System.Windows.Forms.Button();
+            this.txtImgPath = new System.Windows.Forms.TextBox();
             this.groupSetBox = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.chkCamTrigOn = new System.Windows.Forms.CheckBox();
+            this.chkAutoSaveImage = new System.Windows.Forms.CheckBox();
+            this.chkAutoSaveData = new System.Windows.Forms.CheckBox();
+            this.chkCamTrigOnv = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtCurrentSpec = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtUseTime = new System.Windows.Forms.TextBox();
+            this.txtMatchSpec = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblResultDesc = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -114,6 +114,7 @@
             this.btnToolSetting.TabIndex = 8;
             this.btnToolSetting.Text = "工具设置";
             this.btnToolSetting.UseVisualStyleBackColor = true;
+            this.btnToolSetting.Click += new System.EventHandler(this.btnToolSetting_Click);
             // 
             // btnLiveDisplay
             // 
@@ -123,6 +124,7 @@
             this.btnLiveDisplay.TabIndex = 9;
             this.btnLiveDisplay.Text = "连续取像";
             this.btnLiveDisplay.UseVisualStyleBackColor = true;
+            this.btnLiveDisplay.Click += new System.EventHandler(this.btnLiveDisplay_Click);
             // 
             // label1
             // 
@@ -133,22 +135,22 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "已注册型号：";
             // 
-            // comboBox1
+            // comboSpecBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(813, 61);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(146, 20);
-            this.comboBox1.TabIndex = 11;
+            this.comboSpecBox.FormattingEnabled = true;
+            this.comboSpecBox.Location = new System.Drawing.Point(813, 61);
+            this.comboSpecBox.Name = "comboSpecBox";
+            this.comboSpecBox.Size = new System.Drawing.Size(146, 20);
+            this.comboSpecBox.TabIndex = 11;
             // 
             // groupImgSaveBox
             // 
-            this.groupImgSaveBox.Controls.Add(this.textBox4);
+            this.groupImgSaveBox.Controls.Add(this.txtCurrentImgFileName);
             this.groupImgSaveBox.Controls.Add(this.label2);
-            this.groupImgSaveBox.Controls.Add(this.button1);
-            this.groupImgSaveBox.Controls.Add(this.textBox2);
-            this.groupImgSaveBox.Controls.Add(this.btnSelectPath);
-            this.groupImgSaveBox.Controls.Add(this.textBox1);
+            this.groupImgSaveBox.Controls.Add(this.btnSaveImgFileName);
+            this.groupImgSaveBox.Controls.Add(this.txtImgFileName);
+            this.groupImgSaveBox.Controls.Add(this.btnOpenImg);
+            this.groupImgSaveBox.Controls.Add(this.txtImgPath);
             this.groupImgSaveBox.Location = new System.Drawing.Point(723, 93);
             this.groupImgSaveBox.Name = "groupImgSaveBox";
             this.groupImgSaveBox.Size = new System.Drawing.Size(249, 106);
@@ -156,12 +158,12 @@
             this.groupImgSaveBox.TabStop = false;
             this.groupImgSaveBox.Text = "图像存储";
             // 
-            // textBox4
+            // txtCurrentImgFileName
             // 
-            this.textBox4.Location = new System.Drawing.Point(117, 78);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(124, 21);
-            this.textBox4.TabIndex = 5;
+            this.txtCurrentImgFileName.Location = new System.Drawing.Point(117, 78);
+            this.txtCurrentImgFileName.Name = "txtCurrentImgFileName";
+            this.txtCurrentImgFileName.Size = new System.Drawing.Size(124, 21);
+            this.txtCurrentImgFileName.TabIndex = 5;
             // 
             // label2
             // 
@@ -172,45 +174,47 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "当前图像文件名：";
             // 
-            // button1
+            // btnSaveImgFileName
             // 
-            this.button1.Location = new System.Drawing.Point(131, 49);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "输入文件名存图";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSaveImgFileName.Location = new System.Drawing.Point(131, 49);
+            this.btnSaveImgFileName.Name = "btnSaveImgFileName";
+            this.btnSaveImgFileName.Size = new System.Drawing.Size(110, 23);
+            this.btnSaveImgFileName.TabIndex = 3;
+            this.btnSaveImgFileName.Text = "输入文件名存图";
+            this.btnSaveImgFileName.UseVisualStyleBackColor = true;
+            this.btnSaveImgFileName.Click += new System.EventHandler(this.btnSaveImgFileName_Click);
             // 
-            // textBox2
+            // txtImgFileName
             // 
-            this.textBox2.Location = new System.Drawing.Point(8, 49);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(110, 21);
-            this.textBox2.TabIndex = 2;
+            this.txtImgFileName.Location = new System.Drawing.Point(8, 49);
+            this.txtImgFileName.Name = "txtImgFileName";
+            this.txtImgFileName.Size = new System.Drawing.Size(110, 21);
+            this.txtImgFileName.TabIndex = 2;
             // 
-            // btnSelectPath
+            // btnOpenImg
             // 
-            this.btnSelectPath.Location = new System.Drawing.Point(130, 19);
-            this.btnSelectPath.Name = "btnSelectPath";
-            this.btnSelectPath.Size = new System.Drawing.Size(111, 23);
-            this.btnSelectPath.TabIndex = 1;
-            this.btnSelectPath.Text = "选择图片位置";
-            this.btnSelectPath.UseVisualStyleBackColor = true;
+            this.btnOpenImg.Location = new System.Drawing.Point(130, 19);
+            this.btnOpenImg.Name = "btnOpenImg";
+            this.btnOpenImg.Size = new System.Drawing.Size(111, 23);
+            this.btnOpenImg.TabIndex = 1;
+            this.btnOpenImg.Text = "选择图片位置";
+            this.btnOpenImg.UseVisualStyleBackColor = true;
+            this.btnOpenImg.Click += new System.EventHandler(this.btnOpenImg_Click);
             // 
-            // textBox1
+            // txtImgPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(7, 21);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(111, 21);
-            this.textBox1.TabIndex = 0;
+            this.txtImgPath.Location = new System.Drawing.Point(7, 21);
+            this.txtImgPath.Name = "txtImgPath";
+            this.txtImgPath.Size = new System.Drawing.Size(111, 21);
+            this.txtImgPath.TabIndex = 0;
             // 
             // groupSetBox
             // 
             this.groupSetBox.Controls.Add(this.checkBox5);
             this.groupSetBox.Controls.Add(this.checkBox4);
-            this.groupSetBox.Controls.Add(this.checkBox3);
-            this.groupSetBox.Controls.Add(this.checkBox2);
-            this.groupSetBox.Controls.Add(this.chkCamTrigOn);
+            this.groupSetBox.Controls.Add(this.chkAutoSaveImage);
+            this.groupSetBox.Controls.Add(this.chkAutoSaveData);
+            this.groupSetBox.Controls.Add(this.chkCamTrigOnv);
             this.groupSetBox.Location = new System.Drawing.Point(723, 206);
             this.groupSetBox.Name = "groupSetBox";
             this.groupSetBox.Size = new System.Drawing.Size(249, 92);
@@ -238,35 +242,35 @@
             this.checkBox4.Text = "仿真";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // chkAutoSaveImage
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(13, 69);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(72, 16);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "自动存图";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.chkAutoSaveImage.AutoSize = true;
+            this.chkAutoSaveImage.Location = new System.Drawing.Point(13, 69);
+            this.chkAutoSaveImage.Name = "chkAutoSaveImage";
+            this.chkAutoSaveImage.Size = new System.Drawing.Size(72, 16);
+            this.chkAutoSaveImage.TabIndex = 2;
+            this.chkAutoSaveImage.Text = "自动存图";
+            this.chkAutoSaveImage.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // chkAutoSaveData
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(13, 45);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(72, 16);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "保存数据";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.chkAutoSaveData.AutoSize = true;
+            this.chkAutoSaveData.Location = new System.Drawing.Point(13, 45);
+            this.chkAutoSaveData.Name = "chkAutoSaveData";
+            this.chkAutoSaveData.Size = new System.Drawing.Size(72, 16);
+            this.chkAutoSaveData.TabIndex = 1;
+            this.chkAutoSaveData.Text = "保存数据";
+            this.chkAutoSaveData.UseVisualStyleBackColor = true;
             // 
-            // chkCamTrigOn
+            // chkCamTrigOnv
             // 
-            this.chkCamTrigOn.AutoSize = true;
-            this.chkCamTrigOn.Location = new System.Drawing.Point(13, 21);
-            this.chkCamTrigOn.Name = "chkCamTrigOn";
-            this.chkCamTrigOn.Size = new System.Drawing.Size(96, 16);
-            this.chkCamTrigOn.TabIndex = 0;
-            this.chkCamTrigOn.Text = "相机外部模式";
-            this.chkCamTrigOn.UseVisualStyleBackColor = true;
+            this.chkCamTrigOnv.AutoSize = true;
+            this.chkCamTrigOnv.Location = new System.Drawing.Point(13, 21);
+            this.chkCamTrigOnv.Name = "chkCamTrigOnv";
+            this.chkCamTrigOnv.Size = new System.Drawing.Size(96, 16);
+            this.chkCamTrigOnv.TabIndex = 0;
+            this.chkCamTrigOnv.Text = "相机外部模式";
+            this.chkCamTrigOnv.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -274,7 +278,7 @@
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.txtCurrentSpec);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(723, 313);
             this.groupBox1.Name = "groupBox1";
@@ -320,12 +324,12 @@
             this.button3.Text = "重新运行";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // txtCurrentSpec
             // 
-            this.textBox3.Location = new System.Drawing.Point(103, 18);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(132, 21);
-            this.textBox3.TabIndex = 1;
+            this.txtCurrentSpec.Location = new System.Drawing.Point(103, 18);
+            this.txtCurrentSpec.Name = "txtCurrentSpec";
+            this.txtCurrentSpec.Size = new System.Drawing.Size(132, 21);
+            this.txtCurrentSpec.TabIndex = 1;
             // 
             // label3
             // 
@@ -339,10 +343,10 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.textBox6);
-            this.groupBox2.Controls.Add(this.textBox5);
+            this.groupBox2.Controls.Add(this.txtUseTime);
+            this.groupBox2.Controls.Add(this.txtMatchSpec);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.lblResultDesc);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button6);
@@ -362,19 +366,19 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "毫秒";
             // 
-            // textBox6
+            // txtUseTime
             // 
-            this.textBox6.Location = new System.Drawing.Point(84, 83);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(119, 21);
-            this.textBox6.TabIndex = 7;
+            this.txtUseTime.Location = new System.Drawing.Point(84, 83);
+            this.txtUseTime.Name = "txtUseTime";
+            this.txtUseTime.Size = new System.Drawing.Size(119, 21);
+            this.txtUseTime.TabIndex = 7;
             // 
-            // textBox5
+            // txtMatchSpec
             // 
-            this.textBox5.Location = new System.Drawing.Point(83, 51);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(120, 21);
-            this.textBox5.TabIndex = 6;
+            this.txtMatchSpec.Location = new System.Drawing.Point(83, 51);
+            this.txtMatchSpec.Name = "txtMatchSpec";
+            this.txtMatchSpec.Size = new System.Drawing.Size(120, 21);
+            this.txtMatchSpec.TabIndex = 6;
             // 
             // label7
             // 
@@ -385,16 +389,16 @@
             this.label7.TabIndex = 5;
             this.label7.Text = "运行时间：";
             // 
-            // label6
+            // lblResultDesc
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.ForeColor = System.Drawing.Color.Green;
-            this.label6.Location = new System.Drawing.Point(207, 54);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(25, 15);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "OK";
+            this.lblResultDesc.AutoSize = true;
+            this.lblResultDesc.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblResultDesc.ForeColor = System.Drawing.Color.Green;
+            this.lblResultDesc.Location = new System.Drawing.Point(207, 54);
+            this.lblResultDesc.Name = "lblResultDesc";
+            this.lblResultDesc.Size = new System.Drawing.Size(25, 15);
+            this.lblResultDesc.TabIndex = 4;
+            this.lblResultDesc.Text = "OK";
             // 
             // label4
             // 
@@ -432,7 +436,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupSetBox);
             this.Controls.Add(this.groupImgSaveBox);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboSpecBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnLiveDisplay);
             this.Controls.Add(this.btnToolSetting);
@@ -441,6 +445,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "VisionProSetting";
             this.Text = "视觉配置";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VisionProSetting_FormClosing);
             this.Load += new System.EventHandler(this.VisionProSetting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).EndInit();
@@ -464,35 +469,35 @@
         private System.Windows.Forms.Button btnToolSetting;
         private System.Windows.Forms.Button btnLiveDisplay;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboSpecBox;
         private System.Windows.Forms.GroupBox groupImgSaveBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button btnSelectPath;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnSaveImgFileName;
+        private System.Windows.Forms.TextBox txtImgFileName;
+        private System.Windows.Forms.Button btnOpenImg;
+        private System.Windows.Forms.TextBox txtImgPath;
         private System.Windows.Forms.GroupBox groupSetBox;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox chkCamTrigOn;
+        private System.Windows.Forms.CheckBox chkAutoSaveImage;
+        private System.Windows.Forms.CheckBox chkAutoSaveData;
+        private System.Windows.Forms.CheckBox chkCamTrigOnv;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtCurrentSpec;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblResultDesc;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtCurrentImgFileName;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtUseTime;
+        private System.Windows.Forms.TextBox txtMatchSpec;
         private System.Windows.Forms.Label label7;
     }
 }

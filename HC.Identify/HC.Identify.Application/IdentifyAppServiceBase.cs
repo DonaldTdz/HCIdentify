@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HC.Identify.Application.Identify
+namespace HC.Identify.Application
 {
-   public class OrderInfoAppService : IdentifyAppServiceBase
+    public class IdentifyAppServiceBase
     {
     }
 }
