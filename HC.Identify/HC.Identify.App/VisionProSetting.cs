@@ -35,7 +35,7 @@ namespace HC.Identify.App
         #region 数据存储处理
 
         VisionProAppService vpCsvDataService;          //csv data 数据处理服务
-        Dictionary<string, double[]> csvSpecList;      //已注册产品数据
+        Dictionary<string, double[]> csvSpecList = new Dictionary<string, double[]>();      //已注册产品数据
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace HC.Identify.App
             {
                 isCameraOnline = false;
                 btnLiveDisplay.Enabled = false; //禁用连续取像
-                chkCamTrigOnv.Enabled = false;   //禁用相机外部启用模式
+                chkCamTrigOn.Enabled = false;   //禁用相机外部启用模式
 
                 MessageBox.Show("无相机连接，运行离线模式");
             }
@@ -96,7 +96,7 @@ namespace HC.Identify.App
                 isCameraOnline = true;
                 //获取第一个相机图片
                 icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
-                // mAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
+                // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
                 //添加获取完成处理事件
                 icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
                 int numReadyVal;   //读取值
@@ -173,6 +173,7 @@ namespace HC.Identify.App
 
         FileSystemInfo[] fileInfos;
         int imgIndex;
+        ArrayList cogResultArray = new ArrayList();
 
         private ArrayList ToolBlockRun()
         {
@@ -187,7 +188,7 @@ namespace HC.Identify.App
             ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
             cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
             cogRecordDisplay.Fit(true);
-            ArrayList cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
+            cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
             if (cogResultArray.Count == 0)
             {
                 MessageBox.Show("ToolBlock结果为空！");
@@ -346,7 +347,7 @@ namespace HC.Identify.App
 
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
-                chkCamTrigOnv.Checked = false;//相机外部模式
+                chkCamTrigOn.Checked = false;//相机外部模式
                 cogRecordDisplay.StartLiveDisplay(icogAcqFifo);
                 btnLiveDisplay.Text = "停止取像";
             }
@@ -355,6 +356,8 @@ namespace HC.Identify.App
         #endregion
 
         #region 选择图片位置
+
+        int totalImgCount = 0;
 
         private void btnOpenImg_Click(object sender, EventArgs e)
         {
@@ -368,7 +371,7 @@ namespace HC.Identify.App
             //读取第一张图
             imgIndex = 0;
             var imgDir = new DirectoryInfo(imgPath);
-            var totalImgCount = imgDir.GetFiles().Length;
+            totalImgCount = imgDir.GetFiles().Length;
             fileInfos = imgDir.GetFileSystemInfos();
             if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
                fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
@@ -401,6 +404,178 @@ namespace HC.Identify.App
         }
 
         #endregion
+
+        #region 重新运行
+
+        private void btnReRun_Click(object sender, EventArgs e)
+        {
+            ToolBlockRun();
+        }
+
+        #endregion
+
+        #region 注册当前产品
+
+        private void btnRegisterSpec_Click(object sender, EventArgs e)
+        {
+            //同时加入Read Value
+            if (txtCurrentSpec.Text == "")
+            {
+                MessageBox.Show("请先输入型号再保存数据");
+                return;
+            }
+          
+            string strRowWrite = txtCurrentSpec.Text + ",";
+            double[] newValues = new double[cogResultArray.Count];
+            for (int i = 0; i < cogResultArray.Count; i++)
+            {
+                strRowWrite += string.Format("{0:###.###}", cogResultArray[i]) + ",";
+                newValues[i] = (double)cogResultArray[i];
+            }
+            csvSpecList.Add(txtCurrentSpec.Text, newValues);    //添加到已注册产品型号
+            vpCsvDataService.SaveToCsvRegistered(strRowWrite);  //保存到CSV文件
+            BindRegisteredSpec();                               //重新绑定已注册产品
+        }
+
+        #endregion
+
+        #region 运行或下一张
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if (isCameraOnline)
+            {
+                int numReadyVal, numPendingVal;
+                int iNum = icogAcqFifo.StartAcquire();
+                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+            }
+            else
+            {
+                if (chkBack.Checked)
+                {
+                    imgIndex --;
+                    if (imgIndex < 0)
+                    {
+                        imgIndex = 0;
+                    }
+                }
+                else
+                {
+                    imgIndex ++;
+                }
+                if (imgIndex >= totalImgCount)
+                {
+                    imgIndex = 0;
+                }
+                if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
+                  fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
+                {
+                    cogImageFile.Operator.Open(fileInfos[imgIndex].FullName, CogImageFileModeConstants.Read);
+                    cogImageFile.Run();
+                    icogColorImage = cogImageFile.OutputImage;
+                }
+            }
+
+            ToolBlockRun();
+        }
+
+        #endregion
+
+        #region 匹配型号重新运行
+
+        private void btnReMatchRun_Click(object sender, EventArgs e)
+        {
+            RunCalculation();
+        }
+
+        #endregion
+
+        #region 单次运行
+
+        private void btnMatchRun_Click(object sender, EventArgs e)
+        {
+            if (isCameraOnline)
+            {
+                int numReadyVal, numPendingVal;
+                int iNum = icogAcqFifo.StartAcquire();
+                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+            }
+            else
+            {
+                if (chkBack.Checked)
+                {
+                    imgIndex --;
+                    if (imgIndex < 0)
+                    {
+                        imgIndex = 0;
+                    }
+                }
+                else
+                {
+                    imgIndex++;
+                }
+
+                if (imgIndex >= totalImgCount)
+                {
+                    imgIndex = 0;
+                }
+                if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
+                  fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
+                {
+                    cogImageFile.Operator.Open(fileInfos[imgIndex].FullName, CogImageFileModeConstants.Read);
+                    cogImageFile.Run();
+                    icogColorImage = cogImageFile.OutputImage;
+                }
+            }
+
+            RunCalculation();
+        }
+
+        #endregion
+
+        #region 仿真更改
+
+        private void chkSimulation_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (chkSimulation.Checked)
+            {
+                isCameraOnline = false;
+            }
+            else
+            {
+                isCameraOnline = true;
+            }
+        }
+
+        #endregion
+
+        #region 相机外部模式
+
+        private void chkCamTrigOn_CheckedChanged(object sender, EventArgs e)
+        {
+            bool bTrig = chkCamTrigOn.Checked;
+            if (bTrig)
+            {
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
+            }
+            else
+            {
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
+            }
+        }
+
+        #endregion
+
 
     }
 }

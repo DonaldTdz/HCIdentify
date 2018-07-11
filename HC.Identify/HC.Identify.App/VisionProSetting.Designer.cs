@@ -45,15 +45,15 @@
             this.txtImgPath = new System.Windows.Forms.TextBox();
             this.groupSetBox = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.chkSimulation = new System.Windows.Forms.CheckBox();
             this.chkAutoSaveImage = new System.Windows.Forms.CheckBox();
             this.chkAutoSaveData = new System.Windows.Forms.CheckBox();
-            this.chkCamTrigOnv = new System.Windows.Forms.CheckBox();
+            this.chkCamTrigOn = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.chkBack = new System.Windows.Forms.CheckBox();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnRegisterSpec = new System.Windows.Forms.Button();
+            this.btnReRun = new System.Windows.Forms.Button();
             this.txtCurrentSpec = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -63,8 +63,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblResultDesc = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnMatchRun = new System.Windows.Forms.Button();
+            this.btnReMatchRun = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
             this.groupImgSaveBox.SuspendLayout();
@@ -211,10 +211,10 @@
             // groupSetBox
             // 
             this.groupSetBox.Controls.Add(this.checkBox5);
-            this.groupSetBox.Controls.Add(this.checkBox4);
+            this.groupSetBox.Controls.Add(this.chkSimulation);
             this.groupSetBox.Controls.Add(this.chkAutoSaveImage);
             this.groupSetBox.Controls.Add(this.chkAutoSaveData);
-            this.groupSetBox.Controls.Add(this.chkCamTrigOnv);
+            this.groupSetBox.Controls.Add(this.chkCamTrigOn);
             this.groupSetBox.Location = new System.Drawing.Point(723, 206);
             this.groupSetBox.Name = "groupSetBox";
             this.groupSetBox.Size = new System.Drawing.Size(249, 92);
@@ -232,15 +232,16 @@
             this.checkBox5.Text = "显示图形";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // chkSimulation
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(131, 21);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(48, 16);
-            this.checkBox4.TabIndex = 3;
-            this.checkBox4.Text = "仿真";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.chkSimulation.AutoSize = true;
+            this.chkSimulation.Location = new System.Drawing.Point(131, 21);
+            this.chkSimulation.Name = "chkSimulation";
+            this.chkSimulation.Size = new System.Drawing.Size(48, 16);
+            this.chkSimulation.TabIndex = 3;
+            this.chkSimulation.Text = "仿真";
+            this.chkSimulation.UseVisualStyleBackColor = true;
+            this.chkSimulation.CheckStateChanged += new System.EventHandler(this.chkSimulation_CheckStateChanged);
             // 
             // chkAutoSaveImage
             // 
@@ -262,22 +263,23 @@
             this.chkAutoSaveData.Text = "保存数据";
             this.chkAutoSaveData.UseVisualStyleBackColor = true;
             // 
-            // chkCamTrigOnv
+            // chkCamTrigOn
             // 
-            this.chkCamTrigOnv.AutoSize = true;
-            this.chkCamTrigOnv.Location = new System.Drawing.Point(13, 21);
-            this.chkCamTrigOnv.Name = "chkCamTrigOnv";
-            this.chkCamTrigOnv.Size = new System.Drawing.Size(96, 16);
-            this.chkCamTrigOnv.TabIndex = 0;
-            this.chkCamTrigOnv.Text = "相机外部模式";
-            this.chkCamTrigOnv.UseVisualStyleBackColor = true;
+            this.chkCamTrigOn.AutoSize = true;
+            this.chkCamTrigOn.Location = new System.Drawing.Point(13, 21);
+            this.chkCamTrigOn.Name = "chkCamTrigOn";
+            this.chkCamTrigOn.Size = new System.Drawing.Size(96, 16);
+            this.chkCamTrigOn.TabIndex = 0;
+            this.chkCamTrigOn.Text = "相机外部模式";
+            this.chkCamTrigOn.UseVisualStyleBackColor = true;
+            this.chkCamTrigOn.CheckedChanged += new System.EventHandler(this.chkCamTrigOn_CheckedChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBox6);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.chkBack);
+            this.groupBox1.Controls.Add(this.btnNext);
+            this.groupBox1.Controls.Add(this.btnRegisterSpec);
+            this.groupBox1.Controls.Add(this.btnReRun);
             this.groupBox1.Controls.Add(this.txtCurrentSpec);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(723, 313);
@@ -287,42 +289,45 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "产品型号注册";
             // 
-            // checkBox6
+            // chkBack
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(170, 83);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(48, 16);
-            this.checkBox6.TabIndex = 5;
-            this.checkBox6.Text = "后退";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.chkBack.AutoSize = true;
+            this.chkBack.Location = new System.Drawing.Point(170, 83);
+            this.chkBack.Name = "chkBack";
+            this.chkBack.Size = new System.Drawing.Size(48, 16);
+            this.chkBack.TabIndex = 5;
+            this.chkBack.Text = "后退";
+            this.chkBack.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // btnNext
             // 
-            this.button5.Location = new System.Drawing.Point(15, 80);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(118, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "运行或下一张";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnNext.Location = new System.Drawing.Point(15, 80);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(118, 23);
+            this.btnNext.TabIndex = 4;
+            this.btnNext.Text = "运行或下一张";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
-            // button4
+            // btnRegisterSpec
             // 
-            this.button4.Location = new System.Drawing.Point(144, 50);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(90, 23);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "注册当前产品";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnRegisterSpec.Location = new System.Drawing.Point(144, 50);
+            this.btnRegisterSpec.Name = "btnRegisterSpec";
+            this.btnRegisterSpec.Size = new System.Drawing.Size(90, 23);
+            this.btnRegisterSpec.TabIndex = 3;
+            this.btnRegisterSpec.Text = "注册当前产品";
+            this.btnRegisterSpec.UseVisualStyleBackColor = true;
+            this.btnRegisterSpec.Click += new System.EventHandler(this.btnRegisterSpec_Click);
             // 
-            // button3
+            // btnReRun
             // 
-            this.button3.Location = new System.Drawing.Point(15, 50);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(118, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "重新运行";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnReRun.Location = new System.Drawing.Point(15, 50);
+            this.btnReRun.Name = "btnReRun";
+            this.btnReRun.Size = new System.Drawing.Size(118, 23);
+            this.btnReRun.TabIndex = 2;
+            this.btnReRun.Text = "重新运行";
+            this.btnReRun.UseVisualStyleBackColor = true;
+            this.btnReRun.Click += new System.EventHandler(this.btnReRun_Click);
             // 
             // txtCurrentSpec
             // 
@@ -348,8 +353,8 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.lblResultDesc);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Controls.Add(this.button6);
+            this.groupBox2.Controls.Add(this.btnMatchRun);
+            this.groupBox2.Controls.Add(this.btnReMatchRun);
             this.groupBox2.Location = new System.Drawing.Point(723, 432);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(249, 118);
@@ -409,23 +414,25 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "匹配型号：";
             // 
-            // button7
+            // btnMatchRun
             // 
-            this.button7.Location = new System.Drawing.Point(134, 20);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(99, 23);
-            this.button7.TabIndex = 1;
-            this.button7.Text = "单次运行";
-            this.button7.UseVisualStyleBackColor = true;
+            this.btnMatchRun.Location = new System.Drawing.Point(134, 20);
+            this.btnMatchRun.Name = "btnMatchRun";
+            this.btnMatchRun.Size = new System.Drawing.Size(99, 23);
+            this.btnMatchRun.TabIndex = 1;
+            this.btnMatchRun.Text = "单次运行";
+            this.btnMatchRun.UseVisualStyleBackColor = true;
+            this.btnMatchRun.Click += new System.EventHandler(this.btnMatchRun_Click);
             // 
-            // button6
+            // btnReMatchRun
             // 
-            this.button6.Location = new System.Drawing.Point(17, 21);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(99, 23);
-            this.button6.TabIndex = 0;
-            this.button6.Text = "重新运行";
-            this.button6.UseVisualStyleBackColor = true;
+            this.btnReMatchRun.Location = new System.Drawing.Point(17, 21);
+            this.btnReMatchRun.Name = "btnReMatchRun";
+            this.btnReMatchRun.Size = new System.Drawing.Size(99, 23);
+            this.btnReMatchRun.TabIndex = 0;
+            this.btnReMatchRun.Text = "重新运行";
+            this.btnReMatchRun.UseVisualStyleBackColor = true;
+            this.btnReMatchRun.Click += new System.EventHandler(this.btnReMatchRun_Click);
             // 
             // VisionProSetting
             // 
@@ -478,22 +485,22 @@
         private System.Windows.Forms.TextBox txtImgPath;
         private System.Windows.Forms.GroupBox groupSetBox;
         private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox chkSimulation;
         private System.Windows.Forms.CheckBox chkAutoSaveImage;
         private System.Windows.Forms.CheckBox chkAutoSaveData;
-        private System.Windows.Forms.CheckBox chkCamTrigOnv;
+        private System.Windows.Forms.CheckBox chkCamTrigOn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtCurrentSpec;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnRegisterSpec;
+        private System.Windows.Forms.Button btnReRun;
+        private System.Windows.Forms.CheckBox chkBack;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblResultDesc;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnMatchRun;
+        private System.Windows.Forms.Button btnReMatchRun;
         private System.Windows.Forms.TextBox txtCurrentImgFileName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtUseTime;

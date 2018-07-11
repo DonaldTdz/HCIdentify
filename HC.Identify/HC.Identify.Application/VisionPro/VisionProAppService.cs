@@ -75,5 +75,16 @@ namespace HC.Identify.Application.VisionPro
                 logFile.WriteLine(log);
             }
         }
+
+        /// <summary>
+        /// 注册产品型号
+        /// </summary>
+        public void SaveToCsvRegistered(string csvSpecs)
+        {
+            using (StreamWriter stream = new StreamWriter(CsvDataPath, true))
+            {
+                stream.WriteLine(csvSpecs);
+            }
+        }
     }
 }
