@@ -133,7 +133,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
         /// 批量导入
         /// </summary>
         /// <param name="orderSumMsDto"></param>
-        public bool DowloadData(IList<OrderSumMsDto> orderSumMsDto)
+        public int DowloadData(IList<OrderSumMsDto> orderSumMsDto)
         {
             using (IdentifyContext context = new IdentifyContext())
             {
@@ -145,7 +145,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                      sql.AppendFormat("insert into OrderSums (Id,UUID,AreaCode,AreaName,RetailerCode,RetailerName,Sequence,Num,PostData,RNum) values(newid(),'{0}','{1}','{2}','{3}','{4}','{5}','{6}',GETDATE(),0);", item.OI_UUID ,item.B_CODE , item.OI_DL_NAME , item.OI_RETAILER_CODE , item.OI_RETAILER_NAME ,item.OI_SEQUENCE , item.OI_ALL_NUM);
                 }
                 var result = context.Database.ExecuteSqlCommand(sql.ToString());
-                return result > 0;
+                return result ;
             }
         }
     }

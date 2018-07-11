@@ -37,10 +37,17 @@ namespace HC.Identify.Application.Identify
         {
             return orderSumService.GetSigleOrderSum(code);
         }
-        public bool DowloadData()
+        public int DowloadData()
         {
             var list = orderSumMsService.GetOrderSumMs();
-            return orderSumService.DowloadData(list);
+            if (list.Count > 0)
+            {
+                return orderSumService.DowloadData(list);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

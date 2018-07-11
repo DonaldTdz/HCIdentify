@@ -80,11 +80,11 @@ namespace HC.Identify.App
         /// <param name="order"></param>
         public void GetOrderSum(int order)
         {
-            var item = combo_area.SelectedValue.ToString();
-            var code = int.Parse(item);
+            //var item = combo_area.SelectedValue.ToString();
+            //var code = int.Parse(item);
             //var orderSum = orderSumAppService.GetSigleOrderSum(code, order);
             var orderSum = GetSingleOrderSum();
-            var count = orderSumAppService.GetOrderSumCount(code);
+            //var count = orderSumAppService.GetOrderSumCount(code);
             lab_areaName.Text = orderSum.AreaName;
             lab_retaName.Text = orderSum.RetailerName;
             //lab_houseNum.Text = "第"+ orderSum.Sequence+"户/" + "共" + count + "户";
@@ -183,16 +183,19 @@ namespace HC.Identify.App
             btn_dowload.Visible = false;
             var result = orderSumAppService.DowloadData();
             ComboxGetValue();
-            var item = combo_area.SelectedValue.ToString();
-            var code = int.Parse(item);
+            if(combo_area.SelectedValue!=null)
+            {
+                var item = combo_area.SelectedValue.ToString();
+                var code = int.Parse(item);
+                count = orderSumAppService.GetOrderSumCount(code);
+                orderSums = orderSumAppService.GetSigleOrderSum(code);
+            }
             sequence = 1;
-            count = orderSumAppService.GetOrderSumCount(code);
-            orderSums = orderSumAppService.GetSigleOrderSum(code);
-            btn_dowload.Visible = true;
             if (count > 0)
             {
                 GetOrderSum(1);
             }
+            btn_dowload.Visible = true;
         }
 
         /// <summary>

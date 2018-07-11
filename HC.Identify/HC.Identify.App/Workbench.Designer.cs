@@ -463,7 +463,7 @@
             this.lab_nextnHose.Name = "lab_nextnHose";
             this.lab_nextnHose.Size = new System.Drawing.Size(47, 12);
             this.lab_nextnHose.TabIndex = 7;
-            this.lab_nextnHose.Text = "label31";
+            this.lab_nextnHose.Text = "";
             // 
             // lab_nextHose
             // 
@@ -472,7 +472,7 @@
             this.lab_nextHose.Name = "lab_nextHose";
             this.lab_nextHose.Size = new System.Drawing.Size(47, 12);
             this.lab_nextHose.TabIndex = 6;
-            this.lab_nextHose.Text = "label30";
+            this.lab_nextHose.Text = "";
             // 
             // lab_lastlHose
             // 
@@ -481,7 +481,7 @@
             this.lab_lastlHose.Name = "lab_lastlHose";
             this.lab_lastlHose.Size = new System.Drawing.Size(47, 12);
             this.lab_lastlHose.TabIndex = 5;
-            this.lab_lastlHose.Text = "label29";
+            this.lab_lastlHose.Text = "";
             // 
             // lab_lastHose
             // 
@@ -490,7 +490,7 @@
             this.lab_lastHose.Name = "lab_lastHose";
             this.lab_lastHose.Size = new System.Drawing.Size(47, 12);
             this.lab_lastHose.TabIndex = 4;
-            this.lab_lastHose.Text = "label28";
+            this.lab_lastHose.Text = "";
             // 
             // lab_nextnHose_title
             // 
