@@ -83,7 +83,7 @@
             this.cogToolBlockEditV2.MinimumSize = new System.Drawing.Size(367, 0);
             this.cogToolBlockEditV2.Name = "cogToolBlockEditV2";
             this.cogToolBlockEditV2.ShowNodeToolTips = true;
-            this.cogToolBlockEditV2.Size = new System.Drawing.Size(610, 497);
+            this.cogToolBlockEditV2.Size = new System.Drawing.Size(519, 512);
             this.cogToolBlockEditV2.SuspendElectricRuns = false;
             this.cogToolBlockEditV2.TabIndex = 7;
             this.cogToolBlockEditV2.Visible = false;

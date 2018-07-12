@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HC.Identify.Dto.VisionPro;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace HC.Identify.Application.VisionPro
         /// <returns>
         /// key 产品规格 value 计算匹配模板数据
         /// </returns>
-        public Dictionary<string, double[]> GetCsvSpecificationList()
+        public List<CsvSpecification> GetCsvSpecificationList()
         {
-            var specList = new Dictionary<string, double[]>();
+            var specList = new List<CsvSpecification>();
             using (StreamReader stream = new StreamReader(CsvDataPath, true))
             {
                 while (stream.Peek() >= 0)
@@ -32,7 +33,7 @@ namespace HC.Identify.Application.VisionPro
                     string strLine = stream.ReadLine();//  读取一行字符并返回
                     string[] strColumns = strLine.Split(',');
                     var i = 0;
-                    string key = string.Empty;
+                    string spec = string.Empty;
                     List<double> value = new List<double>();
                     foreach (string colVal in strColumns)
                     {
@@ -43,7 +44,7 @@ namespace HC.Identify.Application.VisionPro
 
                         if (i == 0)
                         {
-                            key = colVal;
+                            spec = colVal;
                         }
                         else
                         {
@@ -51,9 +52,9 @@ namespace HC.Identify.Application.VisionPro
                         }
                         i++;
                     }
-                    if (!string.IsNullOrEmpty(key))
+                    if (!string.IsNullOrEmpty(spec))
                     {
-                        specList.Add(key, value.ToArray());
+                        specList.Add(new CsvSpecification() { Specification = spec, Values = value.ToArray() });
                     }
                 }
                 return specList;

@@ -45,6 +45,7 @@
     <Compile Include="Identify\UserDto.cs" />
     <Compile Include="Ms01\OrderSumMsDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VisionPro\CsvSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HC.Identify.Core\HC.Identify.Core.csproj">

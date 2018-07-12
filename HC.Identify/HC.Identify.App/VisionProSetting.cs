@@ -3,6 +3,7 @@ using Cognex.VisionPro.Exceptions;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ToolBlock;
 using HC.Identify.Application.VisionPro;
+using HC.Identify.Dto.VisionPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace HC.Identify.App
         #region 数据存储处理
 
         VisionProAppService vpCsvDataService;          //csv data 数据处理服务
-        Dictionary<string, double[]> csvSpecList = new Dictionary<string, double[]>();      //已注册产品数据
+        List<CsvSpecification> csvSpecList = new List<CsvSpecification>();      //已注册产品数据
 
         #endregion
 
@@ -67,6 +68,7 @@ namespace HC.Identify.App
             }
             vpCsvDataService = new VisionProAppService(csvDataPath);
             csvSpecList = vpCsvDataService.GetCsvSpecificationList();
+            BindRegisteredSpec();
         }
 
         private void VisionProSetting_FormClosing(object sender, FormClosingEventArgs e)
@@ -151,7 +153,7 @@ namespace HC.Identify.App
 
         private void BindRegisteredSpec()
         {
-            comboSpecBox.DataSource = csvSpecList.Keys;
+            comboSpecBox.DataSource = csvSpecList.Select(c => c.Specification).Distinct().ToList();
         }
 
         #endregion
@@ -209,18 +211,18 @@ namespace HC.Identify.App
             double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
             //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
             double dMaxScore = -9999;
-            string maxKey = string.Empty;
+            string maxSpec = string.Empty;
             int i = 0;
-            foreach (var key in csvSpecList.Keys)
+            foreach (var item in csvSpecList)
             {
                 double dSumXY = 0;
                 double dSumX = 0;
                 double dSumY = 0;
                 double dSumXBy2 = 0;
                 double dSumYBy2 = 0;
-                int iPointsNum = csvSpecList[key].Length;
+                int iPointsNum = item.Values.Length;
                 int k = 0;
-                foreach (var readVal in csvSpecList[key])
+                foreach (var readVal in item.Values)
                 {
                     dSumXY += (double)cogResultArray[k] * readVal;
                     dSumX += (double)cogResultArray[k];
@@ -234,12 +236,12 @@ namespace HC.Identify.App
                 if (dMatchScore[i] > dMaxScore)
                 {
                     dMaxScore = dMatchScore[i];
-                    maxKey = key;
+                    maxSpec = item.Specification;
                 }
                 i++;
             }
 
-            txtMatchSpec.Text = maxKey;
+            txtMatchSpec.Text = maxSpec;
             mMaxScore = dMaxScore;
             //配置结果值
             if (dMaxScore > 0.81)
@@ -252,7 +254,7 @@ namespace HC.Identify.App
                 lblResultDesc.Text = "NG"; //匹配成功
                 lblResultDesc.ForeColor = Color.Red;
             }
-            return maxKey;
+            return maxSpec;
         }
 
         double mMaxScore;
@@ -432,7 +434,7 @@ namespace HC.Identify.App
                 strRowWrite += string.Format("{0:###.###}", cogResultArray[i]) + ",";
                 newValues[i] = (double)cogResultArray[i];
             }
-            csvSpecList.Add(txtCurrentSpec.Text, newValues);    //添加到已注册产品型号
+            csvSpecList.Add(new CsvSpecification() { Specification = txtCurrentSpec.Text, Values = newValues });    //添加到已注册产品型号
             vpCsvDataService.SaveToCsvRegistered(strRowWrite);  //保存到CSV文件
             BindRegisteredSpec();                               //重新绑定已注册产品
         }
