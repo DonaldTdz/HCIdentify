@@ -20,6 +20,8 @@ namespace HC.Identify.App
         private int count = 0;//当前选项的所有打包订单信息总数
         private IList<OrderSumDto> orderSums;//当前选项的所有打包订单信息
         private OrderSumAppService orderSumAppService;
+
+        private bool IsStart = false; //是否开始
         public Workbench()
         {
             InitializeComponent();
@@ -31,14 +33,6 @@ namespace HC.Identify.App
             this.MainForm = mainForm;
             orderSumAppService = new OrderSumAppService();
             //获取下拉框数据
-            //var datas = orderSumAppService.GetAreaList();
-            //if (datas.Count > 0)
-            //{
-            //    //下拉框数据赋值
-            //    combo_area.DataSource = datas;
-            //    combo_area.DisplayMember = "name";
-            //    combo_area.ValueMember = "value";
-            //}
             ComboxGetValue();
             if (combo_area.SelectedValue != null)
             {
@@ -58,8 +52,6 @@ namespace HC.Identify.App
         /// <summary>
         /// 下一户
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btn_nexthouse_Click(object sender, EventArgs e)
         {
             //var order = int.Parse(lab_areacode_hide.Text)+1;
@@ -77,7 +69,6 @@ namespace HC.Identify.App
         /// <summary>
         /// 页面数据赋值
         /// </summary>
-        /// <param name="order"></param>
         public void GetOrderSum(int order)
         {
             //var item = combo_area.SelectedValue.ToString();
@@ -90,17 +81,16 @@ namespace HC.Identify.App
             //lab_houseNum.Text = "第"+ orderSum.Sequence+"户/" + "共" + count + "户";
             lab_houseNum.Text = "第" + sequence + "户/" + "共" + count + "户";
             lab_num.Text = orderSum.Num.ToString();
-            lab_lastHose.Text = orderSum.LastHouse;//上一户
-            lab_lastlHose.Text = orderSum.LastLHouse;//上上户
-            lab_nextHose.Text = orderSum.NextHouse;//下一户
-            lab_nextnHose.Text = orderSum.NextNHouse;//下下户
+            lab_lastHose.Text = orderSum.LastHouse.Length > 5? orderSum.LastHouse.Substring(0,5)+ "..." : orderSum.LastHouse;//上一户
+            lab_lastlHose.Text = orderSum.LastLHouse.Length > 5 ? orderSum.LastLHouse.Substring(0, 5) + "..." : orderSum.LastLHouse;//上上户
+            lab_nextHose.Text = orderSum.NextHouse.Length > 5 ? orderSum.NextHouse.Substring(0, 5) + "..." : orderSum.NextHouse; ;//下一户
+            lab_nextnHose.Text = orderSum.NextNHouse.Length > 5 ? orderSum.NextNHouse.Substring(0, 5) + "..." : orderSum.NextNHouse; ;//下下户
             //lab_areacode_hide.Text = orderSum.Sequence.ToString();
             //lab_areacode_hide.Hide();
         }
         /// <summary>
         /// 获取当前用户订单信息
         /// </summary>
-        /// <returns></returns>
         public OrderSumDto GetSingleOrderSum()
         {
             var orderSum = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 1).Take(1).FirstOrDefault();
@@ -129,14 +119,16 @@ namespace HC.Identify.App
                 se = sequence + 2;
                 orderSum.NextNHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence + 1).Take(1).Select(o => o.RetailerName).FirstOrDefault();
             }
+            orderSum.LastHouse = orderSum.LastHouse ?? "";
+            orderSum.LastLHouse = orderSum.LastLHouse ?? "";
+            orderSum.NextHouse = orderSum.NextHouse ?? "";
+            orderSum.NextNHouse = orderSum.NextNHouse ?? "";
             return orderSum;
         }
 
         /// <summary>
         /// 下拉框数据改变时的重新获取选项下数据数量和所有数据（由用户触发）
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var item = combo_area.SelectedValue.ToString();
@@ -162,8 +154,6 @@ namespace HC.Identify.App
         /// <summary>
         /// 上一户
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btn_lasthouse_Click(object sender, EventArgs e)
         {
             //var order = int.Parse(lab_areacode_hide.Text) + 1;
@@ -212,5 +202,14 @@ namespace HC.Identify.App
                 combo_area.ValueMember = "value";
             }
         }
+
+        #region 开始工作
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }

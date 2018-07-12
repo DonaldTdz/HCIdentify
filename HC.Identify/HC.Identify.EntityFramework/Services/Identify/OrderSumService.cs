@@ -25,7 +25,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                     Value = u.AreaCode
                 }).Distinct();
 
-                return query.ToList();
+                return query.OrderBy(q => q.Name).ToList();
             }
         }
 

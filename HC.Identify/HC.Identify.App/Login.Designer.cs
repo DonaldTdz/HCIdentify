@@ -64,6 +64,7 @@
             this.Account.Name = "Account";
             this.Account.Size = new System.Drawing.Size(135, 21);
             this.Account.TabIndex = 2;
+            this.Account.Text = "admin";
             // 
             // Password
             // 
@@ -72,6 +73,7 @@
             this.Password.PasswordChar = '*';
             this.Password.Size = new System.Drawing.Size(135, 21);
             this.Password.TabIndex = 3;
+            this.Password.Text = "123456";
             // 
             // button1
             // 
@@ -89,9 +91,8 @@
             this.label3.ForeColor = System.Drawing.Color.Red;
             this.label3.Location = new System.Drawing.Point(130, 203);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 12);
+            this.label3.Size = new System.Drawing.Size(0, 12);
             this.label3.TabIndex = 5;
-            this.label3.Text = "";
             // 
             // button2
             // 

@@ -28,18 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Workbench));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lab_readRate = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.lab_readRate_title = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.lab_unRead = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lab_unRead_title = new System.Windows.Forms.Label();
+            this.lab_checkAmount_title = new System.Windows.Forms.Label();
+            this.lab_alreadyRead = new System.Windows.Forms.Label();
+            this.ab_checkAmount = new System.Windows.Forms.Label();
+            this.lab_alreadyRead_title = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_dowload = new System.Windows.Forms.Button();
             this.combo_area = new System.Windows.Forms.ComboBox();
-            this.btn_start = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.btn_lasthouse = new System.Windows.Forms.Button();
             this.btn_nexthouse = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -55,15 +66,6 @@
             this.lab_areaName = new System.Windows.Forms.Label();
             this.lab_retaName_title = new System.Windows.Forms.Label();
             this.lab_areaName_title = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lab_readRate = new System.Windows.Forms.Label();
-            this.lab_readRate_title = new System.Windows.Forms.Label();
-            this.lab_unRead = new System.Windows.Forms.Label();
-            this.lab_unRead_title = new System.Windows.Forms.Label();
-            this.lab_alreadyRead = new System.Windows.Forms.Label();
-            this.lab_alreadyRead_title = new System.Windows.Forms.Label();
-            this.ab_checkAmount = new System.Windows.Forms.Label();
-            this.lab_checkAmount_title = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lab_nextnHose = new System.Windows.Forms.Label();
             this.lab_nextHose = new System.Windows.Forms.Label();
@@ -75,10 +77,10 @@
             this.lab_lastHose_title = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,83 +91,181 @@
             this.tabControl1.Location = new System.Drawing.Point(5, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(660, 467);
+            this.tabControl1.Size = new System.Drawing.Size(660, 558);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.cogRecordDisplay);
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(652, 441);
+            this.tabPage1.Size = new System.Drawing.Size(652, 532);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "相机界面";
+            this.tabPage1.Text = "相机识别";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cogRecordDisplay
+            // 
+            this.cogRecordDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay.ColorMapLowerRoiLimit = 0D;
+            this.cogRecordDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cogRecordDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay.ColorMapUpperRoiLimit = 1D;
+            this.cogRecordDisplay.DoubleTapZoomCycleLength = 2;
+            this.cogRecordDisplay.DoubleTapZoomSensitivity = 2.5D;
+            this.cogRecordDisplay.Location = new System.Drawing.Point(2, 2);
+            this.cogRecordDisplay.Margin = new System.Windows.Forms.Padding(2);
+            this.cogRecordDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cogRecordDisplay.MouseWheelSensitivity = 1D;
+            this.cogRecordDisplay.Name = "cogRecordDisplay";
+            this.cogRecordDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay.OcxState")));
+            this.cogRecordDisplay.Size = new System.Drawing.Size(648, 426);
+            this.cogRecordDisplay.TabIndex = 7;
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lab_readRate);
             this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.lab_readRate_title);
             this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.lab_unRead);
             this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Location = new System.Drawing.Point(8, 346);
+            this.groupBox4.Controls.Add(this.lab_unRead_title);
+            this.groupBox4.Controls.Add(this.lab_checkAmount_title);
+            this.groupBox4.Controls.Add(this.lab_alreadyRead);
+            this.groupBox4.Controls.Add(this.ab_checkAmount);
+            this.groupBox4.Controls.Add(this.lab_alreadyRead_title);
+            this.groupBox4.Location = new System.Drawing.Point(8, 433);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(638, 87);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "匹配结果";
             // 
+            // lab_readRate
+            // 
+            this.lab_readRate.AutoSize = true;
+            this.lab_readRate.Location = new System.Drawing.Point(573, 65);
+            this.lab_readRate.Name = "lab_readRate";
+            this.lab_readRate.Size = new System.Drawing.Size(23, 12);
+            this.lab_readRate.TabIndex = 7;
+            this.lab_readRate.Text = "80%";
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(7, 32);
+            this.label13.Location = new System.Drawing.Point(7, 25);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(205, 24);
             this.label13.TabIndex = 2;
             this.label13.Text = "6901028227704  ";
+            // 
+            // lab_readRate_title
+            // 
+            this.lab_readRate_title.AutoSize = true;
+            this.lab_readRate_title.Location = new System.Drawing.Point(495, 65);
+            this.lab_readRate_title.Name = "lab_readRate_title";
+            this.lab_readRate_title.Size = new System.Drawing.Size(77, 12);
+            this.lab_readRate_title.TabIndex = 6;
+            this.lab_readRate_title.Text = "识别成功率：";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label15.ForeColor = System.Drawing.Color.Green;
-            this.label15.Location = new System.Drawing.Point(517, 31);
+            this.label15.Location = new System.Drawing.Point(505, 22);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(110, 24);
             this.label15.TabIndex = 4;
             this.label15.Text = "匹配正常";
             // 
+            // lab_unRead
+            // 
+            this.lab_unRead.AutoSize = true;
+            this.lab_unRead.Location = new System.Drawing.Point(407, 66);
+            this.lab_unRead.Name = "lab_unRead";
+            this.lab_unRead.Size = new System.Drawing.Size(17, 12);
+            this.lab_unRead.TabIndex = 5;
+            this.lab_unRead.Text = "20";
+            // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(217, 32);
+            this.label14.Location = new System.Drawing.Point(225, 23);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(186, 24);
             this.label14.TabIndex = 3;
             this.label14.Text = "天子(千里江山)";
             // 
-            // textBox1
+            // lab_unRead_title
             // 
-            this.textBox1.Location = new System.Drawing.Point(436, 9);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(210, 322);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "[14:41:25]：6901028227704 ";
+            this.lab_unRead_title.AutoSize = true;
+            this.lab_unRead_title.Location = new System.Drawing.Point(340, 66);
+            this.lab_unRead_title.Name = "lab_unRead_title";
+            this.lab_unRead_title.Size = new System.Drawing.Size(65, 12);
+            this.lab_unRead_title.TabIndex = 4;
+            this.lab_unRead_title.Text = "未识别数：";
+            // 
+            // lab_checkAmount_title
+            // 
+            this.lab_checkAmount_title.AutoSize = true;
+            this.lab_checkAmount_title.Location = new System.Drawing.Point(13, 66);
+            this.lab_checkAmount_title.Name = "lab_checkAmount_title";
+            this.lab_checkAmount_title.Size = new System.Drawing.Size(65, 12);
+            this.lab_checkAmount_title.TabIndex = 0;
+            this.lab_checkAmount_title.Text = "识别总数：";
+            // 
+            // lab_alreadyRead
+            // 
+            this.lab_alreadyRead.AutoSize = true;
+            this.lab_alreadyRead.Location = new System.Drawing.Point(233, 67);
+            this.lab_alreadyRead.Name = "lab_alreadyRead";
+            this.lab_alreadyRead.Size = new System.Drawing.Size(17, 12);
+            this.lab_alreadyRead.TabIndex = 3;
+            this.lab_alreadyRead.Text = "80";
+            // 
+            // ab_checkAmount
+            // 
+            this.ab_checkAmount.AutoSize = true;
+            this.ab_checkAmount.Location = new System.Drawing.Point(77, 67);
+            this.ab_checkAmount.Name = "ab_checkAmount";
+            this.ab_checkAmount.Size = new System.Drawing.Size(23, 12);
+            this.ab_checkAmount.TabIndex = 1;
+            this.ab_checkAmount.Text = "100";
+            // 
+            // lab_alreadyRead_title
+            // 
+            this.lab_alreadyRead_title.AutoSize = true;
+            this.lab_alreadyRead_title.Location = new System.Drawing.Point(169, 67);
+            this.lab_alreadyRead_title.Name = "lab_alreadyRead_title";
+            this.lab_alreadyRead_title.Size = new System.Drawing.Size(65, 12);
+            this.lab_alreadyRead_title.TabIndex = 2;
+            this.lab_alreadyRead_title.Text = "已识别数：";
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(652, 441);
+            this.tabPage2.Size = new System.Drawing.Size(652, 532);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "订单列表";
+            this.tabPage2.Text = "订单明细";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(672, 367);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(300, 182);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Text = "[14:41:25]：6901028227704 ";
             // 
             // groupBox1
             // 
@@ -197,18 +297,19 @@
             this.combo_area.TabIndex = 0;
             this.combo_area.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
-            // btn_start
+            // btnStart
             // 
-            this.btn_start.Location = new System.Drawing.Point(671, 80);
-            this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(100, 40);
-            this.btn_start.TabIndex = 2;
-            this.btn_start.Text = "开始";
-            this.btn_start.UseVisualStyleBackColor = true;
+            this.btnStart.Location = new System.Drawing.Point(671, 76);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(100, 40);
+            this.btnStart.TabIndex = 2;
+            this.btnStart.Text = "开始";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btn_lasthouse
             // 
-            this.btn_lasthouse.Location = new System.Drawing.Point(792, 80);
+            this.btn_lasthouse.Location = new System.Drawing.Point(792, 77);
             this.btn_lasthouse.Name = "btn_lasthouse";
             this.btn_lasthouse.Size = new System.Drawing.Size(80, 40);
             this.btn_lasthouse.TabIndex = 3;
@@ -218,7 +319,7 @@
             // 
             // btn_nexthouse
             // 
-            this.btn_nexthouse.Location = new System.Drawing.Point(892, 80);
+            this.btn_nexthouse.Location = new System.Drawing.Point(892, 77);
             this.btn_nexthouse.Name = "btn_nexthouse";
             this.btn_nexthouse.Size = new System.Drawing.Size(80, 40);
             this.btn_nexthouse.TabIndex = 4;
@@ -320,7 +421,7 @@
             // lab_retaName
             // 
             this.lab_retaName.AutoSize = true;
-            this.lab_retaName.Location = new System.Drawing.Point(62, 59);
+            this.lab_retaName.Location = new System.Drawing.Point(57, 59);
             this.lab_retaName.Name = "lab_retaName";
             this.lab_retaName.Size = new System.Drawing.Size(0, 12);
             this.lab_retaName.TabIndex = 3;
@@ -351,95 +452,6 @@
             this.lab_areaName_title.TabIndex = 0;
             this.lab_areaName_title.Text = "线  路：";
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.lab_readRate);
-            this.groupBox3.Controls.Add(this.lab_readRate_title);
-            this.groupBox3.Controls.Add(this.lab_unRead);
-            this.groupBox3.Controls.Add(this.lab_unRead_title);
-            this.groupBox3.Controls.Add(this.lab_alreadyRead);
-            this.groupBox3.Controls.Add(this.lab_alreadyRead_title);
-            this.groupBox3.Controls.Add(this.ab_checkAmount);
-            this.groupBox3.Controls.Add(this.lab_checkAmount_title);
-            this.groupBox3.Location = new System.Drawing.Point(671, 376);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(301, 82);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "汇总";
-            // 
-            // lab_readRate
-            // 
-            this.lab_readRate.AutoSize = true;
-            this.lab_readRate.Location = new System.Drawing.Point(211, 57);
-            this.lab_readRate.Name = "lab_readRate";
-            this.lab_readRate.Size = new System.Drawing.Size(23, 12);
-            this.lab_readRate.TabIndex = 7;
-            this.lab_readRate.Text = "80%";
-            // 
-            // lab_readRate_title
-            // 
-            this.lab_readRate_title.AutoSize = true;
-            this.lab_readRate_title.Location = new System.Drawing.Point(152, 58);
-            this.lab_readRate_title.Name = "lab_readRate_title";
-            this.lab_readRate_title.Size = new System.Drawing.Size(53, 12);
-            this.lab_readRate_title.TabIndex = 6;
-            this.lab_readRate_title.Text = "读取率：";
-            // 
-            // lab_unRead
-            // 
-            this.lab_unRead.AutoSize = true;
-            this.lab_unRead.Location = new System.Drawing.Point(73, 58);
-            this.lab_unRead.Name = "lab_unRead";
-            this.lab_unRead.Size = new System.Drawing.Size(17, 12);
-            this.lab_unRead.TabIndex = 5;
-            this.lab_unRead.Text = "20";
-            // 
-            // lab_unRead_title
-            // 
-            this.lab_unRead_title.AutoSize = true;
-            this.lab_unRead_title.Location = new System.Drawing.Point(10, 57);
-            this.lab_unRead_title.Name = "lab_unRead_title";
-            this.lab_unRead_title.Size = new System.Drawing.Size(53, 12);
-            this.lab_unRead_title.TabIndex = 4;
-            this.lab_unRead_title.Text = "未读取：";
-            // 
-            // lab_alreadyRead
-            // 
-            this.lab_alreadyRead.AutoSize = true;
-            this.lab_alreadyRead.Location = new System.Drawing.Point(209, 31);
-            this.lab_alreadyRead.Name = "lab_alreadyRead";
-            this.lab_alreadyRead.Size = new System.Drawing.Size(17, 12);
-            this.lab_alreadyRead.TabIndex = 3;
-            this.lab_alreadyRead.Text = "80";
-            // 
-            // lab_alreadyRead_title
-            // 
-            this.lab_alreadyRead_title.AutoSize = true;
-            this.lab_alreadyRead_title.Location = new System.Drawing.Point(151, 31);
-            this.lab_alreadyRead_title.Name = "lab_alreadyRead_title";
-            this.lab_alreadyRead_title.Size = new System.Drawing.Size(53, 12);
-            this.lab_alreadyRead_title.TabIndex = 2;
-            this.lab_alreadyRead_title.Text = "已读取：";
-            // 
-            // ab_checkAmount
-            // 
-            this.ab_checkAmount.AutoSize = true;
-            this.ab_checkAmount.Location = new System.Drawing.Point(70, 33);
-            this.ab_checkAmount.Name = "ab_checkAmount";
-            this.ab_checkAmount.Size = new System.Drawing.Size(23, 12);
-            this.ab_checkAmount.TabIndex = 1;
-            this.ab_checkAmount.Text = "100";
-            // 
-            // lab_checkAmount_title
-            // 
-            this.lab_checkAmount_title.AutoSize = true;
-            this.lab_checkAmount_title.Location = new System.Drawing.Point(10, 32);
-            this.lab_checkAmount_title.Name = "lab_checkAmount_title";
-            this.lab_checkAmount_title.Size = new System.Drawing.Size(53, 12);
-            this.lab_checkAmount_title.TabIndex = 0;
-            this.lab_checkAmount_title.Text = "检查量：";
-            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -451,7 +463,7 @@
             this.panel1.Controls.Add(this.lab_lastlHose_title);
             this.panel1.Controls.Add(this.lab_nextHose_title);
             this.panel1.Controls.Add(this.lab_lastHose_title);
-            this.panel1.Location = new System.Drawing.Point(672, 286);
+            this.panel1.Location = new System.Drawing.Point(672, 279);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(300, 75);
             this.panel1.TabIndex = 7;
@@ -459,61 +471,57 @@
             // lab_nextnHose
             // 
             this.lab_nextnHose.AutoSize = true;
-            this.lab_nextnHose.Location = new System.Drawing.Point(226, 49);
+            this.lab_nextnHose.Location = new System.Drawing.Point(206, 49);
             this.lab_nextnHose.Name = "lab_nextnHose";
-            this.lab_nextnHose.Size = new System.Drawing.Size(47, 12);
+            this.lab_nextnHose.Size = new System.Drawing.Size(0, 12);
             this.lab_nextnHose.TabIndex = 7;
-            this.lab_nextnHose.Text = "";
             // 
             // lab_nextHose
             // 
             this.lab_nextHose.AutoSize = true;
             this.lab_nextHose.Location = new System.Drawing.Point(62, 49);
             this.lab_nextHose.Name = "lab_nextHose";
-            this.lab_nextHose.Size = new System.Drawing.Size(47, 12);
+            this.lab_nextHose.Size = new System.Drawing.Size(0, 12);
             this.lab_nextHose.TabIndex = 6;
-            this.lab_nextHose.Text = "";
             // 
             // lab_lastlHose
             // 
             this.lab_lastlHose.AutoSize = true;
-            this.lab_lastlHose.Location = new System.Drawing.Point(224, 15);
+            this.lab_lastlHose.Location = new System.Drawing.Point(205, 17);
             this.lab_lastlHose.Name = "lab_lastlHose";
-            this.lab_lastlHose.Size = new System.Drawing.Size(47, 12);
+            this.lab_lastlHose.Size = new System.Drawing.Size(0, 12);
             this.lab_lastlHose.TabIndex = 5;
-            this.lab_lastlHose.Text = "";
             // 
             // lab_lastHose
             // 
             this.lab_lastHose.AutoSize = true;
             this.lab_lastHose.Location = new System.Drawing.Point(60, 16);
             this.lab_lastHose.Name = "lab_lastHose";
-            this.lab_lastHose.Size = new System.Drawing.Size(47, 12);
+            this.lab_lastHose.Size = new System.Drawing.Size(0, 12);
             this.lab_lastHose.TabIndex = 4;
-            this.lab_lastHose.Text = "";
             // 
             // lab_nextnHose_title
             // 
             this.lab_nextnHose_title.AutoSize = true;
-            this.lab_nextnHose_title.Location = new System.Drawing.Point(153, 50);
+            this.lab_nextnHose_title.Location = new System.Drawing.Point(152, 50);
             this.lab_nextnHose_title.Name = "lab_nextnHose_title";
-            this.lab_nextnHose_title.Size = new System.Drawing.Size(65, 12);
+            this.lab_nextnHose_title.Size = new System.Drawing.Size(53, 12);
             this.lab_nextnHose_title.TabIndex = 3;
-            this.lab_nextnHose_title.Text = "下下一户：";
+            this.lab_nextnHose_title.Text = "下下户：";
             // 
             // lab_lastlHose_title
             // 
             this.lab_lastlHose_title.AutoSize = true;
             this.lab_lastlHose_title.Location = new System.Drawing.Point(152, 16);
             this.lab_lastlHose_title.Name = "lab_lastlHose_title";
-            this.lab_lastlHose_title.Size = new System.Drawing.Size(65, 12);
+            this.lab_lastlHose_title.Size = new System.Drawing.Size(53, 12);
             this.lab_lastlHose_title.TabIndex = 2;
-            this.lab_lastlHose_title.Text = "上上一户：";
+            this.lab_lastlHose_title.Text = "上上户：";
             // 
             // lab_nextHose_title
             // 
             this.lab_nextHose_title.AutoSize = true;
-            this.lab_nextHose_title.Location = new System.Drawing.Point(11, 50);
+            this.lab_nextHose_title.Location = new System.Drawing.Point(10, 50);
             this.lab_nextHose_title.Name = "lab_nextHose_title";
             this.lab_nextHose_title.Size = new System.Drawing.Size(53, 12);
             this.lab_nextHose_title.TabIndex = 1;
@@ -535,11 +543,11 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_nexthouse);
             this.Controls.Add(this.btn_lasthouse);
-            this.Controls.Add(this.btn_start);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -547,17 +555,16 @@
             this.Text = "工作台";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -569,7 +576,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_dowload;
         private System.Windows.Forms.ComboBox combo_area;
-        private System.Windows.Forms.Button btn_start;
+        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btn_lasthouse;
         private System.Windows.Forms.Button btn_nexthouse;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -577,7 +584,6 @@
         private System.Windows.Forms.Label lab_areaName;
         private System.Windows.Forms.Label lab_retaName_title;
         private System.Windows.Forms.Label lab_areaName_title;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label lab_num;
         private System.Windows.Forms.Label lab_num_title;
         private System.Windows.Forms.Label lab_notcheck;
@@ -608,5 +614,6 @@
         private System.Windows.Forms.Label lab_nextHose;
         private System.Windows.Forms.Label lab_lastlHose;
         private System.Windows.Forms.Label lab_lastHose;
+        private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay;
     }
 }
