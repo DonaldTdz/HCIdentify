@@ -26,7 +26,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                 }).Distinct();
 
                 return query.OrderBy(q => q.Name).ToList();
-            }
+            } 
         }
 
         /// <summary>

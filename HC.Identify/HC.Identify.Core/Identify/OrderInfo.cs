@@ -43,7 +43,7 @@ namespace HC.Identify.Core.Identify
         /// <summary>
         /// 订单提交时间
         /// </summary>
-        public DateTime? PostData { get; set; }
+        public DateTime? PostDate { get; set; }
 
     }
 }

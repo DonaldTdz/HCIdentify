@@ -20,7 +20,8 @@ namespace HC.Identify.App
         private int count = 0;//当前选项的所有打包订单信息总数
         private IList<OrderSumDto> orderSums;//当前选项的所有打包订单信息
         private OrderSumAppService orderSumAppService;
-
+        private OrderInfoAppService orderInfoAppService;
+        private IList<OrderInfoDto> orderInfos;//当前选项的详细订单信息
         private bool IsStart = false; //是否开始
         public Workbench()
         {
@@ -32,6 +33,8 @@ namespace HC.Identify.App
             InitializeComponent();
             this.MainForm = mainForm;
             orderSumAppService = new OrderSumAppService();
+            orderInfoAppService = new OrderInfoAppService();
+
             //获取下拉框数据
             ComboxGetValue();
             if (combo_area.SelectedValue != null)
@@ -81,12 +84,16 @@ namespace HC.Identify.App
             //lab_houseNum.Text = "第"+ orderSum.Sequence+"户/" + "共" + count + "户";
             lab_houseNum.Text = "第" + sequence + "户/" + "共" + count + "户";
             lab_num.Text = orderSum.Num.ToString();
-            lab_lastHose.Text = orderSum.LastHouse.Length > 5? orderSum.LastHouse.Substring(0,5)+ "..." : orderSum.LastHouse;//上一户
+            lab_lastHose.Text = orderSum.LastHouse.Length > 5 ? orderSum.LastHouse.Substring(0, 5) + "..." : orderSum.LastHouse;//上一户
             lab_lastlHose.Text = orderSum.LastLHouse.Length > 5 ? orderSum.LastLHouse.Substring(0, 5) + "..." : orderSum.LastLHouse;//上上户
             lab_nextHose.Text = orderSum.NextHouse.Length > 5 ? orderSum.NextHouse.Substring(0, 5) + "..." : orderSum.NextHouse; ;//下一户
             lab_nextnHose.Text = orderSum.NextNHouse.Length > 5 ? orderSum.NextNHouse.Substring(0, 5) + "..." : orderSum.NextNHouse; ;//下下户
             //lab_areacode_hide.Text = orderSum.Sequence.ToString();
             //lab_areacode_hide.Hide();
+
+            //获取订单信息
+            orderInfos = orderInfoAppService.GetOrderInfoByUUID(orderSum.UUID);
+            GreateTable();
         }
         /// <summary>
         /// 获取当前用户订单信息
@@ -173,7 +180,7 @@ namespace HC.Identify.App
             btn_dowload.Visible = false;
             var result = orderSumAppService.DowloadData();
             ComboxGetValue();
-            if(combo_area.SelectedValue!=null)
+            if (combo_area.SelectedValue != null)
             {
                 var item = combo_area.SelectedValue.ToString();
                 var code = int.Parse(item);
@@ -211,5 +218,62 @@ namespace HC.Identify.App
         }
 
         #endregion
+
+        private void Workbench_Load(object sender, EventArgs e)
+        {
+            // TODO: 这行代码将数据加载到表“identifyDBDataSet.OrderInfo”中。您可以根据需要移动或删除它。
+            //this.orderInfoTableAdapter.Fill(this.identifyDBDataSet.OrderInfo);
+
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_init_Click(object sender, EventArgs e)
+        {
+            foreach (var item in orderInfos)
+            {
+                item.Matched = 0;
+                item.Unmatched = item.Num;
+            }
+            GreateTable();
+        }
+
+        public void GreateTable()
+        {
+            DataTable table = new DataTable();
+            DataColumn c1 = new DataColumn("Id", typeof(Guid));
+            table.Columns.Add(c1);
+            DataColumn c3 = new DataColumn("条码", typeof(string));
+            table.Columns.Add(c3);
+            DataColumn c4 = new DataColumn("规格", typeof(string));
+            table.Columns.Add(c4);
+            DataColumn c5 = new DataColumn("数量", typeof(int));
+            table.Columns.Add(c5);
+            DataColumn c6 = new DataColumn("已匹配", typeof(int));
+            table.Columns.Add(c6);
+            DataColumn c7 = new DataColumn("未匹配", typeof(int));
+            table.Columns.Add(c7);
+            DataColumn c2 = new DataColumn("UUID", typeof(string));
+            table.Columns.Add(c2);
+            foreach (var item in orderInfos)
+            {
+                DataRow r = table.NewRow();
+                r["Id"] = item.Id;
+                r["条码"] = item.Brand;
+                r["规格"] = item.Specification;
+                r["数量"] = item.Num;
+                r["已匹配"] = item.Matched;
+                r["未匹配"] = item.Unmatched;
+                r["UUID"] = item.UUID;
+                table.Rows.Add(r);
+            }
+            GV_orderInfo.DataSource = table;
+            GV_orderInfo.Columns[0].Visible = false;
+            GV_orderInfo.Columns[5].DefaultCellStyle.BackColor = Color.Red;
+            GV_orderInfo.AllowUserToAddRows = false;
+        }
     }
 }

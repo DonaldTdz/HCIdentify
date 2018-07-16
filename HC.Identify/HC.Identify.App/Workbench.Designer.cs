@@ -1,4 +1,6 @@
-﻿namespace HC.Identify.App
+﻿using System.Drawing;
+
+namespace HC.Identify.App
 {
     partial class Workbench
     {
@@ -46,6 +48,8 @@
             this.ab_checkAmount = new System.Windows.Forms.Label();
             this.lab_alreadyRead_title = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn_init = new System.Windows.Forms.Button();
+            this.GV_orderInfo = new System.Windows.Forms.DataGridView();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_dowload = new System.Windows.Forms.Button();
@@ -75,13 +79,20 @@
             this.lab_lastlHose_title = new System.Windows.Forms.Label();
             this.lab_nextHose_title = new System.Windows.Forms.Label();
             this.lab_lastHose_title = new System.Windows.Forms.Label();
+            this.identifyDBDataSet = new HC.Identify.App.IdentifyDBDataSet();
+            this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.orderInfoTableAdapter = new HC.Identify.App.IdentifyDBDataSetTableAdapters.OrderInfoTableAdapter();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GV_orderInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.identifyDBDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderInfoBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -250,6 +261,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btn_init);
+            this.tabPage2.Controls.Add(this.GV_orderInfo);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -257,6 +270,25 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "订单明细";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btn_init
+            // 
+            this.btn_init.Location = new System.Drawing.Point(7, 18);
+            this.btn_init.Name = "btn_init";
+            this.btn_init.Size = new System.Drawing.Size(75, 23);
+            this.btn_init.TabIndex = 1;
+            this.btn_init.Text = "初始化";
+            this.btn_init.UseVisualStyleBackColor = true;
+            this.btn_init.Click += new System.EventHandler(this.btn_init_Click);
+            // 
+            // GV_orderInfo
+            // 
+            this.GV_orderInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GV_orderInfo.Location = new System.Drawing.Point(7, 47);
+            this.GV_orderInfo.Name = "GV_orderInfo";
+            this.GV_orderInfo.RowTemplate.Height = 23;
+            this.GV_orderInfo.Size = new System.Drawing.Size(645, 150);
+            this.GV_orderInfo.TabIndex = 0;
             // 
             // textBox1
             // 
@@ -536,6 +568,20 @@
             this.lab_lastHose_title.TabIndex = 0;
             this.lab_lastHose_title.Text = "上一户：";
             // 
+            // identifyDBDataSet
+            // 
+            this.identifyDBDataSet.DataSetName = "IdentifyDBDataSet";
+            this.identifyDBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // orderInfoBindingSource
+            // 
+            this.orderInfoBindingSource.DataMember = "OrderInfo";
+            this.orderInfoBindingSource.DataSource = this.identifyDBDataSet;
+            // 
+            // orderInfoTableAdapter
+            // 
+            this.orderInfoTableAdapter.ClearBeforeFill = true;
+            // 
             // Workbench
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -553,16 +599,21 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Workbench";
             this.Text = "工作台";
+            this.Load += new System.EventHandler(this.Workbench_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GV_orderInfo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.identifyDBDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderInfoBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -615,5 +666,10 @@
         private System.Windows.Forms.Label lab_lastlHose;
         private System.Windows.Forms.Label lab_lastHose;
         private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay;
+        private IdentifyDBDataSet identifyDBDataSet;
+        private System.Windows.Forms.BindingSource orderInfoBindingSource;
+        private IdentifyDBDataSetTableAdapters.OrderInfoTableAdapter orderInfoTableAdapter;
+        private System.Windows.Forms.DataGridView GV_orderInfo;
+        private System.Windows.Forms.Button btn_init;
     }
 }
