@@ -32,6 +32,7 @@ namespace HC.Identify.App
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Workbench));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
@@ -79,9 +80,14 @@ namespace HC.Identify.App
             this.lab_lastlHose_title = new System.Windows.Forms.Label();
             this.lab_nextHose_title = new System.Windows.Forms.Label();
             this.lab_lastHose_title = new System.Windows.Forms.Label();
-            this.identifyDBDataSet = new HC.Identify.App.IdentifyDBDataSet();
             this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.orderInfoTableAdapter = new HC.Identify.App.IdentifyDBDataSetTableAdapters.OrderInfoTableAdapter();
+            this.txt_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_Specification = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_UUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_Matched = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_Unmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
@@ -91,7 +97,6 @@ namespace HC.Identify.App
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.identifyDBDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.orderInfoBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -283,12 +288,31 @@ namespace HC.Identify.App
             // 
             // GV_orderInfo
             // 
+            this.GV_orderInfo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.GV_orderInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.GV_orderInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GV_orderInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.txt_Id,
+            this.txt_Specification,
+            this.Brand,
+            this.Num,
+            this.txt_UUID,
+            this.txt_Matched,
+            this.txt_Unmatched});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GV_orderInfo.DefaultCellStyle = dataGridViewCellStyle1;
             this.GV_orderInfo.Location = new System.Drawing.Point(7, 47);
             this.GV_orderInfo.Name = "GV_orderInfo";
             this.GV_orderInfo.RowTemplate.Height = 23;
-            this.GV_orderInfo.Size = new System.Drawing.Size(645, 150);
+            this.GV_orderInfo.Size = new System.Drawing.Size(645, 45);
             this.GV_orderInfo.TabIndex = 0;
+            //this.GV_orderInfo.Height = GV_orderInfo.Rows.Count * GV_orderInfo.RowTemplate.Height + GV_orderInfo.ColumnHeadersHeight;
             // 
             // textBox1
             // 
@@ -567,20 +591,49 @@ namespace HC.Identify.App
             this.lab_lastHose_title.Size = new System.Drawing.Size(53, 12);
             this.lab_lastHose_title.TabIndex = 0;
             this.lab_lastHose_title.Text = "上一户：";
+            // txt_Id
             // 
-            // identifyDBDataSet
+            this.txt_Id.DataPropertyName = "Id";
+            this.txt_Id.HeaderText = "Id";
+            this.txt_Id.Name = "txt_Id";
+            this.txt_Id.Visible = false;
             // 
-            this.identifyDBDataSet.DataSetName = "IdentifyDBDataSet";
-            this.identifyDBDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // txt_Specification
             // 
-            // orderInfoBindingSource
+            this.txt_Specification.DataPropertyName = "Specification";
+            this.txt_Specification.HeaderText = "规格";
+            this.txt_Specification.Name = "txt_Specification";
             // 
-            this.orderInfoBindingSource.DataMember = "OrderInfo";
-            this.orderInfoBindingSource.DataSource = this.identifyDBDataSet;
+            // Brand
             // 
-            // orderInfoTableAdapter
+            this.Brand.DataPropertyName = "Brand";
+            this.Brand.HeaderText = "条码";
+            this.Brand.Name = "Brand";
             // 
-            this.orderInfoTableAdapter.ClearBeforeFill = true;
+            // Num
+            // 
+            this.Num.DataPropertyName = "Num";
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            // 
+            // txt_UUID
+            // 
+            this.txt_UUID.DataPropertyName = "UUID";
+            this.txt_UUID.HeaderText = "UUID";
+            this.txt_UUID.Name = "txt_UUID";
+            this.txt_UUID.Visible = false;
+            // 
+            // txt_Matched
+            // 
+            this.txt_Matched.DataPropertyName = "Matched";
+            this.txt_Matched.HeaderText = "已匹配";
+            this.txt_Matched.Name = "txt_Matched";
+            // 
+            // txt_Unmatched
+            // 
+            this.txt_Unmatched.DataPropertyName = "Unmatched";
+            this.txt_Unmatched.HeaderText = "未匹配";
+            this.txt_Unmatched.Name = "txt_Unmatched";
             // 
             // Workbench
             // 
@@ -612,8 +665,6 @@ namespace HC.Identify.App
             this.groupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.identifyDBDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.orderInfoBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -666,10 +717,15 @@ namespace HC.Identify.App
         private System.Windows.Forms.Label lab_lastlHose;
         private System.Windows.Forms.Label lab_lastHose;
         private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay;
-        private IdentifyDBDataSet identifyDBDataSet;
         private System.Windows.Forms.BindingSource orderInfoBindingSource;
-        private IdentifyDBDataSetTableAdapters.OrderInfoTableAdapter orderInfoTableAdapter;
         private System.Windows.Forms.DataGridView GV_orderInfo;
         private System.Windows.Forms.Button btn_init;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txt_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txt_Specification;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txt_UUID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txt_Matched;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txt_Unmatched;
     }
 }

@@ -16,19 +16,18 @@ namespace HC.Identify.EntityFramework.Services.Identify
         /// </summary>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public IList<OrderInfoDto> GetOrderInfoByUUID(string uuid)
+        public IList<OrderInfoTableDto> GetOrderInfoByUUID(string uuid)
         {
             using (IdentifyContext context = new IdentifyContext())
             {
                 var query = context.OrderInfo.Where(o => o.UUID == uuid)
-                    .Select(o => new OrderInfoDto
+                    .Select(o => new OrderInfoTableDto
                     {
                         Id = o.Id,
                         UUID = o.UUID,
                         Brand = o.Brand,
                         Specification = o.Specification,
                         Num = o.Num,
-                        PostDate = o.PostDate,
                         Matched=0,
                         Unmatched=o.Num
                     });

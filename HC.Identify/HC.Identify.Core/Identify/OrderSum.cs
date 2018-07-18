@@ -62,5 +62,10 @@ namespace HC.Identify.Core.Identify
         /// RNum
         /// </summary>
         public int? RNum { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public long? RIndex { get; set; }
     }
 }

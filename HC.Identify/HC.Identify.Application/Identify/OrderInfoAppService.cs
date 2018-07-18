@@ -21,7 +21,7 @@ namespace HC.Identify.Application.Identify
         /// </summary>
         /// <param name="uuid"></param>
         /// <returns></returns>
-        public IList<OrderInfoDto> GetOrderInfoByUUID(string uuid)
+        public IList<OrderInfoTableDto> GetOrderInfoByUUID(string uuid)
         {
             return orderInfoService.GetOrderInfoByUUID(uuid);
         }

@@ -29,6 +29,11 @@ namespace HC.Identify.Dto.Identify
         public int? RNum { get; set; }
 
         /// <summary>
+        /// 排序
+        /// </summary>
+        public long? RIndex { get; set; }
+
+        /// <summary>
         /// 上一户
         /// </summary>
         public string LastHouse { get; set; }

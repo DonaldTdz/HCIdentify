@@ -21,7 +21,7 @@ namespace HC.Identify.App
         private IList<OrderSumDto> orderSums;//当前选项的所有打包订单信息
         private OrderSumAppService orderSumAppService;
         private OrderInfoAppService orderInfoAppService;
-        private IList<OrderInfoDto> orderInfos;//当前选项的详细订单信息
+        private IList<OrderInfoTableDto> orderInfos;//当前选项的详细订单信息
         private bool IsStart = false; //是否开始
         public Workbench()
         {
@@ -100,31 +100,41 @@ namespace HC.Identify.App
         /// </summary>
         public OrderSumDto GetSingleOrderSum()
         {
-            var orderSum = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 1).Take(1).FirstOrDefault();
+            //var orderSum = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 1).Take(1).FirstOrDefault();
+            var orderSum = orderSums.Where(o=>o.RIndex==sequence).FirstOrDefault();
+
             var se = 0;
             //上一户
             if (sequence > 1)
             {
                 se = sequence - 1;
-                orderSum.LastHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 2).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                //orderSum.LastHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 2).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.LastHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+
             }
             //上上户
             if (sequence > 2)
             {
                 se = sequence - 2;
-                orderSum.LastLHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 3).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                //orderSum.LastLHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 3).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.LastLHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+
             }
             //下一户
             if (sequence < count)
             {
                 se = sequence + 1;
-                orderSum.NextHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                //orderSum.NextHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.NextHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+
             }
             //下下户
-            if (count - sequence > 2)
+            if (count - sequence >= 2)
             {
                 se = sequence + 2;
-                orderSum.NextNHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence + 1).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                //orderSum.NextNHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence + 1).Take(1).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.NextNHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+
             }
             orderSum.LastHouse = orderSum.LastHouse ?? "";
             orderSum.LastLHouse = orderSum.LastLHouse ?? "";
@@ -223,6 +233,13 @@ namespace HC.Identify.App
         {
             // TODO: 这行代码将数据加载到表“identifyDBDataSet.OrderInfo”中。您可以根据需要移动或删除它。
             //this.orderInfoTableAdapter.Fill(this.identifyDBDataSet.OrderInfo);
+            DataGridViewImageColumn btnImageEdit = new DataGridViewImageColumn(false);
+            //Image imgEdit = new Bitmap(, new Size(16, 16));
+            //btnImageEdit.Image = imgEdit;
+            //btnImageEdit.Width = 50;
+            //btnImageEdit.HeaderText = "编辑";
+            //btnImageEdit.Name = "btnImageEdit";
+            //GV_orderInfo.Columns.Insert(0, btnImageEdit);
 
         }
 
@@ -270,10 +287,10 @@ namespace HC.Identify.App
                 r["UUID"] = item.UUID;
                 table.Rows.Add(r);
             }
-            GV_orderInfo.DataSource = table;
-            GV_orderInfo.Columns[0].Visible = false;
-            GV_orderInfo.Columns[5].DefaultCellStyle.BackColor = Color.Red;
-            GV_orderInfo.AllowUserToAddRows = false;
+            GV_orderInfo.DataSource = orderInfos;
+            //GV_orderInfo.Columns[0].Visible = false;
+            //GV_orderInfo.Columns[5].DefaultCellStyle.BackColor = Color.Red;
+            //GV_orderInfo.AllowUserToAddRows = false;
         }
     }
 }

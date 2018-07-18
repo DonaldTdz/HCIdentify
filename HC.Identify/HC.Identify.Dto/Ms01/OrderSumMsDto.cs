@@ -36,5 +36,9 @@ namespace HC.Identify.Dto.Ms01
         /// 订购数量
         /// </summary>
         public int? OI_ALL_NUM { get; set; }
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public long? RowIndex { get; set; }
     }
 }

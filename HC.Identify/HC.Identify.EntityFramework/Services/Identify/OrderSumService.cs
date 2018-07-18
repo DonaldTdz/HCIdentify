@@ -123,7 +123,8 @@ namespace HC.Identify.EntityFramework.Services.Identify
                     Sequence = o.Sequence,
                     Num = o.Num,
                     PostData = o.PostData,
-                    RNum = o.RNum
+                    RNum = o.RNum,
+                    RIndex=o.RIndex
                 }).ToList();
                 return query;
             }
@@ -142,7 +143,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                 var sql = new StringBuilder();
                 foreach (var item in orderSumMsDto)
                 {
-                     sql.AppendFormat("insert into OrderSums (Id,UUID,AreaCode,AreaName,RetailerCode,RetailerName,Sequence,Num,PostData,RNum) values(newid(),'{0}','{1}','{2}','{3}','{4}','{5}','{6}',GETDATE(),0);", item.OI_UUID ,item.B_CODE , item.OI_DL_NAME , item.OI_RETAILER_CODE , item.OI_RETAILER_NAME ,item.OI_SEQUENCE , item.OI_ALL_NUM);
+                     sql.AppendFormat("insert into OrderSums (Id,UUID,AreaCode,AreaName,RetailerCode,RetailerName,Sequence,Num,PostData,RNum,RIndex) values(newid(),'{0}','{1}','{2}','{3}','{4}','{5}','{6}',GETDATE(),0,{7});", item.OI_UUID ,item.B_CODE , item.OI_DL_NAME , item.OI_RETAILER_CODE , item.OI_RETAILER_NAME ,item.OI_SEQUENCE , item.OI_ALL_NUM,item.RowIndex);
                 }
                 var result = context.Database.ExecuteSqlCommand(sql.ToString());
                 return result ;
