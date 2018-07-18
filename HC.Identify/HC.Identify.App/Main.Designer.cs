@@ -35,6 +35,7 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolFrameStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,9 @@
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolFrameStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,11 +110,21 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolFrameStatus,
+            this.toolFrameStatusVal});
             this.statusStrip1.Location = new System.Drawing.Point(0, 624);
             this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.ShowItemToolTips = true;
             this.statusStrip1.Size = new System.Drawing.Size(984, 22);
-            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolFrameStatus
+            // 
+            this.toolFrameStatus.Name = "toolFrameStatus";
+            this.toolFrameStatus.Size = new System.Drawing.Size(68, 17);
+            this.toolFrameStatus.Text = "相机未连接";
             // 
             // 系统管理ToolStripMenuItem
             // 
@@ -126,19 +139,19 @@
             // 系统配置ToolStripMenuItem
             // 
             this.系统配置ToolStripMenuItem.Name = "系统配置ToolStripMenuItem";
-            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.系统配置ToolStripMenuItem.Text = "系统用户";
             // 
             // 系统配置ToolStripMenuItem1
             // 
             this.系统配置ToolStripMenuItem1.Name = "系统配置ToolStripMenuItem1";
-            this.系统配置ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.系统配置ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.系统配置ToolStripMenuItem1.Text = "系统配置";
             // 
             // 视觉配置ToolStripMenuItem
             // 
             this.视觉配置ToolStripMenuItem.Name = "视觉配置ToolStripMenuItem";
-            this.视觉配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.视觉配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.视觉配置ToolStripMenuItem.Text = "视觉配置";
             this.视觉配置ToolStripMenuItem.Click += new System.EventHandler(this.视觉配置ToolStripMenuItem_Click);
             // 
@@ -196,6 +209,13 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // toolFrameStatusVal
+            // 
+            this.toolFrameStatusVal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolFrameStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolFrameStatusVal.Image")));
+            this.toolFrameStatusVal.Name = "toolFrameStatusVal";
+            this.toolFrameStatusVal.Size = new System.Drawing.Size(16, 17);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -215,6 +235,8 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -240,6 +262,8 @@
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolFrameStatus;
+        private System.Windows.Forms.ToolStripStatusLabel toolFrameStatusVal;
     }
 }
 

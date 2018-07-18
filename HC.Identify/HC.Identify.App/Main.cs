@@ -30,13 +30,6 @@ namespace HC.Identify.App
         //初始化控件
         public void InitControles()
         {
-            //Workbench frm = new Workbench(this);
-            //frm.FormBorderStyle = FormBorderStyle.FixedDialog;
-            //frm.MdiParent = this;
-            //frm.WindowState = FormWindowState.Maximized;
-            //frm.ParentMainForm = this;
-            //this.MainChildList["Workbench"] = frm;
-            //this.MainChildList["Workbench"].Show();
             this.ShowForm("Workbench", new Workbench(this));
         }
 
@@ -52,22 +45,6 @@ namespace HC.Identify.App
 
         private void 视觉配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (this.MainChildList.ExistsForm("VisionProSetting"))
-            //{
-            //    this.MainChildList["VisionProSetting"].WindowState = FormWindowState.Maximized;
-            //    this.MainChildList["VisionProSetting"].Show();
-            //}
-            //else
-            //{
-            //    VisionProSetting visionProSetting;
-            //    visionProSetting = new VisionProSetting();
-            //    visionProSetting.MdiParent = this;
-            //    visionProSetting.WindowState = FormWindowState.Maximized;
-            //    visionProSetting.ParentMainForm = this;
-            //    this.MainChildList["VisionProSetting"] = visionProSetting;
-            //    visionProSetting.Show();
-            //}
-
             this.ShowForm("VisionProSetting", new VisionProSetting(this));
         }
 
@@ -93,6 +70,33 @@ namespace HC.Identify.App
                 form.Show();
             }
         }
+
+        public void SetFrameStatus(FrameStatusEnum frameStatus)
+        {
+            switch (frameStatus)
+            {
+                case FrameStatusEnum.None:
+                    {
+                        this.toolFrameStatus.Text = "相机未连接";
+                        this.toolFrameStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
+                    }
+                    break;
+                case FrameStatusEnum.Connected:
+                    {
+                        this.toolFrameStatus.Text = "相机已连接";
+                        this.toolFrameStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public enum FrameStatusEnum
+    {
+        None = 0, //未连接
+        Connected = 1 //已连接
     }
 
     public class FormMainChildren : Form

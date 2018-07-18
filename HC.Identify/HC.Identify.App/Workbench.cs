@@ -1,10 +1,16 @@
-﻿using HC.Identify.Application.Identify;
+﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Exceptions;
+using Cognex.VisionPro.ToolBlock;
+using HC.Identify.Application.Identify;
 using HC.Identify.Dto.Identify;
+using HC.Identify.Dto.VisionPro;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +38,25 @@ namespace HC.Identify.App
         {
             InitializeComponent();
             this.MainForm = mainForm;
+            InitServices();         //初始化服务
+            BindDistributionLine(); //配送线路
+            InitFrame();            //初始化相机
+        }
+
+        #region 初始化服务
+
+        private void InitServices()
+        {
             orderSumAppService = new OrderSumAppService();
             orderInfoAppService = new OrderInfoAppService();
+        }
 
+        #endregion
+
+        #region 绑定下拉数据
+
+        private void BindDistributionLine()
+        {
             //获取下拉框数据
             ComboxGetValue();
             if (combo_area.SelectedValue != null)
@@ -49,8 +71,171 @@ namespace HC.Identify.App
                 //获取单个用户订单信息
                 GetOrderSum(sequence);
             }
-
         }
+
+        #endregion
+
+        #region 相机相关处理
+
+        ICogAcqFifo icogAcqFifo;  //获取数据
+        ICogImage icogColorImage; //图像控件
+        CogToolBlock cogToolBlock = new CogToolBlock();       //图像连接工具
+
+        /// <summary>
+        /// 相机初始化
+        /// </summary>
+        private void InitFrame()
+        {
+            CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
+            if (mFrameGrabbers.Count == 0)
+            {
+                this.MainForm.SetFrameStatus(FrameStatusEnum.None);
+            }
+            else//相机模式运行
+            {
+                //获取第一个相机图片
+                icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+                // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
+                //添加获取完成处理事件
+                icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
+                int numReadyVal;   //读取值
+                int numPendingVal; //等待值
+                int iNum = icogAcqFifo.StartAcquire(); //开始获取
+                //获取图片
+                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                //显示图片
+                cogRecordDisplay.Image = icogColorImage;
+                cogRecordDisplay.Fit(false);
+                this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
+            } 
+        }
+
+        private void CompleteAcquire(Object sender, CogCompleteEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new CogCompleteEventHandler(CompleteAcquire), new object[] { sender, e });
+                return;
+            }
+            int numReadyVal;   //读取值
+            int numPendingVal; //等待值
+            bool busyVal;
+            CogAcqInfo info = new CogAcqInfo();
+            try
+            {
+                icogAcqFifo.GetFifoState(out numPendingVal, out numReadyVal, out busyVal);
+                if (numReadyVal > 0)
+                {
+                    icogColorImage = icogAcqFifo.CompleteAcquireEx(info);
+                    cogRecordDisplay.Image = icogColorImage;
+                    cogRecordDisplay.Fit(false);
+                }
+            }
+            catch (CogException ce)
+            {
+                MessageBox.Show("The following error has occured\n" + ce.Message);
+            }
+            //自动存图
+            //if (chkAutoSaveImage.Checked)
+            //{
+            //    AutoSaveImage();
+            //}
+
+            //匹配计算
+            RunCalculation();
+        }
+
+        private void RunCalculation()
+        {
+            
+            //运行
+            var cogResultArray = ToolBlockRun();
+            //计算
+            var spec = Calculation(cogResultArray);
+           
+            //自动保存计算结果
+            //if (chkAutoSaveData.Checked)
+            //{
+            //    SaveData(spec);
+            //}
+        }
+
+        FileSystemInfo[] fileInfos;
+        int imgIndex;
+        ArrayList cogResultArray = new ArrayList();
+
+        private ArrayList ToolBlockRun()
+        {
+            cogToolBlock.Inputs["InputImage"].Value = icogColorImage;
+            cogToolBlock.Inputs["iRow"].Value = 4;
+            cogToolBlock.Inputs["iCol"].Value = 12;
+            cogToolBlock.Inputs["bForceLeft"].Value = false;    //左边线错误
+            cogToolBlock.Inputs["bForceRight"].Value = false;   //右边线错误
+            cogToolBlock.Inputs["bShowGraphic"].Value = false;  //显示图形
+            cogToolBlock.Run();
+
+            ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
+            cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
+            cogRecordDisplay.Fit(true);
+            cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
+            if (cogResultArray.Count == 0)
+            {
+                MessageBox.Show("ToolBlock结果为空！");
+                return null;
+            }
+            return cogResultArray;
+        }
+
+        List<CsvSpecification> csvSpecList = new List<CsvSpecification>();      //已注册产品数据
+        private string Calculation(ArrayList cogResultArray)
+        {
+            int totalType = csvSpecList.Count();
+            //相关矩阵计算
+            double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
+            //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
+            double dMaxScore = -9999;
+            string maxSpec = string.Empty;
+            int i = 0;
+            foreach (var item in csvSpecList)
+            {
+                double dSumXY = 0;
+                double dSumX = 0;
+                double dSumY = 0;
+                double dSumXBy2 = 0;
+                double dSumYBy2 = 0;
+                int iPointsNum = item.Values.Length;
+                int k = 0;
+                foreach (var readVal in item.Values)
+                {
+                    dSumXY += (double)cogResultArray[k] * readVal;
+                    dSumX += (double)cogResultArray[k];
+                    dSumY += readVal;
+                    dSumXBy2 += (double)cogResultArray[k] * (double)cogResultArray[k];
+                    dSumYBy2 += readVal * readVal;
+                    k++;
+                }
+                dMatchScore[i] = (iPointsNum * dSumXY - dSumX * dSumY) / (Math.Sqrt(iPointsNum * dSumXBy2 - dSumX * dSumX) * Math.Sqrt(iPointsNum * dSumYBy2 - dSumY * dSumY));
+                // MessageBox.Show(dMatchScore[l].ToString()+"   "+ReadType[l]);
+                if (dMatchScore[i] > dMaxScore)
+                {
+                    dMaxScore = dMatchScore[i];
+                    maxSpec = item.Specification;
+                }
+                i++;
+            }
+            //配置结果值
+            if (dMaxScore > 0.81)
+            {
+                //"OK"
+            }
+            else
+            {
+                //"NG"; 
+            }
+            return maxSpec;
+        }
+
+        #endregion
 
         /// <summary>
         /// 下一户
