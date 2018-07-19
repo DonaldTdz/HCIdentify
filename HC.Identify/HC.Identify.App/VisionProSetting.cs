@@ -45,6 +45,7 @@ namespace HC.Identify.App
         //定义全局主窗口 刷新状态
         public Main MainForm;
         private CameraSettingAppService cameraSettingAppService;
+        private CameraSettingShowDto cameraSettingShowDto;
         public VisionProSetting()
         {
             InitializeComponent();
@@ -56,6 +57,7 @@ namespace HC.Identify.App
             MainForm = mainForm;
             cameraSettingAppService = new CameraSettingAppService();
             GetCameraSetting();
+            //cameraSettingShowDto = new CameraSettingShowDto();
         }
 
         private void VisionProSetting_Load(object sender, EventArgs e)
@@ -589,28 +591,64 @@ namespace HC.Identify.App
         /// </summary>
         private void btn_Recover_Click(object sender, EventArgs e)
         {
-            GetCameraSetting();
+            txtImgPath.Text = cameraSettingShowDto.PicPath;
+            chkCamTrigOn.Checked = cameraSettingShowDto.CameraMode;
+            chkSimulation.Checked = cameraSettingShowDto.Simulation;
+            chkAutoSaveData.Checked = cameraSettingShowDto.SaveData;
+            chkShowPic.Checked = cameraSettingShowDto.ShowPic;
+            chkAutoSaveImage.Checked = cameraSettingShowDto.AutoSave;
         }
 
         public void GetCameraSetting()
         {
             var list = cameraSettingAppService.GetCameraSetting();
-            var cameraSetting = new CameraSettingShowDto();
+            cameraSettingShowDto = new CameraSettingShowDto();
             foreach (var item in list)
             {
-                cameraSetting.PicPath = item.Code == CameraEnum.图片位置 ? item.Value : "";
-                cameraSetting.CameraMode = item.Code == CameraEnum.相机外部模式 ? bool.Parse(item.Value) : false;
-                cameraSetting.Simulation = item.Code == CameraEnum.仿真 ? bool.Parse(item.Value) : false;
-                cameraSetting.SaveData = item.Code == CameraEnum.保存数据 ? bool.Parse(item.Value) : false;
-                cameraSetting.ShowPic = item.Code == CameraEnum.显示图形 ? bool.Parse(item.Value) : false;
-                cameraSetting.AutoSave = item.Code == CameraEnum.自动存图 ? bool.Parse(item.Value) : false;
+                if(item.Code == CameraEnum.图片位置)
+                {
+                    cameraSettingShowDto.PicPath = item.Value;
+                    txtImgPath.Text = item.Value;
+                }
+                if (item.Code == CameraEnum.相机外部模式)
+                {
+                    cameraSettingShowDto.CameraMode = bool.Parse(item.Value);
+                    chkCamTrigOn.Checked = bool.Parse(item.Value);
+                }
+                if (item.Code == CameraEnum.仿真)
+                {
+                    cameraSettingShowDto.Simulation = bool.Parse(item.Value);
+                    chkSimulation.Checked = bool.Parse(item.Value);
+                }
+                if (item.Code == CameraEnum.保存数据)
+                {
+                    cameraSettingShowDto.SaveData = bool.Parse(item.Value);
+                    chkAutoSaveData.Checked = bool.Parse(item.Value);
+                }
+                if (item.Code == CameraEnum.显示图形)
+                {
+                    cameraSettingShowDto.ShowPic = bool.Parse(item.Value);
+                    chkShowPic.Checked = bool.Parse(item.Value);
+
+                }
+                if (item.Code == CameraEnum.自动存图)
+                {
+                    cameraSettingShowDto.AutoSave = bool.Parse(item.Value);
+                    chkAutoSaveImage.Checked = bool.Parse(item.Value);
+                }
+                //cameraSetting.PicPath = item.Code == CameraEnum.图片位置 ? item.Value : "";
+                //cameraSetting.CameraMode = item.Code == CameraEnum.相机外部模式 ? bool.Parse(item.Value) : false;
+                //cameraSetting.Simulation = item.Code == CameraEnum.仿真 ? bool.Parse(item.Value) : false;
+                //cameraSetting.SaveData = item.Code == CameraEnum.保存数据 ? bool.Parse(item.Value) : false;
+                //cameraSetting.ShowPic = item.Code == CameraEnum.显示图形 ? bool.Parse(item.Value) : false;
+                //cameraSetting.AutoSave = item.Code == CameraEnum.自动存图 ? bool.Parse(item.Value) : false;
             }
-            txtImgPath.Text = cameraSetting.PicPath;
-            chkCamTrigOn.Checked = cameraSetting.CameraMode;
-            chkSimulation.Checked = cameraSetting.Simulation;
-            chkAutoSaveData.Checked = cameraSetting.SaveData;
-            chkShowPic.Checked = cameraSetting.ShowPic;
-            chkAutoSaveImage.Checked = cameraSetting.AutoSave;
+            //txtImgPath.Text = cameraSetting.PicPath;
+            //chkCamTrigOn.Checked = cameraSetting.CameraMode;
+            //chkSimulation.Checked = cameraSetting.Simulation;
+            //chkAutoSaveData.Checked = cameraSetting.SaveData;
+            //chkShowPic.Checked = cameraSetting.ShowPic;
+            //chkAutoSaveImage.Checked = cameraSetting.AutoSave;
         }
         #endregion
 
@@ -624,37 +662,37 @@ namespace HC.Identify.App
 
             var pathPic = new CameraSettingCreateDto();
             pathPic.Code = CameraEnum.图片位置;
-            pathPic.Desc = CameraEnum.图片位置.ToString();
+            pathPic.Descs = CameraEnum.图片位置.ToString();
             pathPic.Value = txtImgPath.Text;
             list.Add(pathPic);
 
             var cameraMode = new CameraSettingCreateDto();
             cameraMode.Code = CameraEnum.相机外部模式;
-            cameraMode.Desc = CameraEnum.相机外部模式.ToString();
+            cameraMode.Descs = CameraEnum.相机外部模式.ToString();
             cameraMode.Value = chkCamTrigOn.Checked.ToString();
             list.Add(cameraMode);
 
             var simulation = new CameraSettingCreateDto();
             simulation.Code = CameraEnum.仿真;
-            simulation.Desc = CameraEnum.仿真.ToString();
+            simulation.Descs = CameraEnum.仿真.ToString();
             simulation.Value = chkSimulation.Checked.ToString();
             list.Add(simulation);
 
             var saveData = new CameraSettingCreateDto();
             saveData.Code = CameraEnum.保存数据;
-            saveData.Desc = CameraEnum.保存数据.ToString();
+            saveData.Descs = CameraEnum.保存数据.ToString();
             saveData.Value = chkAutoSaveData.Checked.ToString();
             list.Add(saveData);
 
             var showPic = new CameraSettingCreateDto();
             showPic.Code = CameraEnum.显示图形;
-            showPic.Desc = CameraEnum.显示图形.ToString();
+            showPic.Descs = CameraEnum.显示图形.ToString();
             showPic.Value = chkShowPic.Checked.ToString();
             list.Add(showPic);
 
             var autoSave = new CameraSettingCreateDto();
             autoSave.Code = CameraEnum.自动存图;
-            autoSave.Desc = CameraEnum.自动存图.ToString();
+            autoSave.Descs = CameraEnum.自动存图.ToString();
             autoSave.Value = chkAutoSaveImage.Checked.ToString();
             list.Add(autoSave);
            var result= cameraSettingAppService.SaveCameraSetting(list);

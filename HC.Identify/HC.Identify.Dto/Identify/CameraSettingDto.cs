@@ -64,6 +64,6 @@ namespace HC.Identify.Dto.Identify
         /// <summary>
         /// 配置项描述
         /// </summary>
-        public string Desc { get; set; }
+        public string Descs { get; set; }
     }
 }

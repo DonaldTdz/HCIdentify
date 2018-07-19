@@ -36,6 +36,7 @@
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolFrameStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolFrameStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolFrameStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -113,7 +113,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolFrameStatus,
             this.toolFrameStatusVal});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 659);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
             this.statusStrip1.Size = new System.Drawing.Size(984, 22);
@@ -125,6 +125,13 @@
             this.toolFrameStatus.Name = "toolFrameStatus";
             this.toolFrameStatus.Size = new System.Drawing.Size(68, 17);
             this.toolFrameStatus.Text = "相机未连接";
+            // 
+            // toolFrameStatusVal
+            // 
+            this.toolFrameStatusVal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolFrameStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolFrameStatusVal.Image")));
+            this.toolFrameStatusVal.Name = "toolFrameStatusVal";
+            this.toolFrameStatusVal.Size = new System.Drawing.Size(16, 17);
             // 
             // 系统管理ToolStripMenuItem
             // 
@@ -209,18 +216,11 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolFrameStatusVal
-            // 
-            this.toolFrameStatusVal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolFrameStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolFrameStatusVal.Image")));
-            this.toolFrameStatusVal.Name = "toolFrameStatusVal";
-            this.toolFrameStatusVal.Size = new System.Drawing.Size(16, 17);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 646);
+            this.ClientSize = new System.Drawing.Size(984, 681);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);

@@ -20,12 +20,11 @@ namespace HC.Identify.EntityFramework.Services.Identify
                     var extends = context.CameraSetting.Any(c => c.Code == item.Code);
                     if (extends)
                     {
-                        sql.AppendFormat(@"update CameraSetting set Value={0}", item.Value);
+                        sql.AppendFormat(@"update CameraSetting set Value='{0}' where Code={1}", item.Value,(int)item.Code);
                     }
                     else
                     {
-                        sql.AppendFormat(@"insert into CameraSetting (Code ,Value,Descs) values
-                          ('{0}','{1}','{2}');", item.Code, item.Value, item.Desc);
+                        sql.AppendFormat(@"insert into CameraSetting (Code,Value,Descs) values('{0}','{1}','{2}');", (int)item.Code, item.Value, item.Descs);
                     }
                   
                 }
@@ -47,7 +46,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                     Id = c.Id,
                     Code = c.Code,
                     Value = c.Value,
-                    Desc = c.Desc
+                    Descs = c.Descs
                 }).ToList();
                 return list;
             }

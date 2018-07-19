@@ -33,6 +33,6 @@ namespace HC.Identify.Core.Identify
         /// 配置项描述
         /// </summary>
         [StringLength(100)]
-        public string Desc { get; set; }
+        public string Descs { get; set; }
     }
 }
