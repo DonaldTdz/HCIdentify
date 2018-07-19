@@ -38,7 +38,6 @@ namespace HC.Identify.App
 
         #region 数据存储处理
 
-        VisionProAppService vpCsvDataService;          //csv data 数据处理服务
         List<CsvSpecification> csvSpecList = new List<CsvSpecification>();      //已注册产品数据
 
         #endregion
@@ -71,8 +70,8 @@ namespace HC.Identify.App
                 MessageBox.Show("数据文件不存在或路径错误！");
                 return;
             }
-            vpCsvDataService = new VisionProAppService(csvDataPath);
-            csvSpecList = vpCsvDataService.GetCsvSpecificationList();
+            VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
+            csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
             BindRegisteredSpec();
         }
 
@@ -287,7 +286,7 @@ namespace HC.Identify.App
         private void SaveData(string spec)
         {
             string logPath = System.Windows.Forms.Application.StartupPath + "\\ResultLog" + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".log";
-            vpCsvDataService.SaveResultLog(logPath, spec, mMaxScore);
+            VisionProDataAppService.Instance.SaveResultLog(logPath, spec, mMaxScore);
         }
 
         #endregion
@@ -440,7 +439,7 @@ namespace HC.Identify.App
                 newValues[i] = (double)cogResultArray[i];
             }
             csvSpecList.Add(new CsvSpecification() { Specification = txtCurrentSpec.Text, Values = newValues });    //添加到已注册产品型号
-            vpCsvDataService.SaveToCsvRegistered(strRowWrite);  //保存到CSV文件
+            VisionProDataAppService.Instance.SaveToCsvRegistered(strRowWrite);  //保存到CSV文件
             BindRegisteredSpec();                               //重新绑定已注册产品
         }
 
