@@ -321,6 +321,7 @@ namespace HC.Identify.App
             this.GV_orderInfo.RowTemplate.Height = 23;
             this.GV_orderInfo.Size = new System.Drawing.Size(645, 482);
             this.GV_orderInfo.TabIndex = 0;
+            this.GV_orderInfo.Columns[6].DefaultCellStyle.ForeColor = Color.Red;
             // 
             // txt_Id
             // 

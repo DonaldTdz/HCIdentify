@@ -59,6 +59,7 @@
     <Compile Include="Helpers\CommHelper.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="IdentifyAppServiceBase.cs" />
+    <Compile Include="Identify\CameraSettingAppService.cs" />
     <Compile Include="Identify\OrderInfoAppService.cs" />
     <Compile Include="Identify\OrderSumAppService.cs" />
     <Compile Include="Identify\UserAppService.cs" />
