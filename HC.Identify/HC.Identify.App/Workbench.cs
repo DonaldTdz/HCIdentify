@@ -34,7 +34,7 @@ namespace HC.Identify.App
             this.MainForm = mainForm;
             orderSumAppService = new OrderSumAppService();
             orderInfoAppService = new OrderInfoAppService();
-
+            #region 初始化订单数据
             //获取下拉框数据
             ComboxGetValue();
             if (combo_area.SelectedValue != null)
@@ -49,9 +49,10 @@ namespace HC.Identify.App
                 //获取单个用户订单信息
                 GetOrderSum(sequence);
             }
+            #endregion
 
         }
-
+        #region 用户订单 
         /// <summary>
         /// 下一户
         /// </summary>
@@ -93,7 +94,7 @@ namespace HC.Identify.App
 
             //获取订单信息
             orderInfos = orderInfoAppService.GetOrderInfoByUUID(orderSum.UUID);
-            GreateTable();
+            GV_orderInfo.DataSource = orderInfos;
         }
         /// <summary>
         /// 获取当前用户订单信息
@@ -101,7 +102,7 @@ namespace HC.Identify.App
         public OrderSumDto GetSingleOrderSum()
         {
             //var orderSum = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 1).Take(1).FirstOrDefault();
-            var orderSum = orderSums.Where(o=>o.RIndex==sequence).FirstOrDefault();
+            var orderSum = orderSums.Where(o => o.RIndex == sequence).FirstOrDefault();
 
             var se = 0;
             //上一户
@@ -109,7 +110,7 @@ namespace HC.Identify.App
             {
                 se = sequence - 1;
                 //orderSum.LastHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 2).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                orderSum.LastHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.LastHouse = orderSums.Where(o => o.RIndex == se).Select(o => o.RetailerName).FirstOrDefault();
 
             }
             //上上户
@@ -117,7 +118,7 @@ namespace HC.Identify.App
             {
                 se = sequence - 2;
                 //orderSum.LastLHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence - 3).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                orderSum.LastLHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.LastLHouse = orderSums.Where(o => o.RIndex == se).Select(o => o.RetailerName).FirstOrDefault();
 
             }
             //下一户
@@ -125,7 +126,7 @@ namespace HC.Identify.App
             {
                 se = sequence + 1;
                 //orderSum.NextHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                orderSum.NextHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.NextHouse = orderSums.Where(o => o.RIndex == se).Select(o => o.RetailerName).FirstOrDefault();
 
             }
             //下下户
@@ -133,7 +134,7 @@ namespace HC.Identify.App
             {
                 se = sequence + 2;
                 //orderSum.NextNHouse = orderSums.OrderBy(o => o.Sequence).Skip(sequence + 1).Take(1).Select(o => o.RetailerName).FirstOrDefault();
-                orderSum.NextNHouse = orderSums.Where(o=>o.RIndex==se).Select(o => o.RetailerName).FirstOrDefault();
+                orderSum.NextNHouse = orderSums.Where(o => o.RIndex == se).Select(o => o.RetailerName).FirstOrDefault();
 
             }
             orderSum.LastHouse = orderSum.LastHouse ?? "";
@@ -219,6 +220,7 @@ namespace HC.Identify.App
                 combo_area.ValueMember = "value";
             }
         }
+        #endregion
 
         #region 开始工作
 
@@ -255,41 +257,15 @@ namespace HC.Identify.App
                 item.Matched = 0;
                 item.Unmatched = item.Num;
             }
-            GreateTable();
+            GV_orderInfo.DataSource = orderInfos;
         }
 
         public void GreateTable()
         {
-            DataTable table = new DataTable();
-            DataColumn c1 = new DataColumn("Id", typeof(Guid));
-            table.Columns.Add(c1);
-            DataColumn c3 = new DataColumn("条码", typeof(string));
-            table.Columns.Add(c3);
-            DataColumn c4 = new DataColumn("规格", typeof(string));
-            table.Columns.Add(c4);
-            DataColumn c5 = new DataColumn("数量", typeof(int));
-            table.Columns.Add(c5);
-            DataColumn c6 = new DataColumn("已匹配", typeof(int));
-            table.Columns.Add(c6);
-            DataColumn c7 = new DataColumn("未匹配", typeof(int));
-            table.Columns.Add(c7);
-            DataColumn c2 = new DataColumn("UUID", typeof(string));
-            table.Columns.Add(c2);
-            foreach (var item in orderInfos)
-            {
-                DataRow r = table.NewRow();
-                r["Id"] = item.Id;
-                r["条码"] = item.Brand;
-                r["规格"] = item.Specification;
-                r["数量"] = item.Num;
-                r["已匹配"] = item.Matched;
-                r["未匹配"] = item.Unmatched;
-                r["UUID"] = item.UUID;
-                table.Rows.Add(r);
-            }
-            GV_orderInfo.DataSource = orderInfos;
-            //GV_orderInfo.Columns[0].Visible = false;
-            //GV_orderInfo.Columns[5].DefaultCellStyle.BackColor = Color.Red;
+            //显示table显示高度
+            //var maxHeight = 10 * GV_orderInfo.RowTemplate.Height + GV_orderInfo.ColumnHeadersHeight;
+            //var nowHeignt = GV_orderInfo.Rows.Count * GV_orderInfo.RowTemplate.Height + GV_orderInfo.ColumnHeadersHeight;
+            //GV_orderInfo.Height = nowHeignt > maxHeight ? maxHeight : nowHeignt;
             //GV_orderInfo.AllowUserToAddRows = false;
         }
     }

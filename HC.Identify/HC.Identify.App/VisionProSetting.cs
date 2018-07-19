@@ -2,7 +2,9 @@
 using Cognex.VisionPro.Exceptions;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ToolBlock;
+using HC.Identify.Application.Identify;
 using HC.Identify.Application.VisionPro;
+using HC.Identify.Dto.Identify;
 using HC.Identify.Dto.VisionPro;
 using System;
 using System.Collections;
@@ -15,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
 {
@@ -42,7 +45,7 @@ namespace HC.Identify.App
 
         //定义全局主窗口 刷新状态
         public Main MainForm;
-
+        private CameraSettingAppService cameraSettingAppService;
         public VisionProSetting()
         {
             InitializeComponent();
@@ -52,6 +55,8 @@ namespace HC.Identify.App
         {
             InitializeComponent();
             MainForm = mainForm;
+            cameraSettingAppService = new CameraSettingAppService();
+            GetCameraSetting();
         }
 
         private void VisionProSetting_Load(object sender, EventArgs e)
@@ -426,7 +431,7 @@ namespace HC.Identify.App
                 MessageBox.Show("请先输入型号再保存数据");
                 return;
             }
-          
+
             string strRowWrite = txtCurrentSpec.Text + ",";
             double[] newValues = new double[cogResultArray.Count];
             for (int i = 0; i < cogResultArray.Count; i++)
@@ -455,7 +460,7 @@ namespace HC.Identify.App
             {
                 if (chkBack.Checked)
                 {
-                    imgIndex --;
+                    imgIndex--;
                     if (imgIndex < 0)
                     {
                         imgIndex = 0;
@@ -463,7 +468,7 @@ namespace HC.Identify.App
                 }
                 else
                 {
-                    imgIndex ++;
+                    imgIndex++;
                 }
                 if (imgIndex >= totalImgCount)
                 {
@@ -506,7 +511,7 @@ namespace HC.Identify.App
             {
                 if (chkBack.Checked)
                 {
-                    imgIndex --;
+                    imgIndex--;
                     if (imgIndex < 0)
                     {
                         imgIndex = 0;
@@ -576,8 +581,95 @@ namespace HC.Identify.App
             }
         }
 
+
         #endregion
 
+        #region  恢复默认设置
+        /// <summary>
+        /// 恢复默认设置
+        /// </summary>
+        private void btn_Recover_Click(object sender, EventArgs e)
+        {
+            GetCameraSetting();
+        }
 
+        public void GetCameraSetting()
+        {
+            var list = cameraSettingAppService.GetCameraSetting();
+            var cameraSetting = new CameraSettingShowDto();
+            foreach (var item in list)
+            {
+                cameraSetting.PicPath = item.Code == CameraEnum.图片位置 ? item.Value : "";
+                cameraSetting.CameraMode = item.Code == CameraEnum.相机外部模式 ? bool.Parse(item.Value) : false;
+                cameraSetting.Simulation = item.Code == CameraEnum.仿真 ? bool.Parse(item.Value) : false;
+                cameraSetting.SaveData = item.Code == CameraEnum.保存数据 ? bool.Parse(item.Value) : false;
+                cameraSetting.ShowPic = item.Code == CameraEnum.显示图形 ? bool.Parse(item.Value) : false;
+                cameraSetting.AutoSave = item.Code == CameraEnum.自动存图 ? bool.Parse(item.Value) : false;
+            }
+            txtImgPath.Text = cameraSetting.PicPath;
+            chkCamTrigOn.Checked = cameraSetting.CameraMode;
+            chkSimulation.Checked = cameraSetting.Simulation;
+            chkAutoSaveData.Checked = cameraSetting.SaveData;
+            chkShowPic.Checked = cameraSetting.ShowPic;
+            chkAutoSaveImage.Checked = cameraSetting.AutoSave;
+        }
+        #endregion
+
+        #region 保存当前设置
+        /// <summary>
+        /// 保存当前设置
+        /// </summary>
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            var list = new List<CameraSettingCreateDto>();
+
+            var pathPic = new CameraSettingCreateDto();
+            pathPic.Code = CameraEnum.图片位置;
+            pathPic.Desc = CameraEnum.图片位置.ToString();
+            pathPic.Value = txtImgPath.Text;
+            list.Add(pathPic);
+
+            var cameraMode = new CameraSettingCreateDto();
+            cameraMode.Code = CameraEnum.相机外部模式;
+            cameraMode.Desc = CameraEnum.相机外部模式.ToString();
+            cameraMode.Value = chkCamTrigOn.Checked.ToString();
+            list.Add(cameraMode);
+
+            var simulation = new CameraSettingCreateDto();
+            simulation.Code = CameraEnum.仿真;
+            simulation.Desc = CameraEnum.仿真.ToString();
+            simulation.Value = chkSimulation.Checked.ToString();
+            list.Add(simulation);
+
+            var saveData = new CameraSettingCreateDto();
+            saveData.Code = CameraEnum.保存数据;
+            saveData.Desc = CameraEnum.保存数据.ToString();
+            saveData.Value = chkAutoSaveData.Checked.ToString();
+            list.Add(saveData);
+
+            var showPic = new CameraSettingCreateDto();
+            showPic.Code = CameraEnum.显示图形;
+            showPic.Desc = CameraEnum.显示图形.ToString();
+            showPic.Value = chkShowPic.Checked.ToString();
+            list.Add(showPic);
+
+            var autoSave = new CameraSettingCreateDto();
+            autoSave.Code = CameraEnum.自动存图;
+            autoSave.Desc = CameraEnum.自动存图.ToString();
+            autoSave.Value = chkAutoSaveImage.Checked.ToString();
+            list.Add(autoSave);
+           var result= cameraSettingAppService.SaveCameraSetting(list);
+            if (result)
+            {
+                MessageBox.Show("保存成功");
+            }
+            else
+            {
+                MessageBox.Show("保存失败");
+            }
+        }
+        #endregion
+
+        
     }
 }

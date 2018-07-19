@@ -44,7 +44,7 @@
             this.btnOpenImg = new System.Windows.Forms.Button();
             this.txtImgPath = new System.Windows.Forms.TextBox();
             this.groupSetBox = new System.Windows.Forms.GroupBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.chkShowPic = new System.Windows.Forms.CheckBox();
             this.chkSimulation = new System.Windows.Forms.CheckBox();
             this.chkAutoSaveImage = new System.Windows.Forms.CheckBox();
             this.chkAutoSaveData = new System.Windows.Forms.CheckBox();
@@ -65,6 +65,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnMatchRun = new System.Windows.Forms.Button();
             this.btnReMatchRun = new System.Windows.Forms.Button();
+            this.btn_Recover = new System.Windows.Forms.Button();
+            this.btn_Save = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
             this.groupImgSaveBox.SuspendLayout();
@@ -83,7 +85,7 @@
             this.cogToolBlockEditV2.MinimumSize = new System.Drawing.Size(367, 0);
             this.cogToolBlockEditV2.Name = "cogToolBlockEditV2";
             this.cogToolBlockEditV2.ShowNodeToolTips = true;
-            this.cogToolBlockEditV2.Size = new System.Drawing.Size(519, 512);
+            this.cogToolBlockEditV2.Size = new System.Drawing.Size(542, 560);
             this.cogToolBlockEditV2.SuspendElectricRuns = false;
             this.cogToolBlockEditV2.TabIndex = 7;
             this.cogToolBlockEditV2.Visible = false;
@@ -103,7 +105,7 @@
             this.cogRecordDisplay.MouseWheelSensitivity = 1D;
             this.cogRecordDisplay.Name = "cogRecordDisplay";
             this.cogRecordDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay.OcxState")));
-            this.cogRecordDisplay.Size = new System.Drawing.Size(707, 547);
+            this.cogRecordDisplay.Size = new System.Drawing.Size(715, 588);
             this.cogRecordDisplay.TabIndex = 6;
             // 
             // btnToolSetting
@@ -210,7 +212,7 @@
             // 
             // groupSetBox
             // 
-            this.groupSetBox.Controls.Add(this.checkBox5);
+            this.groupSetBox.Controls.Add(this.chkShowPic);
             this.groupSetBox.Controls.Add(this.chkSimulation);
             this.groupSetBox.Controls.Add(this.chkAutoSaveImage);
             this.groupSetBox.Controls.Add(this.chkAutoSaveData);
@@ -222,15 +224,15 @@
             this.groupSetBox.TabStop = false;
             this.groupSetBox.Text = "参数设置";
             // 
-            // checkBox5
+            // chkShowPic
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(131, 45);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(72, 16);
-            this.checkBox5.TabIndex = 4;
-            this.checkBox5.Text = "显示图形";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.chkShowPic.AutoSize = true;
+            this.chkShowPic.Location = new System.Drawing.Point(131, 45);
+            this.chkShowPic.Name = "chkShowPic";
+            this.chkShowPic.Size = new System.Drawing.Size(72, 16);
+            this.chkShowPic.TabIndex = 4;
+            this.chkShowPic.Text = "显示图形";
+            this.chkShowPic.UseVisualStyleBackColor = true;
             // 
             // chkSimulation
             // 
@@ -434,11 +436,33 @@
             this.btnReMatchRun.UseVisualStyleBackColor = true;
             this.btnReMatchRun.Click += new System.EventHandler(this.btnReMatchRun_Click);
             // 
+            // btn_Recover
+            // 
+            this.btn_Recover.Location = new System.Drawing.Point(740, 557);
+            this.btn_Recover.Name = "btn_Recover";
+            this.btn_Recover.Size = new System.Drawing.Size(99, 23);
+            this.btn_Recover.TabIndex = 16;
+            this.btn_Recover.Text = "恢复默认设置";
+            this.btn_Recover.UseVisualStyleBackColor = true;
+            this.btn_Recover.Click += new System.EventHandler(this.btn_Recover_Click);
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(857, 556);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(99, 23);
+            this.btn_Save.TabIndex = 17;
+            this.btn_Save.Text = "保存当前设置";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
             // VisionProSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.ClientSize = new System.Drawing.Size(984, 591);
+            this.Controls.Add(this.btn_Save);
+            this.Controls.Add(this.btn_Recover);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupSetBox);
@@ -484,7 +508,7 @@
         private System.Windows.Forms.Button btnOpenImg;
         private System.Windows.Forms.TextBox txtImgPath;
         private System.Windows.Forms.GroupBox groupSetBox;
-        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox chkShowPic;
         private System.Windows.Forms.CheckBox chkSimulation;
         private System.Windows.Forms.CheckBox chkAutoSaveImage;
         private System.Windows.Forms.CheckBox chkAutoSaveData;
@@ -506,5 +530,7 @@
         private System.Windows.Forms.TextBox txtUseTime;
         private System.Windows.Forms.TextBox txtMatchSpec;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btn_Recover;
+        private System.Windows.Forms.Button btn_Save;
     }
 }
