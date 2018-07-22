@@ -15,6 +15,8 @@ namespace HC.Identify.App
     {
         public MainChildrenCollection MainChildList = new MainChildrenCollection();
         UserAppService userAppServer;
+        public FrameStatusEnum FrameStatus { get; set; }
+        public RunStatusEnum RunStatus { get; set; }
         public Main()
         {
             InitializeComponent();
@@ -73,6 +75,7 @@ namespace HC.Identify.App
 
         public void SetFrameStatus(FrameStatusEnum frameStatus)
         {
+            this.FrameStatus = frameStatus;
             switch (frameStatus)
             {
                 case FrameStatusEnum.None:
@@ -91,12 +94,50 @@ namespace HC.Identify.App
                     break;
             }
         }
+
+        public void SetRunStatus(RunStatusEnum runStatusEnum)
+        {
+            this.RunStatus = runStatusEnum;
+            switch (runStatusEnum)
+            {
+                case RunStatusEnum.None:
+                    {
+                        this.toolRunStatusVal.Text = "未开始";
+                        this.toolRunStatusVal.ForeColor = Color.Gray;
+                        this.toolRunStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
+                    }
+                    break;
+                case RunStatusEnum.Running:
+                    {
+                        this.toolRunStatusVal.Text = "运行中";
+                        this.toolRunStatusVal.ForeColor = Color.Green;
+                        this.toolRunStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                case RunStatusEnum.Suspend:
+                    {
+                        this.toolRunStatusVal.Text = "停止";
+                        this.toolRunStatusVal.ForeColor = Color.Red;
+                        this.toolRunStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public enum FrameStatusEnum
     {
         None = 0, //未连接
         Connected = 1 //已连接
+    }
+
+    public enum RunStatusEnum
+    {
+        None = 0, //未开始
+        Running = 1, //运行中
+        Suspend = 2, //暂停
     }
 
     public class FormMainChildren : Form

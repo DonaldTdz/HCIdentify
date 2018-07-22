@@ -51,6 +51,12 @@ namespace HC.Identify.Dto.Identify
         /// <summary>
         /// 未匹配数量
         /// </summary>
-        public int? Unmatched { get; set; }
+        public int? Unmatched
+        {
+            get
+            {
+                return Num - Matched;
+            }
+        }
     }
 }

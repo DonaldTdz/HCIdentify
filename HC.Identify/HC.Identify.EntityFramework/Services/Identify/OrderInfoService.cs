@@ -27,8 +27,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                         Brand = o.Brand,
                         Specification = o.Specification,
                         Num = o.Num,
-                        Matched=0,
-                        Unmatched=o.Num
+                        Matched=0
                     });
                 var result = query.ToList();
                 return result;

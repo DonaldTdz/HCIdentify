@@ -2,6 +2,7 @@
 using Cognex.VisionPro.Exceptions;
 using Cognex.VisionPro.ToolBlock;
 using HC.Identify.Application.Identify;
+using HC.Identify.Application.VisionPro;
 using HC.Identify.Dto.Identify;
 using HC.Identify.Dto.VisionPro;
 using System;
@@ -27,6 +28,7 @@ namespace HC.Identify.App
         private IList<OrderSumDto> orderSums;//当前选项的所有打包订单信息
         private OrderSumAppService orderSumAppService;
         private OrderInfoAppService orderInfoAppService;
+        private VisionProAppService visionProAppService;
         private IList<OrderInfoTableDto> orderInfos;//当前选项的详细订单信息
         private bool IsStart = false; //是否开始
         public Workbench()
@@ -80,6 +82,11 @@ namespace HC.Identify.App
         ICogImage icogColorImage; //图像控件
         CogToolBlock cogToolBlock = new CogToolBlock();       //图像连接工具
 
+        int identifyTotal = 0;//识别总数
+        int identifiedNum = 0;//已识别数
+        int orderCheckNum = 0;//已检订单数
+        int orderNum = 0; //订单数
+
         /// <summary>
         /// 相机初始化
         /// </summary>
@@ -106,6 +113,7 @@ namespace HC.Identify.App
                 cogRecordDisplay.Image = icogColorImage;
                 cogRecordDisplay.Fit(false);
                 this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
+                visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
             }
         }
 
@@ -134,106 +142,56 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("The following error has occured\n" + ce.Message);
             }
-            //自动存图
-            //if (chkAutoSaveImage.Checked)
-            //{
-            //    AutoSaveImage();
-            //}
 
             //匹配计算
-            RunCalculation();
-        }
-
-        private void RunCalculation()
-        {
-
-            //运行
-            var cogResultArray = ToolBlockRun();
-            //计算
-            var spec = Calculation(cogResultArray);
-
-            //自动保存计算结果
-            //if (chkAutoSaveData.Checked)
-            //{
-            //    SaveData(spec);
-            //}
-        }
-
-        FileSystemInfo[] fileInfos;
-        int imgIndex;
-        ArrayList cogResultArray = new ArrayList();
-
-        private ArrayList ToolBlockRun()
-        {
-            cogToolBlock.Inputs["InputImage"].Value = icogColorImage;
-            cogToolBlock.Inputs["iRow"].Value = 4;
-            cogToolBlock.Inputs["iCol"].Value = 12;
-            cogToolBlock.Inputs["bForceLeft"].Value = false;    //左边线错误
-            cogToolBlock.Inputs["bForceRight"].Value = false;   //右边线错误
-            cogToolBlock.Inputs["bShowGraphic"].Value = false;  //显示图形
-            cogToolBlock.Run();
-
-            ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
-            cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
-            cogRecordDisplay.Fit(true);
-            cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
-            if (cogResultArray.Count == 0)
+            var sepec = visionProAppService.GetMatchSpecification();//获取匹配结果
+            if (sepec == null)//不匹配结果保存异常图片
             {
-                MessageBox.Show("ToolBlock结果为空！");
-                return null;
-            }
-            return cogResultArray;
-        }
+                visionProAppService.SaveImage();
+                this.lblSpecText.Text = string.Empty;
+                this.lblSpecName.Text = string.Empty;
+                this.lblSpecResult.Text = "未匹配模板";
+                this.lblSpecResult.ForeColor = Color.Red;
+                //发送暂停指令
+                // .....
 
-
-        List<CsvSpecification> csvSpecList = new List<CsvSpecification>();      //已注册产品数据
-        private string Calculation(ArrayList cogResultArray)
-        {
-            int totalType = csvSpecList.Count();
-            //相关矩阵计算
-            double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
-                                                            //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
-            double dMaxScore = -9999;
-            string maxSpec = string.Empty;
-            int i = 0;
-            foreach (var item in csvSpecList)
-            {
-                double dSumXY = 0;
-                double dSumX = 0;
-                double dSumY = 0;
-                double dSumXBy2 = 0;
-                double dSumYBy2 = 0;
-                int iPointsNum = item.Values.Length;
-                int k = 0;
-                foreach (var readVal in item.Values)
-                {
-                    dSumXY += (double)cogResultArray[k] * readVal;
-                    dSumX += (double)cogResultArray[k];
-                    dSumY += readVal;
-                    dSumXBy2 += (double)cogResultArray[k] * (double)cogResultArray[k];
-                    dSumYBy2 += readVal * readVal;
-                    k++;
-                }
-                dMatchScore[i] = (iPointsNum * dSumXY - dSumX * dSumY) / (Math.Sqrt(iPointsNum * dSumXBy2 - dSumX * dSumX) * Math.Sqrt(iPointsNum * dSumYBy2 - dSumY * dSumY));
-                // MessageBox.Show(dMatchScore[l].ToString()+"   "+ReadType[l]);
-                if (dMatchScore[i] > dMaxScore)
-                {
-                    dMaxScore = dMatchScore[i];
-                    maxSpec = item.Specification;
-                }
-                i++;
-            }
-            //配置结果值
-            if (dMaxScore > 0.81)
-            {
-                //"OK"
+                StopRun();
             }
             else
             {
-                //"NG"; 
+                this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}\r\n", DateTime.Now.ToString("HH:mm ss"), sepec.Specification));
+                this.lblSpecText.Text = sepec.Specification;
+                //如识别到 判断当前订单是否存在该商品
+                var goods = orderInfos.Where(o => o.Brand == sepec.Specification).FirstOrDefault();
+                if (goods != null)//匹配正常
+                {
+                    this.lblSpecName.Text = goods.Specification;
+                    this.lblSpecResult.Text = "匹配成功";
+                    this.lblSpecResult.ForeColor = Color.Green;
+                    goods.Matched++;
+                    //发送中软匹配成功
+                    // ......
+                }
+                else //当前订单不存在
+                {
+                    this.lblSpecName.Text = string.Empty;
+                    this.lblSpecResult.Text = "订单不存在";
+                    this.lblSpecResult.ForeColor = Color.Red;
+                    //发送暂停指令
+                    // ......
+                    StopRun();
+                }
             }
-            return maxSpec;
         }
+
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        private void RefreshData()
+        {
+            this.
+        }
+
         #endregion
 
         #region 用户订单
@@ -275,10 +233,12 @@ namespace HC.Identify.App
             lab_nextnHose.Text = orderSum.NextNHouse.Length > 5 ? orderSum.NextNHouse.Substring(0, 5) + "..." : orderSum.NextNHouse; ;//下下户
                                                                                                                                       //lab_areacode_hide.Text = orderSum.Sequence.ToString();
                                                                                                                                       //lab_areacode_hide.Hide();
-
             //获取订单信息
             orderInfos = orderInfoAppService.GetOrderInfoByUUID(orderSum.UUID);
             GV_orderInfo.DataSource = orderInfos;
+
+            orderNum = orderSum.Num.Value;//订单总数
+            orderCheckNum = orderInfos.Sum(o => o.Matched).Value;//已检订单数
         }
         /// <summary>
         /// 获取当前用户订单信息
@@ -410,7 +370,42 @@ namespace HC.Identify.App
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if (this.MainForm.FrameStatus == FrameStatusEnum.None)
+            {
+                MessageBox.Show("请先连接相机后再试");
+                return;
+            }
+            if (cogRecordDisplay.LiveDisplayRunning)
+            {
+                StartRun();
+            }
+            else
+            {
+                StopRun();
+            }
+        }
 
+        private void StartRun()
+        {
+            icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+            cogRecordDisplay.StopLiveDisplay();
+            btnStart.Text = "开始";
+            this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+        }
+
+        private void StopRun()
+        {
+            icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+            cogRecordDisplay.StaticGraphics.Clear();
+            cogRecordDisplay.Record = null;
+            cogRecordDisplay.Image = icogColorImage;
+            cogRecordDisplay.Fit(false);
+
+            icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+            icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+            cogRecordDisplay.StartLiveDisplay(icogAcqFifo);
+            btnStart.Text = "停止";
+            this.MainForm.SetRunStatus(RunStatusEnum.Running);
         }
 
         #endregion
@@ -433,7 +428,6 @@ namespace HC.Identify.App
             foreach (var item in orderInfos)
             {
                 item.Matched = 0;
-                item.Unmatched = item.Num;
             }
             GV_orderInfo.DataSource = orderInfos;
         }
