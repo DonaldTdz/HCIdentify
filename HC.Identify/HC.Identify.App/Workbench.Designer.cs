@@ -52,7 +52,6 @@ namespace HC.Identify.App
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_init = new System.Windows.Forms.Button();
             this.GV_orderInfo = new System.Windows.Forms.DataGridView();
-            //this.textBox1 = new System.Windows.Forms.TextBox();
             this.txtSpecHistry = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_dowload = new System.Windows.Forms.Button();
@@ -317,51 +316,9 @@ namespace HC.Identify.App
             this.GV_orderInfo.Name = "GV_orderInfo";
             this.GV_orderInfo.RowTemplate.Height = 23;
             this.GV_orderInfo.Size = new System.Drawing.Size(645, 482);
+            this.GV_orderInfo.StandardTab = true;
             this.GV_orderInfo.TabIndex = 0;
-            // 
-            // txt_Id
-            // 
-            this.txt_Id.DataPropertyName = "Id";
-            this.txt_Id.HeaderText = "Id";
-            this.txt_Id.Name = "txt_Id";
-            this.txt_Id.Visible = false;
-            // 
-            // txt_Specification
-            // 
-            this.txt_Specification.DataPropertyName = "Specification";
-            this.txt_Specification.HeaderText = "规格";
-            this.txt_Specification.Name = "txt_Specification";
-            // 
-            // Brand
-            // 
-            this.Brand.DataPropertyName = "Brand";
-            this.Brand.HeaderText = "条码";
-            this.Brand.Name = "Brand";
-            // 
-            // Num
-            // 
-            this.Num.DataPropertyName = "Num";
-            this.Num.HeaderText = "数量";
-            this.Num.Name = "Num";
-            // 
-            // txt_UUID
-            // 
-            this.txt_UUID.DataPropertyName = "UUID";
-            this.txt_UUID.HeaderText = "UUID";
-            this.txt_UUID.Name = "txt_UUID";
-            this.txt_UUID.Visible = false;
-            // 
-            // txt_Matched
-            // 
-            this.txt_Matched.DataPropertyName = "Matched";
-            this.txt_Matched.HeaderText = "已匹配";
-            this.txt_Matched.Name = "txt_Matched";
-            // 
-            // txt_Unmatched
-            // 
-            this.txt_Unmatched.DataPropertyName = "Unmatched";
-            this.txt_Unmatched.HeaderText = "未匹配";
-            this.txt_Unmatched.Name = "txt_Unmatched";
+            this.GV_orderInfo.AutoGenerateColumns = false;
             // 
             // txtSpecHistry
             // 
@@ -643,6 +600,7 @@ namespace HC.Identify.App
             this.txt_Id.DataPropertyName = "Id";
             this.txt_Id.HeaderText = "Id";
             this.txt_Id.Name = "txt_Id";
+            this.txt_Id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.txt_Id.Visible = false;
             // 
             // txt_Specification
@@ -650,24 +608,28 @@ namespace HC.Identify.App
             this.txt_Specification.DataPropertyName = "Specification";
             this.txt_Specification.HeaderText = "规格";
             this.txt_Specification.Name = "txt_Specification";
+            this.txt_Specification.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Brand
             // 
             this.Brand.DataPropertyName = "Brand";
             this.Brand.HeaderText = "条码";
             this.Brand.Name = "Brand";
+            this.Brand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Num
             // 
             this.Num.DataPropertyName = "Num";
             this.Num.HeaderText = "数量";
             this.Num.Name = "Num";
+            this.Num.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // txt_UUID
             // 
             this.txt_UUID.DataPropertyName = "UUID";
             this.txt_UUID.HeaderText = "UUID";
             this.txt_UUID.Name = "txt_UUID";
+            this.txt_UUID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.txt_UUID.Visible = false;
             // 
             // txt_Matched
@@ -675,12 +637,14 @@ namespace HC.Identify.App
             this.txt_Matched.DataPropertyName = "Matched";
             this.txt_Matched.HeaderText = "已匹配";
             this.txt_Matched.Name = "txt_Matched";
+            this.txt_Matched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // txt_Unmatched
             // 
             this.txt_Unmatched.DataPropertyName = "Unmatched";
             this.txt_Unmatched.HeaderText = "未匹配";
             this.txt_Unmatched.Name = "txt_Unmatched";
+            this.txt_Unmatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Workbench
             // 

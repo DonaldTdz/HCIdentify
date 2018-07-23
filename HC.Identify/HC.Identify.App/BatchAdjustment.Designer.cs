@@ -160,6 +160,7 @@ namespace HC.Identify.App
             this.RIndex.DataPropertyName = "RIndex";
             this.RIndex.HeaderText = "序号";
             this.RIndex.Name = "RIndex";
+            this.RIndex.Visible = false;
             // 
             // BatchAdjustment
             // 
