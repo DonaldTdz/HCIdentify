@@ -142,7 +142,7 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("The following error has occured\n" + ce.Message);
             }
-
+            identifyTotal++;//识别总数+1
             //匹配计算
             var sepec = visionProAppService.GetMatchSpecification();//获取匹配结果
             if (sepec == null)//不匹配结果保存异常图片
@@ -159,6 +159,7 @@ namespace HC.Identify.App
             }
             else
             {
+                identifiedNum++; //已识别 + 1
                 this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}\r\n", DateTime.Now.ToString("HH:mm ss"), sepec.Specification));
                 this.lblSpecText.Text = sepec.Specification;
                 //如识别到 判断当前订单是否存在该商品
@@ -169,6 +170,7 @@ namespace HC.Identify.App
                     this.lblSpecResult.Text = "匹配成功";
                     this.lblSpecResult.ForeColor = Color.Green;
                     goods.Matched++;
+                    orderCheckNum++;//订单匹配总数+1
                     //发送中软匹配成功
                     // ......
                 }
@@ -182,14 +184,24 @@ namespace HC.Identify.App
                     StopRun();
                 }
             }
+
+            RefreshRunData();
         }
 
         /// <summary>
         /// 刷新数据
         /// </summary>
-        private void RefreshData()
+        private void RefreshRunData()
         {
-            this.
+            //识别数据
+            this.lblIdentifyTotal.Text = identifyTotal.ToString();
+            this.lblIdentifiedNum.Text = identifiedNum.ToString();
+            this.lblNoIdentifiedNum.Text = (identifyTotal - identifiedNum).ToString();
+            this.lblIdentifiedRate.Text = (identifyTotal == 0 ? string.Empty : (Math.Round((double)identifiedNum/identifyTotal, 2)*100).ToString() + "%");
+
+            //订单数据
+            this.labOrderCheck.Text = orderCheckNum.ToString();
+            this.labOrderNotCheck.Text = (orderNum - orderCheckNum).ToString();
         }
 
         #endregion
