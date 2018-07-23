@@ -38,21 +38,22 @@ namespace HC.Identify.App
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.lab_readRate = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.lblIdentifiedRate = new System.Windows.Forms.Label();
+            this.lblSpecText = new System.Windows.Forms.Label();
             this.lab_readRate_title = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.lab_unRead = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.lblSpecResult = new System.Windows.Forms.Label();
+            this.lblNoIdentifiedNum = new System.Windows.Forms.Label();
+            this.lblSpecName = new System.Windows.Forms.Label();
             this.lab_unRead_title = new System.Windows.Forms.Label();
             this.lab_checkAmount_title = new System.Windows.Forms.Label();
-            this.lab_alreadyRead = new System.Windows.Forms.Label();
-            this.ab_checkAmount = new System.Windows.Forms.Label();
+            this.lblIdentifiedNum = new System.Windows.Forms.Label();
+            this.lblIdentifyTotal = new System.Windows.Forms.Label();
             this.lab_alreadyRead_title = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_init = new System.Windows.Forms.Button();
             this.GV_orderInfo = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            //this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSpecHistry = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_dowload = new System.Windows.Forms.Button();
             this.combo_area = new System.Windows.Forms.ComboBox();
@@ -60,8 +61,8 @@ namespace HC.Identify.App
             this.btn_lasthouse = new System.Windows.Forms.Button();
             this.btn_nexthouse = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lab_notcheck = new System.Windows.Forms.Label();
-            this.lab_check = new System.Windows.Forms.Label();
+            this.labOrderNotCheck = new System.Windows.Forms.Label();
+            this.labOrderCheck = new System.Windows.Forms.Label();
             this.lab_notcheck_title = new System.Windows.Forms.Label();
             this.lab_cheked_title = new System.Windows.Forms.Label();
             this.lab_num = new System.Windows.Forms.Label();
@@ -143,16 +144,16 @@ namespace HC.Identify.App
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.lab_readRate);
-            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.lblIdentifiedRate);
+            this.groupBox4.Controls.Add(this.lblSpecText);
             this.groupBox4.Controls.Add(this.lab_readRate_title);
-            this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.lab_unRead);
-            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.lblSpecResult);
+            this.groupBox4.Controls.Add(this.lblNoIdentifiedNum);
+            this.groupBox4.Controls.Add(this.lblSpecName);
             this.groupBox4.Controls.Add(this.lab_unRead_title);
             this.groupBox4.Controls.Add(this.lab_checkAmount_title);
-            this.groupBox4.Controls.Add(this.lab_alreadyRead);
-            this.groupBox4.Controls.Add(this.ab_checkAmount);
+            this.groupBox4.Controls.Add(this.lblIdentifiedNum);
+            this.groupBox4.Controls.Add(this.lblIdentifyTotal);
             this.groupBox4.Controls.Add(this.lab_alreadyRead_title);
             this.groupBox4.Location = new System.Drawing.Point(8, 433);
             this.groupBox4.Name = "groupBox4";
@@ -161,25 +162,24 @@ namespace HC.Identify.App
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "匹配结果";
             // 
-            // lab_readRate
+            // lblIdentifiedRate
             // 
-            this.lab_readRate.AutoSize = true;
-            this.lab_readRate.Location = new System.Drawing.Point(573, 65);
-            this.lab_readRate.Name = "lab_readRate";
-            this.lab_readRate.Size = new System.Drawing.Size(23, 12);
-            this.lab_readRate.TabIndex = 7;
-            this.lab_readRate.Text = "80%";
+            this.lblIdentifiedRate.AutoSize = true;
+            this.lblIdentifiedRate.Location = new System.Drawing.Point(573, 65);
+            this.lblIdentifiedRate.Name = "lblIdentifiedRate";
+            this.lblIdentifiedRate.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifiedRate.TabIndex = 7;
             // 
-            // label13
+            // lblSpecText
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(7, 25);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(205, 24);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "6901028227704  ";
+            this.lblSpecText.AutoSize = true;
+            this.lblSpecText.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblSpecText.ForeColor = System.Drawing.Color.Black;
+            this.lblSpecText.Location = new System.Drawing.Point(7, 25);
+            this.lblSpecText.Name = "lblSpecText";
+            this.lblSpecText.Size = new System.Drawing.Size(205, 24);
+            this.lblSpecText.TabIndex = 2;
+            this.lblSpecText.Text = "6901028227704  ";
             // 
             // lab_readRate_title
             // 
@@ -190,35 +190,34 @@ namespace HC.Identify.App
             this.lab_readRate_title.TabIndex = 6;
             this.lab_readRate_title.Text = "识别成功率：";
             // 
-            // label15
+            // lblSpecResult
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.ForeColor = System.Drawing.Color.Green;
-            this.label15.Location = new System.Drawing.Point(505, 22);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(110, 24);
-            this.label15.TabIndex = 4;
-            this.label15.Text = "匹配正常";
+            this.lblSpecResult.AutoSize = true;
+            this.lblSpecResult.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblSpecResult.ForeColor = System.Drawing.Color.Green;
+            this.lblSpecResult.Location = new System.Drawing.Point(481, 22);
+            this.lblSpecResult.Name = "lblSpecResult";
+            this.lblSpecResult.Size = new System.Drawing.Size(110, 24);
+            this.lblSpecResult.TabIndex = 4;
+            this.lblSpecResult.Text = "匹配正常";
             // 
-            // lab_unRead
+            // lblNoIdentifiedNum
             // 
-            this.lab_unRead.AutoSize = true;
-            this.lab_unRead.Location = new System.Drawing.Point(407, 66);
-            this.lab_unRead.Name = "lab_unRead";
-            this.lab_unRead.Size = new System.Drawing.Size(17, 12);
-            this.lab_unRead.TabIndex = 5;
-            this.lab_unRead.Text = "20";
+            this.lblNoIdentifiedNum.AutoSize = true;
+            this.lblNoIdentifiedNum.Location = new System.Drawing.Point(407, 66);
+            this.lblNoIdentifiedNum.Name = "lblNoIdentifiedNum";
+            this.lblNoIdentifiedNum.Size = new System.Drawing.Size(0, 12);
+            this.lblNoIdentifiedNum.TabIndex = 5;
             // 
-            // label14
+            // lblSpecName
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(225, 23);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(186, 24);
-            this.label14.TabIndex = 3;
-            this.label14.Text = "天子(千里江山)";
+            this.lblSpecName.AutoSize = true;
+            this.lblSpecName.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblSpecName.Location = new System.Drawing.Point(207, 26);
+            this.lblSpecName.Name = "lblSpecName";
+            this.lblSpecName.Size = new System.Drawing.Size(186, 24);
+            this.lblSpecName.TabIndex = 3;
+            this.lblSpecName.Text = "天子(千里江山)";
             // 
             // lab_unRead_title
             // 
@@ -238,23 +237,21 @@ namespace HC.Identify.App
             this.lab_checkAmount_title.TabIndex = 0;
             this.lab_checkAmount_title.Text = "识别总数：";
             // 
-            // lab_alreadyRead
+            // lblIdentifiedNum
             // 
-            this.lab_alreadyRead.AutoSize = true;
-            this.lab_alreadyRead.Location = new System.Drawing.Point(233, 67);
-            this.lab_alreadyRead.Name = "lab_alreadyRead";
-            this.lab_alreadyRead.Size = new System.Drawing.Size(17, 12);
-            this.lab_alreadyRead.TabIndex = 3;
-            this.lab_alreadyRead.Text = "80";
+            this.lblIdentifiedNum.AutoSize = true;
+            this.lblIdentifiedNum.Location = new System.Drawing.Point(233, 67);
+            this.lblIdentifiedNum.Name = "lblIdentifiedNum";
+            this.lblIdentifiedNum.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifiedNum.TabIndex = 3;
             // 
-            // ab_checkAmount
+            // lblIdentifyTotal
             // 
-            this.ab_checkAmount.AutoSize = true;
-            this.ab_checkAmount.Location = new System.Drawing.Point(77, 67);
-            this.ab_checkAmount.Name = "ab_checkAmount";
-            this.ab_checkAmount.Size = new System.Drawing.Size(23, 12);
-            this.ab_checkAmount.TabIndex = 1;
-            this.ab_checkAmount.Text = "100";
+            this.lblIdentifyTotal.AutoSize = true;
+            this.lblIdentifyTotal.Location = new System.Drawing.Point(77, 67);
+            this.lblIdentifyTotal.Name = "lblIdentifyTotal";
+            this.lblIdentifyTotal.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifyTotal.TabIndex = 1;
             // 
             // lab_alreadyRead_title
             // 
@@ -322,14 +319,57 @@ namespace HC.Identify.App
             this.GV_orderInfo.Size = new System.Drawing.Size(645, 482);
             this.GV_orderInfo.TabIndex = 0;
             // 
-            // textBox1
+            // txt_Id
             // 
-            this.textBox1.Location = new System.Drawing.Point(672, 367);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(300, 182);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "[14:41:25]：6901028227704 ";
+            this.txt_Id.DataPropertyName = "Id";
+            this.txt_Id.HeaderText = "Id";
+            this.txt_Id.Name = "txt_Id";
+            this.txt_Id.Visible = false;
+            // 
+            // txt_Specification
+            // 
+            this.txt_Specification.DataPropertyName = "Specification";
+            this.txt_Specification.HeaderText = "规格";
+            this.txt_Specification.Name = "txt_Specification";
+            // 
+            // Brand
+            // 
+            this.Brand.DataPropertyName = "Brand";
+            this.Brand.HeaderText = "条码";
+            this.Brand.Name = "Brand";
+            // 
+            // Num
+            // 
+            this.Num.DataPropertyName = "Num";
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            // 
+            // txt_UUID
+            // 
+            this.txt_UUID.DataPropertyName = "UUID";
+            this.txt_UUID.HeaderText = "UUID";
+            this.txt_UUID.Name = "txt_UUID";
+            this.txt_UUID.Visible = false;
+            // 
+            // txt_Matched
+            // 
+            this.txt_Matched.DataPropertyName = "Matched";
+            this.txt_Matched.HeaderText = "已匹配";
+            this.txt_Matched.Name = "txt_Matched";
+            // 
+            // txt_Unmatched
+            // 
+            this.txt_Unmatched.DataPropertyName = "Unmatched";
+            this.txt_Unmatched.HeaderText = "未匹配";
+            this.txt_Unmatched.Name = "txt_Unmatched";
+            // 
+            // txtSpecHistry
+            // 
+            this.txtSpecHistry.Location = new System.Drawing.Point(672, 367);
+            this.txtSpecHistry.Multiline = true;
+            this.txtSpecHistry.Name = "txtSpecHistry";
+            this.txtSpecHistry.Size = new System.Drawing.Size(300, 182);
+            this.txtSpecHistry.TabIndex = 1;
             // 
             // groupBox1
             // 
@@ -393,8 +433,8 @@ namespace HC.Identify.App
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.lab_notcheck);
-            this.groupBox2.Controls.Add(this.lab_check);
+            this.groupBox2.Controls.Add(this.labOrderNotCheck);
+            this.groupBox2.Controls.Add(this.labOrderCheck);
             this.groupBox2.Controls.Add(this.lab_notcheck_title);
             this.groupBox2.Controls.Add(this.lab_cheked_title);
             this.groupBox2.Controls.Add(this.lab_num);
@@ -412,23 +452,21 @@ namespace HC.Identify.App
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "批次订单信息";
             // 
-            // lab_notcheck
+            // labOrderNotCheck
             // 
-            this.lab_notcheck.AutoSize = true;
-            this.lab_notcheck.Location = new System.Drawing.Point(253, 112);
-            this.lab_notcheck.Name = "lab_notcheck";
-            this.lab_notcheck.Size = new System.Drawing.Size(11, 12);
-            this.lab_notcheck.TabIndex = 7;
-            this.lab_notcheck.Text = "8";
+            this.labOrderNotCheck.AutoSize = true;
+            this.labOrderNotCheck.Location = new System.Drawing.Point(253, 112);
+            this.labOrderNotCheck.Name = "labOrderNotCheck";
+            this.labOrderNotCheck.Size = new System.Drawing.Size(0, 12);
+            this.labOrderNotCheck.TabIndex = 7;
             // 
-            // lab_check
+            // labOrderCheck
             // 
-            this.lab_check.AutoSize = true;
-            this.lab_check.Location = new System.Drawing.Point(61, 113);
-            this.lab_check.Name = "lab_check";
-            this.lab_check.Size = new System.Drawing.Size(11, 12);
-            this.lab_check.TabIndex = 7;
-            this.lab_check.Text = "2";
+            this.labOrderCheck.AutoSize = true;
+            this.labOrderCheck.Location = new System.Drawing.Point(61, 113);
+            this.labOrderCheck.Name = "labOrderCheck";
+            this.labOrderCheck.Size = new System.Drawing.Size(0, 12);
+            this.labOrderCheck.TabIndex = 7;
             // 
             // lab_notcheck_title
             // 
@@ -651,7 +689,7 @@ namespace HC.Identify.App
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSpecHistry);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_nexthouse);
             this.Controls.Add(this.btn_lasthouse);
@@ -698,24 +736,24 @@ namespace HC.Identify.App
         private System.Windows.Forms.Label lab_areaName_title;
         private System.Windows.Forms.Label lab_num;
         private System.Windows.Forms.Label lab_num_title;
-        private System.Windows.Forms.Label lab_notcheck;
+        private System.Windows.Forms.Label labOrderNotCheck;
         private System.Windows.Forms.Label lab_notcheck_title;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtSpecHistry;
+        private System.Windows.Forms.Label lblSpecResult;
+        private System.Windows.Forms.Label lblSpecName;
+        private System.Windows.Forms.Label lblSpecText;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label lab_check;
+        private System.Windows.Forms.Label labOrderCheck;
         private System.Windows.Forms.Label lab_cheked_title;
         private System.Windows.Forms.Label lab_houseNum;
         private System.Windows.Forms.Label lab_houseNum_title;
-        private System.Windows.Forms.Label lab_readRate;
+        private System.Windows.Forms.Label lblIdentifiedRate;
         private System.Windows.Forms.Label lab_readRate_title;
-        private System.Windows.Forms.Label lab_unRead;
+        private System.Windows.Forms.Label lblNoIdentifiedNum;
         private System.Windows.Forms.Label lab_unRead_title;
-        private System.Windows.Forms.Label lab_alreadyRead;
+        private System.Windows.Forms.Label lblIdentifiedNum;
         private System.Windows.Forms.Label lab_alreadyRead_title;
-        private System.Windows.Forms.Label ab_checkAmount;
+        private System.Windows.Forms.Label lblIdentifyTotal;
         private System.Windows.Forms.Label lab_checkAmount_title;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lab_nextnHose_title;

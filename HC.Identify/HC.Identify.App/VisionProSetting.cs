@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HC.Identify.App.Main;
 using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App

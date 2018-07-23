@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HC.Identify.App.Main;
 
 namespace HC.Identify.App
 {

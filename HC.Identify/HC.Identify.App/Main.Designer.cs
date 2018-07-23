@@ -37,6 +37,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolFrameStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolFrameStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolRunStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolRunStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,7 +116,10 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolFrameStatus,
-            this.toolFrameStatusVal});
+            this.toolFrameStatusVal,
+            this.toolStripStatusLabel1,
+            this.toolRunStatus,
+            this.toolRunStatusVal});
             this.statusStrip1.Location = new System.Drawing.Point(0, 659);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
@@ -133,6 +139,26 @@
             this.toolFrameStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolFrameStatusVal.Image")));
             this.toolFrameStatusVal.Name = "toolFrameStatusVal";
             this.toolFrameStatusVal.Size = new System.Drawing.Size(16, 17);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(144, 17);
+            this.toolStripStatusLabel1.Text = "                                  ";
+            // 
+            // toolRunStatus
+            // 
+            this.toolRunStatus.Name = "toolRunStatus";
+            this.toolRunStatus.Size = new System.Drawing.Size(68, 17);
+            this.toolRunStatus.Text = "运行状态：";
+            // 
+            // toolRunStatusVal
+            // 
+            this.toolRunStatusVal.ForeColor = System.Drawing.Color.Gray;
+            this.toolRunStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolRunStatusVal.Image")));
+            this.toolRunStatusVal.Name = "toolRunStatusVal";
+            this.toolRunStatusVal.Size = new System.Drawing.Size(60, 17);
+            this.toolRunStatusVal.Text = "未开始";
             // 
             // 系统管理ToolStripMenuItem
             // 
@@ -265,6 +291,9 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolFrameStatus;
         private System.Windows.Forms.ToolStripStatusLabel toolFrameStatusVal;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolRunStatus;
+        private System.Windows.Forms.ToolStripStatusLabel toolRunStatusVal;
     }
 }
 

@@ -15,6 +15,8 @@ namespace HC.Identify.App
     {
         public MainChildrenCollection MainChildList = new MainChildrenCollection();
         UserAppService userAppServer;
+        public FrameStatusEnum FrameStatus { get; set; }
+        public RunStatusEnum RunStatus { get; set; }
         public Main()
         {
             InitializeComponent();
@@ -35,7 +37,7 @@ namespace HC.Identify.App
 
         public void InitData()
         {
-           
+
         }
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,6 +75,7 @@ namespace HC.Identify.App
 
         public void SetFrameStatus(FrameStatusEnum frameStatus)
         {
+            this.FrameStatus = frameStatus;
             switch (frameStatus)
             {
                 case FrameStatusEnum.None:
@@ -99,53 +102,91 @@ namespace HC.Identify.App
         {
             this.ShowForm("BatchAdjustment", new BatchAdjustment(this));
         }
-    }
-
-    public enum FrameStatusEnum
-    {
-        None = 0, //未连接
-        Connected = 1 //已连接
-    }
-
-    public class FormMainChildren : Form
-    {
-        public string FormName { get; set; }
-        public Main ParentMainForm { get; set; }
-        public virtual void RefreshData() { }
-    }
-
-    public class MainChildrenCollection : List<FormMainChildren>
-    {
-        public FormMainChildren this[string formName]
+        public void SetRunStatus(RunStatusEnum runStatusEnum)
         {
-            get
+            this.RunStatus = runStatusEnum;
+            switch (runStatusEnum)
             {
-                return this.Where(t => t.FormName == formName).FirstOrDefault();
+                case RunStatusEnum.None:
+                    {
+                        this.toolRunStatusVal.Text = "未开始";
+                        this.toolRunStatusVal.ForeColor = Color.Gray;
+                        this.toolRunStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
+                    }
+                    break;
+                case RunStatusEnum.Running:
+                    {
+                        this.toolRunStatusVal.Text = "运行中";
+                        this.toolRunStatusVal.ForeColor = Color.Green;
+                        this.toolRunStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                case RunStatusEnum.Suspend:
+                    {
+                        this.toolRunStatusVal.Text = "停止";
+                        this.toolRunStatusVal.ForeColor = Color.Red;
+                        this.toolRunStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
+                    }
+                    break;
+                default:
+                    break;
             }
-            set
+
+        }
+
+        public enum FrameStatusEnum
+        {
+            None = 0, //未连接
+            Connected = 1 //已连接
+        }
+
+        public enum RunStatusEnum
+        {
+            None = 0, //未开始
+            Running = 1, //运行中
+            Suspend = 2, //暂停
+        }
+
+        public class FormMainChildren : Form
+        {
+            public string FormName { get; set; }
+            public Main ParentMainForm { get; set; }
+            public virtual void RefreshData() { }
+        }
+
+        public class MainChildrenCollection : List<FormMainChildren>
+        {
+            public FormMainChildren this[string formName]
             {
-                if (!ExistsForm(formName))
+                get
                 {
-                    value.FormName = formName;
-                    this.Add(value);
+                    return this.Where(t => t.FormName == formName).FirstOrDefault();
+                }
+                set
+                {
+                    if (!ExistsForm(formName))
+                    {
+                        value.FormName = formName;
+                        this.Add(value);
+                    }
                 }
             }
-        }
 
-        public bool ExistsForm(string formName)
-        {
-            if (this[formName] == null)
+            public bool ExistsForm(string formName)
             {
-                return false;
+                if (this[formName] == null)
+                {
+                    return false;
+                }
+
+                if (this[formName].IsDisposed)
+                {
+                    this.Remove(this[formName]);
+                    return false;
+                }
+                return true;
             }
 
-            if (this[formName].IsDisposed)
-            {
-                this.Remove(this[formName]);
-                return false;
-            }
-            return true;
         }
-
     }
 }
