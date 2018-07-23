@@ -91,6 +91,14 @@ namespace HC.Identify.App
                     break;
             }
         }
+
+        /// <summary>
+        /// 批次调整
+        /// </summary>
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            this.ShowForm("BatchAdjustment", new BatchAdjustment(this));
+        }
     }
 
     public enum FrameStatusEnum

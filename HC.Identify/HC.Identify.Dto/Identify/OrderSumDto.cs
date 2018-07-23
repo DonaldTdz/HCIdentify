@@ -72,4 +72,28 @@ namespace HC.Identify.Dto.Identify
         public OrderSumDto OrderSumDto { get; set; }
         public int? Count { get; set; }
     }
+
+    public class OrderSumForUpDoen
+    {
+        public Guid Id { get; set; }
+
+        //public string UUID { get; set; }
+
+        //public int? AreaCode { get; set; }
+
+        public string AreaName { get; set; }
+
+        //public string RetailerCode { get; set; }
+
+        public string RetailerName { get; set; }
+
+        public int? Sequence { get; set; }
+
+        public int? Num { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public long? RIndex { get; set; }
+    }
 }

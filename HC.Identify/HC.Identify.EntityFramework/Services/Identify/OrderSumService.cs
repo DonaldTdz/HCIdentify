@@ -3,6 +3,8 @@ using HC.Identify.Dto.Ms01;
 using HC.Identify.EntityFramework.DBContexts;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -108,7 +110,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
         //        return orderSum;
         //    }
         //}
-        public IList<OrderSumDto> GetSigleOrderSum(int code)
+        public IList<OrderSumDto> GetOrderSumByAreaCode(int code)
         {
             using (IdentifyContext context = new IdentifyContext())
             {
@@ -149,5 +151,39 @@ namespace HC.Identify.EntityFramework.Services.Identify
                 return result ;
             }
         }
+        public IList<OrderSumForUpDoen> GetOrderSums(int code)
+        {
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                var query = context.OrderSums.Where(o => o.AreaCode == code).Select(o => new OrderSumForUpDoen
+                {
+                    Id = o.Id,
+                    AreaName = o.AreaName,
+                    RetailerName = o.RetailerName,
+                    Sequence = o.Sequence,
+                    Num = o.Num,
+                    RIndex = o.RIndex
+                }).ToList();
+                return query;
+            }
+        }
+
+        public int BatchUpdateOrderSum(IList<OrderSumForUpDoen> orderSumDtos)
+        {
+            using (IdentifyContext context=new IdentifyContext())
+            {
+                var sql = new StringBuilder();
+                foreach (var item in orderSumDtos)
+                {
+                    sql.AppendFormat("update OrderSums set RIndex={0} where Id='{1}'", item.RIndex, item.Id);
+                    //context.Entry(item).State = EntityState.Modified;
+                }
+                var result = context.Database.ExecuteSqlCommand(sql.ToString());
+                //context.SaveChanges();
+                return result;
+
+            }
+        }
+         
     }
 }

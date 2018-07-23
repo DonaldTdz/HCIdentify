@@ -52,13 +52,6 @@ namespace HC.Identify.App
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_init = new System.Windows.Forms.Button();
             this.GV_orderInfo = new System.Windows.Forms.DataGridView();
-            this.txt_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txt_Specification = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txt_UUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txt_Matched = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txt_Unmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_dowload = new System.Windows.Forms.Button();
@@ -89,6 +82,13 @@ namespace HC.Identify.App
             this.lab_nextHose_title = new System.Windows.Forms.Label();
             this.lab_lastHose_title = new System.Windows.Forms.Label();
             this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.txt_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_Specification = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_UUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_Matched = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txt_Unmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
@@ -321,51 +321,6 @@ namespace HC.Identify.App
             this.GV_orderInfo.RowTemplate.Height = 23;
             this.GV_orderInfo.Size = new System.Drawing.Size(645, 482);
             this.GV_orderInfo.TabIndex = 0;
-            this.GV_orderInfo.Columns[6].DefaultCellStyle.ForeColor = Color.Red;
-            // 
-            // txt_Id
-            // 
-            this.txt_Id.DataPropertyName = "Id";
-            this.txt_Id.HeaderText = "Id";
-            this.txt_Id.Name = "txt_Id";
-            this.txt_Id.Visible = false;
-            // 
-            // txt_Specification
-            // 
-            this.txt_Specification.DataPropertyName = "Specification";
-            this.txt_Specification.HeaderText = "规格";
-            this.txt_Specification.Name = "txt_Specification";
-            // 
-            // Brand
-            // 
-            this.Brand.DataPropertyName = "Brand";
-            this.Brand.HeaderText = "条码";
-            this.Brand.Name = "Brand";
-            // 
-            // Num
-            // 
-            this.Num.DataPropertyName = "Num";
-            this.Num.HeaderText = "数量";
-            this.Num.Name = "Num";
-            // 
-            // txt_UUID
-            // 
-            this.txt_UUID.DataPropertyName = "UUID";
-            this.txt_UUID.HeaderText = "UUID";
-            this.txt_UUID.Name = "txt_UUID";
-            this.txt_UUID.Visible = false;
-            // 
-            // txt_Matched
-            // 
-            this.txt_Matched.DataPropertyName = "Matched";
-            this.txt_Matched.HeaderText = "已匹配";
-            this.txt_Matched.Name = "txt_Matched";
-            // 
-            // txt_Unmatched
-            // 
-            this.txt_Unmatched.DataPropertyName = "Unmatched";
-            this.txt_Unmatched.HeaderText = "未匹配";
-            this.txt_Unmatched.Name = "txt_Unmatched";
             // 
             // textBox1
             // 
@@ -644,6 +599,50 @@ namespace HC.Identify.App
             this.lab_lastHose_title.Size = new System.Drawing.Size(53, 12);
             this.lab_lastHose_title.TabIndex = 0;
             this.lab_lastHose_title.Text = "上一户：";
+            // 
+            // txt_Id
+            // 
+            this.txt_Id.DataPropertyName = "Id";
+            this.txt_Id.HeaderText = "Id";
+            this.txt_Id.Name = "txt_Id";
+            this.txt_Id.Visible = false;
+            // 
+            // txt_Specification
+            // 
+            this.txt_Specification.DataPropertyName = "Specification";
+            this.txt_Specification.HeaderText = "规格";
+            this.txt_Specification.Name = "txt_Specification";
+            // 
+            // Brand
+            // 
+            this.Brand.DataPropertyName = "Brand";
+            this.Brand.HeaderText = "条码";
+            this.Brand.Name = "Brand";
+            // 
+            // Num
+            // 
+            this.Num.DataPropertyName = "Num";
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            // 
+            // txt_UUID
+            // 
+            this.txt_UUID.DataPropertyName = "UUID";
+            this.txt_UUID.HeaderText = "UUID";
+            this.txt_UUID.Name = "txt_UUID";
+            this.txt_UUID.Visible = false;
+            // 
+            // txt_Matched
+            // 
+            this.txt_Matched.DataPropertyName = "Matched";
+            this.txt_Matched.HeaderText = "已匹配";
+            this.txt_Matched.Name = "txt_Matched";
+            // 
+            // txt_Unmatched
+            // 
+            this.txt_Unmatched.DataPropertyName = "Unmatched";
+            this.txt_Unmatched.HeaderText = "未匹配";
+            this.txt_Unmatched.Name = "txt_Unmatched";
             // 
             // Workbench
             // 

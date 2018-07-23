@@ -65,7 +65,7 @@ namespace HC.Identify.App
                 //获取当前选中项下的打包订单信息数量
                 count = orderSumAppService.GetOrderSumCount(code);
                 //获取当前选中项下的打包订单信息
-                orderSums = orderSumAppService.GetSigleOrderSum(code);
+                orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
                 //获取单个用户订单信息
                 GetOrderSum(sequence);
             }
@@ -272,9 +272,8 @@ namespace HC.Identify.App
             lab_lastHose.Text = orderSum.LastHouse.Length > 5 ? orderSum.LastHouse.Substring(0, 5) + "..." : orderSum.LastHouse;//上一户
             lab_lastlHose.Text = orderSum.LastLHouse.Length > 5 ? orderSum.LastLHouse.Substring(0, 5) + "..." : orderSum.LastLHouse;//上上户
             lab_nextHose.Text = orderSum.NextHouse.Length > 5 ? orderSum.NextHouse.Substring(0, 5) + "..." : orderSum.NextHouse; ;//下一户
-            lab_nextnHose.Text = orderSum.NextNHouse.Length > 5 ? orderSum.NextNHouse.Substring(0, 5) + "..." : orderSum.NextNHouse; ;//下下户
-                                                                                                                                      //lab_areacode_hide.Text = orderSum.Sequence.ToString();
-                                                                                                                                      //lab_areacode_hide.Hide();
+            lab_nextnHose.Text = orderSum.NextNHouse.Length > 5 ? orderSum.NextNHouse.Substring(0, 5) + "..." : orderSum.NextNHouse; ;
+            //下下户
 
             //获取订单信息
             orderInfos = orderInfoAppService.GetOrderInfoByUUID(orderSum.UUID);
@@ -337,7 +336,7 @@ namespace HC.Identify.App
             var code = int.Parse(item);
             sequence = 1;
             count = orderSumAppService.GetOrderSumCount(code);
-            orderSums = orderSumAppService.GetSigleOrderSum(code);
+            orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
             lab_areaName.Text = "";
             lab_retaName.Text = "";
             //lab_houseNum.Text = "第"+ orderSum.Sequence+"户/" + "共" + count + "户";
@@ -380,7 +379,7 @@ namespace HC.Identify.App
                 var item = combo_area.SelectedValue.ToString();
                 var code = int.Parse(item);
                 count = orderSumAppService.GetOrderSumCount(code);
-                orderSums = orderSumAppService.GetSigleOrderSum(code);
+                orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
             }
             sequence = 1;
             if (count > 0)

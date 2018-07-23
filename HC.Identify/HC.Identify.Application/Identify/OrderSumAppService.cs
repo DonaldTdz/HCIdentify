@@ -33,9 +33,9 @@ namespace HC.Identify.Application.Identify
             return orderSumService.GetOrderSumCount(code);
         }
 
-        public IList<OrderSumDto> GetSigleOrderSum(int code)
+        public IList<OrderSumDto> GetOrderSumByAreaCode(int code)
         {
-            return orderSumService.GetSigleOrderSum(code);
+            return orderSumService.GetOrderSumByAreaCode(code);
         }
         public int DowloadData()
         {
@@ -48,6 +48,16 @@ namespace HC.Identify.Application.Identify
             {
                 return 0;
             }
+        }
+
+        public IList<OrderSumForUpDoen> GetOrderSums(int code)
+        {
+            return orderSumService.GetOrderSums(code);
+        }
+
+        public int BatchUpdateOrderSum(IList<OrderSumForUpDoen> orderSumDtos)
+        {
+            return orderSumService.BatchUpdateOrderSum(orderSumDtos);
         }
     }
 }
