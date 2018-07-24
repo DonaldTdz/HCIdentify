@@ -75,10 +75,15 @@ namespace HC.Identify.Application.VisionPro
         /// </summary>
         public void SaveResultLog(string logFilePath, string matchedSpec, double maxScore)
         {
-            if (!File.Exists(logFilePath))
+            if (!Directory.Exists(logFilePath))
             {
-                File.Create(logFilePath);
+                Directory.CreateDirectory(logFilePath);
             }
+            logFilePath = logFilePath + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+            //if (!File.Exists(logFilePath))
+            //{
+            //    File.Create(logFilePath);
+            //}
             using (StreamWriter logFile = new StreamWriter(logFilePath, true))
             {
                 string log = string.Format("\r\n时间：{0} 匹配产品规格:{1} 匹配值：{2}", DateTime.Now.ToString("yyyyMMdd_HHmmssfff"), matchedSpec, maxScore.ToString("F3"));

@@ -288,7 +288,7 @@ namespace HC.Identify.App
 
         private void SaveData(string spec)
         {
-            string logPath = System.Windows.Forms.Application.StartupPath + "\\ResultLog" + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+            string logPath = System.Windows.Forms.Application.StartupPath + "\\ResultLog";
             VisionProDataAppService.Instance.SaveResultLog(logPath, spec, mMaxScore);
         }
 

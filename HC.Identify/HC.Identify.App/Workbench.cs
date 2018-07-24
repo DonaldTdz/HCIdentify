@@ -157,6 +157,7 @@ namespace HC.Identify.App
                 // .....
 
                 StopRun();
+                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
             }
             else
             {
@@ -183,7 +184,9 @@ namespace HC.Identify.App
                     //发送暂停指令
                     // ......
                     StopRun();
+                    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
                 }
+                
             }
 
             RefreshRunData();
@@ -391,10 +394,12 @@ namespace HC.Identify.App
             if (cogRecordDisplay.LiveDisplayRunning)
             {
                 StartRun();
+                this.MainForm.SetRunStatus(RunStatusEnum.Running);
             }
             else
             {
                 StopRun();
+                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
             }
         }
 
