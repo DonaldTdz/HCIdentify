@@ -37,7 +37,7 @@ namespace HC.Identify.App
 
         public void InitData()
         {
-           
+
         }
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -95,6 +95,13 @@ namespace HC.Identify.App
             }
         }
 
+        /// <summary>
+        /// 批次调整
+        /// </summary>
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            this.ShowForm("BatchAdjustment", new BatchAdjustment(this));
+        }
         public void SetRunStatus(RunStatusEnum runStatusEnum)
         {
             this.RunStatus = runStatusEnum;
@@ -124,61 +131,62 @@ namespace HC.Identify.App
                 default:
                     break;
             }
+
         }
-    }
 
-    public enum FrameStatusEnum
-    {
-        None = 0, //未连接
-        Connected = 1 //已连接
-    }
-
-    public enum RunStatusEnum
-    {
-        None = 0, //未开始
-        Running = 1, //运行中
-        Suspend = 2, //暂停
-    }
-
-    public class FormMainChildren : Form
-    {
-        public string FormName { get; set; }
-        public Main ParentMainForm { get; set; }
-        public virtual void RefreshData() { }
-    }
-
-    public class MainChildrenCollection : List<FormMainChildren>
-    {
-        public FormMainChildren this[string formName]
+        public enum FrameStatusEnum
         {
-            get
+            None = 0, //未连接
+            Connected = 1 //已连接
+        }
+
+        public enum RunStatusEnum
+        {
+            None = 0, //未开始
+            Running = 1, //运行中
+            Suspend = 2, //暂停
+        }
+
+        public class FormMainChildren : Form
+        {
+            public string FormName { get; set; }
+            public Main ParentMainForm { get; set; }
+            public virtual void RefreshData() { }
+        }
+
+        public class MainChildrenCollection : List<FormMainChildren>
+        {
+            public FormMainChildren this[string formName]
             {
-                return this.Where(t => t.FormName == formName).FirstOrDefault();
-            }
-            set
-            {
-                if (!ExistsForm(formName))
+                get
                 {
-                    value.FormName = formName;
-                    this.Add(value);
+                    return this.Where(t => t.FormName == formName).FirstOrDefault();
+                }
+                set
+                {
+                    if (!ExistsForm(formName))
+                    {
+                        value.FormName = formName;
+                        this.Add(value);
+                    }
                 }
             }
-        }
 
-        public bool ExistsForm(string formName)
-        {
-            if (this[formName] == null)
+            public bool ExistsForm(string formName)
             {
-                return false;
+                if (this[formName] == null)
+                {
+                    return false;
+                }
+
+                if (this[formName].IsDisposed)
+                {
+                    this.Remove(this[formName]);
+                    return false;
+                }
+                return true;
             }
 
-            if (this[formName].IsDisposed)
-            {
-                this.Remove(this[formName]);
-                return false;
-            }
-            return true;
         }
-
     }
 }

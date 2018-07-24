@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HC.Identify.App.Main;
 using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
@@ -287,7 +288,7 @@ namespace HC.Identify.App
 
         private void SaveData(string spec)
         {
-            string logPath = System.Windows.Forms.Application.StartupPath + "\\ResultLog" + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+            string logPath = System.Windows.Forms.Application.StartupPath + "\\ResultLog";
             VisionProDataAppService.Instance.SaveResultLog(logPath, spec, mMaxScore);
         }
 

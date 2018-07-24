@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HC.Identify.App.Main;
 
 namespace HC.Identify.App
 {
@@ -67,7 +68,7 @@ namespace HC.Identify.App
                 //获取当前选中项下的打包订单信息数量
                 count = orderSumAppService.GetOrderSumCount(code);
                 //获取当前选中项下的打包订单信息
-                orderSums = orderSumAppService.GetSigleOrderSum(code);
+                orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
                 //获取单个用户订单信息
                 GetOrderSum(sequence);
             }
@@ -156,6 +157,7 @@ namespace HC.Identify.App
                 // .....
 
                 StopRun();
+                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
             }
             else
             {
@@ -182,7 +184,9 @@ namespace HC.Identify.App
                     //发送暂停指令
                     // ......
                     StopRun();
+                    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
                 }
+                
             }
 
             RefreshRunData();
@@ -309,7 +313,7 @@ namespace HC.Identify.App
             var code = int.Parse(item);
             sequence = 1;
             count = orderSumAppService.GetOrderSumCount(code);
-            orderSums = orderSumAppService.GetSigleOrderSum(code);
+            orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
             lab_areaName.Text = "";
             lab_retaName.Text = "";
             //lab_houseNum.Text = "第"+ orderSum.Sequence+"户/" + "共" + count + "户";
@@ -352,7 +356,7 @@ namespace HC.Identify.App
                 var item = combo_area.SelectedValue.ToString();
                 var code = int.Parse(item);
                 count = orderSumAppService.GetOrderSumCount(code);
-                orderSums = orderSumAppService.GetSigleOrderSum(code);
+                orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
             }
             sequence = 1;
             if (count > 0)
@@ -390,10 +394,12 @@ namespace HC.Identify.App
             if (cogRecordDisplay.LiveDisplayRunning)
             {
                 StartRun();
+                this.MainForm.SetRunStatus(RunStatusEnum.Running);
             }
             else
             {
                 StopRun();
+                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
             }
         }
 

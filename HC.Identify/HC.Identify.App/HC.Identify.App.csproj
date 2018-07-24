@@ -70,6 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchAdjustment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BatchAdjustment.Designer.cs">
+      <DependentUpon>BatchAdjustment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     <Compile Include="VisionProSetting.Designer.cs">
       <DependentUpon>VisionProSetting.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BatchAdjustment.resx">
+      <DependentUpon>BatchAdjustment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

@@ -80,7 +80,7 @@ namespace HC.Identify.Application.VisionPro
             }
             if (true)//记录日志结果
             {
-                VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog" + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".log", maxSpec.Specification, dMaxScore);
+                VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
             } 
             //配置结果值
             if (dMaxScore > 0.81)
