@@ -85,6 +85,7 @@ namespace HC.Identify.App
                 orderSums = orderSumAppService.GetOrderSumByAreaCode(code);
                 //获取单个用户订单信息
                 GetOrderSum(sequence);
+                InitRunData();
             }
             GV_orderInfo.Columns[6].DefaultCellStyle.ForeColor = Color.Red;
             GV_orderInfo.Columns[5].DefaultCellStyle.ForeColor = Color.LightGreen;
@@ -317,12 +318,13 @@ namespace HC.Identify.App
         private void btn_nexthouse_Click(object sender, EventArgs e)
         {
             //var order = int.Parse(lab_areacode_hide.Text)+1;
-            imgIndex = 0;//测试
-            InitRunData();
+           
             if (sequence < count)
             {
                 sequence = sequence + 1;
                 GetOrderSum(sequence);
+                imgIndex = 0;//测试
+                InitRunData();
             }
             else
             {
@@ -436,12 +438,12 @@ namespace HC.Identify.App
         private void btn_lasthouse_Click(object sender, EventArgs e)
         {
             //var order = int.Parse(lab_areacode_hide.Text) + 1;
-            imgIndex = 0;//测试
-            InitRunData();
             if (sequence > 1)
             {
                 sequence = sequence - 1;
                 GetOrderSum(sequence);
+                imgIndex = 0;//测试
+                InitRunData();
             }
             else
             {
