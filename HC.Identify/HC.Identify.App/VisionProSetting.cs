@@ -59,8 +59,33 @@ namespace HC.Identify.App
             cameraSettingAppService = new CameraSettingAppService();
             GetCameraSetting();
             //cameraSettingShowDto = new CameraSettingShowDto();
+            InitImage();
         }
+        /// <summary>
+        /// 初始化图片模板集
+        /// </summary>
+        private void InitImage()
+        {
+            imgIndex = 0;
+            var imgPath = txtImgPath.Text;
+            if (!string.IsNullOrEmpty(imgPath))
+            {
+                var imgDir = new DirectoryInfo(imgPath);
+                totalImgCount = imgDir.GetFiles().Length;
+                fileInfos = imgDir.GetFileSystemInfos();
+            }
+            if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
+              fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
+            {
+                cogImageFile.Operator.Open(fileInfos[imgIndex].FullName, CogImageFileModeConstants.Read);
+                cogImageFile.Run();
+                icogColorImage = cogImageFile.OutputImage;
+                cogRecordDisplay.Image = icogColorImage;
+                cogRecordDisplay.Fit();
+            }
 
+            //ToolBlockRun();
+        }
         private void VisionProSetting_Load(object sender, EventArgs e)
         {
             //连接相机
@@ -169,7 +194,12 @@ namespace HC.Identify.App
 
         private void AutoSaveImage()
         {
-            string path = System.Windows.Forms.Application.StartupPath + "\\AutoSaveImage\\" + DateTime.Now.ToString("yyyyMMdd_HHmmssfff") + ".BMP";
+            string path = System.Windows.Forms.Application.StartupPath + "\\AutoSaveImage\\";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            path = path + DateTime.Now.ToString("yyyyMMdd_HHmmssfff") + ".BMP";
             cogImageFile.Operator.Open(path, CogImageFileModeConstants.Write);
             cogImageFile.InputImage = icogColorImage;
             cogImageFile.Run();
@@ -377,22 +407,24 @@ namespace HC.Identify.App
                 imgPath = folder.SelectedPath;
                 txtImgPath.Text = imgPath;
             }
-            //读取第一张图
-            imgIndex = 0;
-            var imgDir = new DirectoryInfo(imgPath);
-            totalImgCount = imgDir.GetFiles().Length;
-            fileInfos = imgDir.GetFileSystemInfos();
-            if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
-               fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
+            if (!string.IsNullOrEmpty(imgPath))
             {
-                cogImageFile.Operator.Open(fileInfos[imgIndex].FullName, CogImageFileModeConstants.Read);
-                cogImageFile.Run();
-                icogColorImage = cogImageFile.OutputImage;
-                cogRecordDisplay.Image = icogColorImage;
-                cogRecordDisplay.Fit();
+                //读取第一张图
+                imgIndex = 0;
+                var imgDir = new DirectoryInfo(imgPath);
+                totalImgCount = imgDir.GetFiles().Length;
+                fileInfos = imgDir.GetFileSystemInfos();
+                if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
+                   fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
+                {
+                    cogImageFile.Operator.Open(fileInfos[imgIndex].FullName, CogImageFileModeConstants.Read);
+                    cogImageFile.Run();
+                    icogColorImage = cogImageFile.OutputImage;
+                    cogRecordDisplay.Image = icogColorImage;
+                    cogRecordDisplay.Fit();
+                }
+                ToolBlockRun();
             }
-
-            ToolBlockRun();
         }
 
         #endregion

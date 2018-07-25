@@ -9,6 +9,7 @@ using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ToolBlock;
 using HC.Identify.Application.Helpers;
 using HC.Identify.Dto.VisionPro;
+using System.IO;
 
 namespace HC.Identify.Application.VisionPro
 {
@@ -111,7 +112,16 @@ namespace HC.Identify.Application.VisionPro
 
         public void SaveImage()
         {
-            string path = _appPath + "\\SaveImage\\" + DateTime.Now.ToString("yyyyMMdd_HHmmssfff") + ".BMP";
+            string path = _appPath + "\\SaveImage\\";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+             path = path + DateTime.Now.ToString("yyyyMMdd_HHmmssfff") + ".BMP";
+            //if (!Directory.Exists(path))
+            //{
+            //    Directory.CreateDirectory(path);
+            //}
             _cogImageFile.Operator.Open(path, CogImageFileModeConstants.Write);
             _cogImageFile.InputImage = _icogColorImage;
             _cogImageFile.Run();
