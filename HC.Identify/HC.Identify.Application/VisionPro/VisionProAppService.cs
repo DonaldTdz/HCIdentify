@@ -10,13 +10,14 @@ using Cognex.VisionPro.ToolBlock;
 using HC.Identify.Application.Helpers;
 using HC.Identify.Dto.VisionPro;
 using System.IO;
+using System.Windows.Forms;
 
 namespace HC.Identify.Application.VisionPro
 {
     public class VisionProAppService : IdentifyAppServiceBase, IVisionProAppService
     {
         CogToolBlock _cogToolBlock;
-        ICogImage _icogColorImage;
+        public ICogImage _icogColorImage;
         CogRecordDisplay _cogRecordDisplay;
         string _appPath;
         List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
@@ -107,7 +108,14 @@ namespace HC.Identify.Application.VisionPro
             ICogRecords subRecords = _cogToolBlock.CreateLastRunRecord().SubRecords;
             _cogRecordDisplay.Record = subRecords["CogIPOneImageTool1.OutputImage"];
             _cogRecordDisplay.Fit(true);
-            return (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
+            //return (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
+            var cogResultArray = (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
+            if (cogResultArray.Count == 0)
+            {
+                MessageBox.Show("ToolBlock结果为空！");
+                return null;
+            }
+            return cogResultArray;
         }
 
         public void SaveImage()

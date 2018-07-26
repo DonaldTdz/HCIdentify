@@ -11,5 +11,7 @@ namespace HC.Identify.Dto.VisionPro
         public string Specification { get; set; }
 
         public double[] Values { get; set; }
+
+        public double dMaxScore { get; set; }
     }
 }

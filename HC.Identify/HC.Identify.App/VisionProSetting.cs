@@ -34,6 +34,7 @@ namespace HC.Identify.App
         CogToolBlock cogToolBlock = new CogToolBlock();       //图像连接工具
         CogToolBlock cogToolBlockCopy = new CogToolBlock();
         CogImageFileTool cogImageFile = new CogImageFileTool(); //图像处理工具
+        private VisionProAppService visionProAppService;
 
         #endregion
 
@@ -83,8 +84,6 @@ namespace HC.Identify.App
                 cogRecordDisplay.Image = icogColorImage;
                 cogRecordDisplay.Fit();
             }
-
-            //ToolBlockRun();
         }
         private void VisionProSetting_Load(object sender, EventArgs e)
         {
@@ -101,6 +100,8 @@ namespace HC.Identify.App
             VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
             csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
             BindRegisteredSpec();
+            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+
         }
 
         private void VisionProSetting_FormClosing(object sender, FormClosingEventArgs e)
@@ -214,6 +215,7 @@ namespace HC.Identify.App
         int imgIndex;
         ArrayList cogResultArray = new ArrayList();
 
+        #region 原代码，目前改为调用VisionProAppService的公用方法
         private ArrayList ToolBlockRun()
         {
             cogToolBlock.Inputs["InputImage"].Value = icogColorImage;
@@ -293,6 +295,7 @@ namespace HC.Identify.App
             }
             return maxSpec;
         }
+        #endregion
 
         double mMaxScore;
 
@@ -300,16 +303,32 @@ namespace HC.Identify.App
         {
             DateTime befortime = DateTime.Now;//计算耗时
             //运行
-            var cogResultArray = ToolBlockRun();
+            //var cogResultArray = ToolBlockRun();
             //计算
-            var spec = Calculation(cogResultArray);
+            //var spec = Calculation(cogResultArray);
+            visionProAppService._icogColorImage = icogColorImage;
+            var spec = visionProAppService.GetMatchSpecification();//获取匹配结果
+            if (spec != null)
+            {
+                txtMatchSpec.Text = spec.Specification;
+                mMaxScore = spec.dMaxScore;
+                lblResultDesc.Text = "OK";  //匹配成功
+                lblResultDesc.ForeColor = Color.Green;
+                if (chkAutoSaveData.Checked)
+                {
+                    SaveData(spec.Specification);
+                }
+            }
+            else
+            {
+                lblResultDesc.Text = "NG"; //匹配成功
+                lblResultDesc.ForeColor = Color.Red;
+            }
+            SetCurrentInageInfo();
             //计算用时
             DateTime aftertime = DateTime.Now;
             txtUseTime.Text = aftertime.Subtract(befortime).Milliseconds.ToString();//毫秒
-            if (chkAutoSaveData.Checked)
-            {
-                SaveData(spec);
-            }
+           
         }
 
         #endregion
@@ -423,7 +442,12 @@ namespace HC.Identify.App
                     cogRecordDisplay.Image = icogColorImage;
                     cogRecordDisplay.Fit();
                 }
-                ToolBlockRun();
+                //ToolBlockRun();修改
+                //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+                visionProAppService._icogColorImage = icogColorImage;
+                visionProAppService.GetToolBlockValues();
+                SetCurrentInageInfo();
+
             }
         }
 
@@ -450,7 +474,11 @@ namespace HC.Identify.App
 
         private void btnReRun_Click(object sender, EventArgs e)
         {
-            ToolBlockRun();
+            //ToolBlockRun(); //修改
+            //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+            visionProAppService._icogColorImage = icogColorImage;
+            visionProAppService.GetToolBlockValues();
+            SetCurrentInageInfo();
         }
 
         #endregion
@@ -516,8 +544,14 @@ namespace HC.Identify.App
                     icogColorImage = cogImageFile.OutputImage;
                 }
             }
+            //ToolBlockRun(); //修改
 
-            ToolBlockRun();
+            //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+            visionProAppService._icogColorImage = icogColorImage;
+            visionProAppService.GetToolBlockValues();
+            SetCurrentInageInfo();
+
+
         }
 
         #endregion
@@ -567,6 +601,9 @@ namespace HC.Identify.App
                     cogImageFile.Run();
                     icogColorImage = cogImageFile.OutputImage;
                 }
+                //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+                //visionProAppService._icogColorImage = icogColorImage;
+
             }
 
             RunCalculation();
@@ -740,6 +777,13 @@ namespace HC.Identify.App
         }
         #endregion
 
-        
+        private void SetCurrentInageInfo()
+        {
+            if (!isCameraOnline)
+            {
+                txtCurrentImgFileName.Text = fileInfos[imgIndex].Name.Substring(0, (fileInfos[imgIndex].Name.Length - 4));  //当前图像文件名
+                txtCurrentSpec.Text = fileInfos[imgIndex].Name.Substring(0, (fileInfos[imgIndex].Name.Length - 4));         //当前产品规格型号
+            }
+        }
     }
 }
