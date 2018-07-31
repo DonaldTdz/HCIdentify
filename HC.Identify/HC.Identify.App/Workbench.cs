@@ -2,6 +2,7 @@
 using Cognex.VisionPro.Exceptions;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ToolBlock;
+using HC.Identify.Application;
 using HC.Identify.Application.Identify;
 using HC.Identify.Application.VisionPro;
 using HC.Identify.Dto.Identify;
@@ -13,6 +14,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +42,9 @@ namespace HC.Identify.App
         int totalImgCount = 0;
         CogImageFileTool cogImageFile = new CogImageFileTool(); //图像处理工具
         string currentrDirectory;//当前根文件夹
-
+        COMServer cOMServer;//串口通信测试
+        SocketServer socketServer;
+        SocketClient socketClient;
         public Workbench()
         {
             InitializeComponent();
@@ -54,6 +58,21 @@ namespace HC.Identify.App
             BindDistributionLine(); //配送线路
             InitFrame();            //初始化相机
             InitImage();
+
+            //串口测试
+            cOMServer = new COMServer("COM4", 9600, 7, StopBits.One, Parity.Even);
+            cOMServer.Open();
+            //var sendByte = Encoding.ASCII.GetBytes(txtSendStr); 
+            var sendByte = Encoding.ASCII.GetBytes("connect a serve");
+            cOMServer.Send(sendByte);
+            cOMServer.Close();
+            //Socket通信
+            //服务端
+            //socketServer = new SocketServer();
+            //socketServer.Open();
+            //客户端
+            socketClient = new SocketClient("192.168.0.128", 89);
+            socketClient.Open();
         }
 
         #region 初始化服务
@@ -152,6 +171,13 @@ namespace HC.Identify.App
             }
             else//相机模式运行
             {
+                //相机外部模式（后期需验证）
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
                 //获取第一个相机图片
                 icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
                 // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
@@ -503,8 +529,8 @@ namespace HC.Identify.App
 
         private void StopRun()
         {
-            icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
-            cogRecordDisplay.StopLiveDisplay();
+            //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+            //cogRecordDisplay.StopLiveDisplay();
             btnStart.Text = "开始";
             this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
         }
@@ -579,6 +605,7 @@ namespace HC.Identify.App
             //{
             //    imgIndex = 0;
             //}
+
             if (imgIndex < totalImgCount)
             {
                 if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
@@ -596,6 +623,9 @@ namespace HC.Identify.App
                 //RunCalculation();
                 OrderMatch();
             }
+            //串口测试
+            //var result = cOMServer.Recive();
+            //MessageBox.Show(result);
         }
 
         private void RunCalculation()
@@ -619,6 +649,8 @@ namespace HC.Identify.App
                 this.lblSpecResult.Text = "未匹配模板";
                 this.lblSpecResult.ForeColor = Color.Red;
                 //发送暂停指令
+                ComSeverRecive("NG");//串口通信
+                socketClient.Send("NG");//socket通信
                 // .....
 
                 StopRun();
@@ -655,6 +687,8 @@ namespace HC.Identify.App
                         this.lblSpecResult.Text = "匹配已满";
                         this.lblSpecResult.ForeColor = Color.Red;
                         //发送暂停指令
+                        ComSeverRecive("NG");//串口通信
+                        socketClient.Send("NG");//socket通信
                         // ......
                         StopRun();
                         this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
@@ -667,12 +701,22 @@ namespace HC.Identify.App
                     this.lblSpecResult.Text = "订单不存在";
                     this.lblSpecResult.ForeColor = Color.Red;
                     //发送暂停指令
+                    ComSeverRecive("NG");//串口通信
+                    socketClient.Send("NG");//socket通信
                     // ......
                     StopRun();
                     this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
                 }
             }
             RefreshRunData();
+        }
+
+        public void ComSeverRecive(string data)
+        {
+            cOMServer.Open();
+            var sendByte = Encoding.ASCII.GetBytes(data);
+            cOMServer.Send(sendByte);
+            cOMServer.Close();
         }
     }
 

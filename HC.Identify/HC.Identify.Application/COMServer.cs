@@ -45,5 +45,23 @@ namespace HC.Identify.Application
         {
             COM.Write(sendByte, 0, sendByte.Length);
         }
+        #region 测试
+        public string Recive()
+        {
+            //创建接收字节数组
+            Byte[] receivedData = new Byte[COM.BytesToRead];
+            //读取数据GB2312
+            COM.Read(receivedData, 0, receivedData.Length);
+            //var resultData = new ASCIIEncoding().GetString(receivedData);ToBase64String
+            var resultData = Encoding.ASCII.GetString(receivedData);
+            return resultData;
+        }
+
+        public void Close()
+        {
+            COM.Close();
+        }
+      #endregion
+
     }
 }

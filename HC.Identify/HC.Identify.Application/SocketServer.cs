@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace HC.Identify.Application
 {
@@ -35,7 +36,7 @@ namespace HC.Identify.Application
         string clientName = null; //创建访问客户端的名字
         IPAddress clientIP; //访问客户端的IP
         int clientPort; //访问客户端的端口号
-        public void Open(int port = 6666)
+        public void Open(int port = 89)
         {
             IPAddress ipAddress = GetLocalIPv4Address();
             if (socketWatch == null)
@@ -96,6 +97,11 @@ namespace HC.Identify.Application
                 clientIP = (socConnection.RemoteEndPoint as IPEndPoint).Address;
                 //获取访问客户端的Port
                 clientPort = (socConnection.RemoteEndPoint as IPEndPoint).Port;
+
+                ////测试
+                //clientIP = IPAddress.Parse("192.168.0.128");//测试
+                //clientPort = 98;//测试
+
                 //创建访问客户端的唯一标识 由IP和端口号组成 
                 clientName = "IP: " + clientIP + " Port: " + clientPort;
                 // lstClients.Items.Add(clientName); //在客户端列表添加该访问客户端的唯一标识
@@ -133,7 +139,8 @@ namespace HC.Identify.Application
                 {
                     //string aa = Encoding.GetEncoding("GB2312").GetString(buffer, 0, firstReceived);
                     string str = Encoding.UTF8.GetString(buffer, 0, firstReceived);
-
+                    //通信测试
+                    MessageBox.Show(str);
                     //if (str.Contains("ABWW"))//说明是首次推送
                     //{
                     //}

@@ -1,9 +1,11 @@
-﻿using HC.Identify.Application.Identify;
+﻿using HC.Identify.Application;
+using HC.Identify.Application.Identify;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,9 @@ namespace HC.Identify.App
         UserAppService userAppServer;
         public FrameStatusEnum FrameStatus { get; set; }
         public RunStatusEnum RunStatus { get; set; }
+        //COMServer cOMServer;//串口通信测试
+        //SocketServer socketServer;
+        //SocketClient socketClient;
         public Main()
         {
             InitializeComponent();
@@ -27,6 +32,22 @@ namespace HC.Identify.App
         private void Main_Load(object sender, EventArgs e)
         {
             InitData();
+
+            // //串口测试
+            // cOMServer = new COMServer("COM4", 9600, 8, StopBits.One, Parity.Even);
+            // cOMServer.Open();
+            // var txtSendStr = "串口通信成功了吗？";
+            // var sendByte = Encoding.UTF8.GetBytes(txtSendStr);
+            // cOMServer.Send(sendByte);
+            //var result= cOMServer.Recive();
+            // MessageBox.Show(result);
+            //服务端
+            //socketServer = new SocketServer();
+            //socketServer.Open();
+            //客户端
+            //socketClient = new SocketClient("192.168.0.128", 89);
+            //socketClient.Open();
+            //socketClient.Send("socketClient");
         }
 
         //初始化控件
