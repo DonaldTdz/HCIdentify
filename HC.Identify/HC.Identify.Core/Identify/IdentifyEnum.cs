@@ -18,5 +18,12 @@ namespace HC.Identify.Core.Identify
             自动存图=6
         }
 
+        public enum ConfigEnum
+        {
+            图像=1,
+            中软=2,
+            条码=3,
+        }
+
     }
 }

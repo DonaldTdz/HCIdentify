@@ -32,12 +32,14 @@ namespace HC.Identify.App
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Workbench));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblIdentifyTime = new System.Windows.Forms.Label();
+            this.spendTime = new System.Windows.Forms.Label();
             this.lblIdentifiedRate = new System.Windows.Forms.Label();
             this.lblSpecText = new System.Windows.Forms.Label();
             this.lab_readRate_title = new System.Windows.Forms.Label();
@@ -144,6 +146,8 @@ namespace HC.Identify.App
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lblIdentifyTime);
+            this.groupBox4.Controls.Add(this.spendTime);
             this.groupBox4.Controls.Add(this.lblIdentifiedRate);
             this.groupBox4.Controls.Add(this.lblSpecText);
             this.groupBox4.Controls.Add(this.lab_readRate_title);
@@ -162,10 +166,27 @@ namespace HC.Identify.App
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "匹配结果";
             // 
+            // lblIdentifyTime
+            // 
+            this.lblIdentifyTime.AutoSize = true;
+            this.lblIdentifyTime.Location = new System.Drawing.Point(588, 67);
+            this.lblIdentifyTime.Name = "lblIdentifyTime";
+            this.lblIdentifyTime.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifyTime.TabIndex = 9;
+            // 
+            // spendTime
+            // 
+            this.spendTime.AutoSize = true;
+            this.spendTime.Location = new System.Drawing.Point(528, 67);
+            this.spendTime.Name = "spendTime";
+            this.spendTime.Size = new System.Drawing.Size(65, 12);
+            this.spendTime.TabIndex = 8;
+            this.spendTime.Text = "识别用时：";
+            // 
             // lblIdentifiedRate
             // 
             this.lblIdentifiedRate.AutoSize = true;
-            this.lblIdentifiedRate.Location = new System.Drawing.Point(573, 65);
+            this.lblIdentifiedRate.Location = new System.Drawing.Point(471, 67);
             this.lblIdentifiedRate.Name = "lblIdentifiedRate";
             this.lblIdentifiedRate.Size = new System.Drawing.Size(0, 12);
             this.lblIdentifiedRate.TabIndex = 7;
@@ -184,7 +205,7 @@ namespace HC.Identify.App
             // lab_readRate_title
             // 
             this.lab_readRate_title.AutoSize = true;
-            this.lab_readRate_title.Location = new System.Drawing.Point(495, 65);
+            this.lab_readRate_title.Location = new System.Drawing.Point(400, 67);
             this.lab_readRate_title.Name = "lab_readRate_title";
             this.lab_readRate_title.Size = new System.Drawing.Size(77, 12);
             this.lab_readRate_title.TabIndex = 6;
@@ -204,7 +225,7 @@ namespace HC.Identify.App
             // lblNoIdentifiedNum
             // 
             this.lblNoIdentifiedNum.AutoSize = true;
-            this.lblNoIdentifiedNum.Location = new System.Drawing.Point(407, 66);
+            this.lblNoIdentifiedNum.Location = new System.Drawing.Point(344, 67);
             this.lblNoIdentifiedNum.Name = "lblNoIdentifiedNum";
             this.lblNoIdentifiedNum.Size = new System.Drawing.Size(0, 12);
             this.lblNoIdentifiedNum.TabIndex = 5;
@@ -222,7 +243,7 @@ namespace HC.Identify.App
             // lab_unRead_title
             // 
             this.lab_unRead_title.AutoSize = true;
-            this.lab_unRead_title.Location = new System.Drawing.Point(340, 66);
+            this.lab_unRead_title.Location = new System.Drawing.Point(283, 67);
             this.lab_unRead_title.Name = "lab_unRead_title";
             this.lab_unRead_title.Size = new System.Drawing.Size(65, 12);
             this.lab_unRead_title.TabIndex = 4;
@@ -231,7 +252,7 @@ namespace HC.Identify.App
             // lab_checkAmount_title
             // 
             this.lab_checkAmount_title.AutoSize = true;
-            this.lab_checkAmount_title.Location = new System.Drawing.Point(13, 66);
+            this.lab_checkAmount_title.Location = new System.Drawing.Point(4, 67);
             this.lab_checkAmount_title.Name = "lab_checkAmount_title";
             this.lab_checkAmount_title.Size = new System.Drawing.Size(65, 12);
             this.lab_checkAmount_title.TabIndex = 0;
@@ -240,7 +261,7 @@ namespace HC.Identify.App
             // lblIdentifiedNum
             // 
             this.lblIdentifiedNum.AutoSize = true;
-            this.lblIdentifiedNum.Location = new System.Drawing.Point(233, 67);
+            this.lblIdentifiedNum.Location = new System.Drawing.Point(199, 67);
             this.lblIdentifiedNum.Name = "lblIdentifiedNum";
             this.lblIdentifiedNum.Size = new System.Drawing.Size(0, 12);
             this.lblIdentifiedNum.TabIndex = 3;
@@ -248,7 +269,7 @@ namespace HC.Identify.App
             // lblIdentifyTotal
             // 
             this.lblIdentifyTotal.AutoSize = true;
-            this.lblIdentifyTotal.Location = new System.Drawing.Point(77, 67);
+            this.lblIdentifyTotal.Location = new System.Drawing.Point(75, 67);
             this.lblIdentifyTotal.Name = "lblIdentifyTotal";
             this.lblIdentifyTotal.Size = new System.Drawing.Size(0, 12);
             this.lblIdentifyTotal.TabIndex = 1;
@@ -256,7 +277,7 @@ namespace HC.Identify.App
             // lab_alreadyRead_title
             // 
             this.lab_alreadyRead_title.AutoSize = true;
-            this.lab_alreadyRead_title.Location = new System.Drawing.Point(169, 67);
+            this.lab_alreadyRead_title.Location = new System.Drawing.Point(141, 67);
             this.lab_alreadyRead_title.Name = "lab_alreadyRead_title";
             this.lab_alreadyRead_title.Size = new System.Drawing.Size(65, 12);
             this.lab_alreadyRead_title.TabIndex = 2;
@@ -288,14 +309,14 @@ namespace HC.Identify.App
             // 
             this.GV_orderInfo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.GV_orderInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.GV_orderInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GV_orderInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.GV_orderInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GV_orderInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.txt_Id,
@@ -305,14 +326,14 @@ namespace HC.Identify.App
             this.txt_UUID,
             this.txt_Matched,
             this.txt_Unmatched});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.GV_orderInfo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GV_orderInfo.DefaultCellStyle = dataGridViewCellStyle6;
             this.GV_orderInfo.Location = new System.Drawing.Point(7, 47);
             this.GV_orderInfo.Name = "GV_orderInfo";
             this.GV_orderInfo.RowTemplate.Height = 23;
@@ -655,6 +676,7 @@ namespace HC.Identify.App
             this.btn_test.TabIndex = 8;
             this.btn_test.Text = "测试";
             this.btn_test.UseVisualStyleBackColor = true;
+            this.btn_test.Visible = false;
             this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
             // 
             // Workbench
@@ -752,5 +774,7 @@ namespace HC.Identify.App
         private System.Windows.Forms.DataGridViewTextBoxColumn txt_Matched;
         private System.Windows.Forms.DataGridViewTextBoxColumn txt_Unmatched;
         private System.Windows.Forms.Button btn_test;
+        private System.Windows.Forms.Label lblIdentifyTime;
+        private System.Windows.Forms.Label spendTime;
     }
 }

@@ -11,43 +11,50 @@ namespace HC.Identify.Application.Helpers
     {
         public static void WriteLog(string appPath, string title, string msg)
         {
-            string fileName = @"Log\" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-            string path = Path.Combine(appPath, fileName);
-            if (!Directory.Exists(path + @"\Log"))
+            Task.Run(() =>
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(path + @"\Log");
-                directoryInfo.Create();
-
-            }
-            if (!File.Exists(path))
-            {
-                FileStream fs = new FileStream(path, FileMode.CreateNew);
-                fs.Close();
-            }
-
-            StreamWriter writer = null;
-            try
-            {
-                writer = File.AppendText(path);
-                writer.WriteLine("===============================");
-                writer.WriteLine("时间：{0}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                writer.WriteLine("操作：{0}", title);
-                writer.WriteLine("内容：{0}", msg);
-                writer.WriteLine("===============================");
-                writer.Flush();
-            }
-            catch (Exception ex)
-            {
-                //写日志失败不用抛出异常
-                //MessageBox.Show(ex.Message, "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (writer != null)
+                string fileName = @"Log\";
+                //string fileName = @"Log\" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                string path = Path.Combine(appPath, fileName);
+                if (!Directory.Exists(path + @"\Log"))
                 {
-                    writer.Close();
+                    DirectoryInfo directoryInfo = new DirectoryInfo(path + @"\Log");
+                    directoryInfo.Create();
+
                 }
-            }
+                path = path + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                if (!File.Exists(path))
+                {
+                    //FileStream fs = File.Create(fileName);  //创建文件
+                    //fs.Close();
+                    //FileStream fs = new FileStream(path, FileMode.CreateNew);
+                    FileStream fs = new FileStream(path, FileMode.CreateNew);
+                    fs.Close();
+                }
+                StreamWriter writer = null;
+                try
+                {
+                    writer = File.AppendText(path);
+                    writer.WriteLine("===============================");
+                    writer.WriteLine("时间：{0}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                    writer.WriteLine("操作：{0}", title);
+                    writer.WriteLine("内容：{0}", msg);
+                    writer.WriteLine("===============================");
+                    writer.Flush();
+                }
+                catch (Exception ex)
+                {
+                    //写日志失败不用抛出异常
+                    //MessageBox.Show(ex.Message, "异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
+                }
+            });
         }
 
         //清除日志

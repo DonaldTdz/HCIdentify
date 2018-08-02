@@ -43,6 +43,7 @@
     <Compile Include="Identify\CameraSettingDto.cs" />
     <Compile Include="Identify\OrderInfoDto.cs" />
     <Compile Include="Identify\OrderSumDto.cs" />
+    <Compile Include="Identify\SystemConfigDto.cs" />
     <Compile Include="Identify\UserDto.cs" />
     <Compile Include="Ms01\OrderSumMsDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

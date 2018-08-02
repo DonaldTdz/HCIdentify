@@ -53,7 +53,7 @@ namespace HC.Identify.App
         //初始化控件
         public void InitControles()
         {
-            this.ShowForm("Workbench", new Workbench(this));
+            this.ShowForm("Workbench");
         }
 
         public void InitData()
@@ -68,24 +68,41 @@ namespace HC.Identify.App
 
         private void 视觉配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.ShowForm("VisionProSetting", new VisionProSetting(this));
+            this.ShowForm("VisionProSetting");
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            this.ShowForm("Workbench", new Workbench(this));
+            this.ShowForm("Workbench");
         }
 
-        private void ShowForm(string formName, FormMainChildren form)
+        private void ShowForm(string formName)
         {
             if (this.MainChildList.ExistsForm(formName))
             {
                 this.MainChildList[formName].WindowState = FormWindowState.Maximized;
                 this.MainChildList[formName].Show();
-                form.Dispose();
             }
             else
             {
+                var form = new FormMainChildren();
+                switch (formName)
+                {
+                    case "Workbench":
+                        {
+                            form = new Workbench(this);
+                        };break;
+                    case "VisionProSetting":
+                        {
+                            form = new VisionProSetting(this);
+                        };break;
+                    case "BatchAdjustment":
+                        {
+                            form = new BatchAdjustment(this);
+                        }; break;
+                    default:
+                        break;
+                }
                 form.MdiParent = this;
                 form.WindowState = FormWindowState.Maximized;
                 form.ParentMainForm = this;
@@ -121,7 +138,7 @@ namespace HC.Identify.App
         /// </summary>
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            this.ShowForm("BatchAdjustment", new BatchAdjustment(this));
+            this.ShowForm("BatchAdjustment");
         }
         public void SetRunStatus(RunStatusEnum runStatusEnum)
         {

@@ -46,7 +46,7 @@ namespace HC.Identify.Application.VisionPro
                 CommHelper.WriteLog(_appPath, "GetMatchSpecification->GetToolBlockValues", "没有读取到值");
                 return null;
             }
-            int totalType = _csvSpecList.Count();
+            int totalType = _csvSpecList.Count();//模板数据
             //相关矩阵计算
             double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
                                                             //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;

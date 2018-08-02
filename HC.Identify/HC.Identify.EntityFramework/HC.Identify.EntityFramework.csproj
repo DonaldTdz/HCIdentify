@@ -55,6 +55,7 @@
     <Compile Include="Services\Identify\CameraSettingService.cs" />
     <Compile Include="Services\Identify\OrderInfoService.cs" />
     <Compile Include="Services\Identify\OrderSumService.cs" />
+    <Compile Include="Services\Identify\SystemConfigService.cs" />
     <Compile Include="Services\Identify\UserService.cs" />
     <Compile Include="Services\Ms01\OrderSumMsService.cs" />
   </ItemGroup>

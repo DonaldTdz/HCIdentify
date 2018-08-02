@@ -45,6 +45,7 @@
     <Compile Include="Identify\IdentifyEnum.cs" />
     <Compile Include="Identify\OrderInfo.cs" />
     <Compile Include="Identify\OrderSum.cs" />
+    <Compile Include="Identify\SystemConfig.cs" />
     <Compile Include="Identify\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
