@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.Identify.Dto", "HC.Ident
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HC.Identify.Application", "HC.Identify.Application\HC.Identify.Application.csproj", "{15F7EB09-C9FE-4B4D-A39D-9D64253D4323}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "HC.Identify.Setup", "HC.Identify.Setup\HC.Identify.Setup.vdproj", "{C42253FC-4396-47CC-88F4-4FDD409CE62B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,8 @@ Global
 		{15F7EB09-C9FE-4B4D-A39D-9D64253D4323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F7EB09-C9FE-4B4D-A39D-9D64253D4323}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15F7EB09-C9FE-4B4D-A39D-9D64253D4323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C42253FC-4396-47CC-88F4-4FDD409CE62B}.Debug|Any CPU.ActiveCfg = Debug
+		{C42253FC-4396-47CC-88F4-4FDD409CE62B}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
