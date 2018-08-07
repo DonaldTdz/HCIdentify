@@ -1,8 +1,4 @@
-﻿using Cognex.VisionPro;
-using Cognex.VisionPro.Exceptions;
-using Cognex.VisionPro.ImageFile;
-using Cognex.VisionPro.ToolBlock;
-using HC.Identify.Application.Identify;
+﻿using HC.Identify.Application.Identify;
 using HC.Identify.Application.VisionPro;
 using HC.Identify.Dto.Identify;
 using HC.Identify.Dto.VisionPro;
@@ -20,9 +16,15 @@ using System.Windows.Forms;
 using static HC.Identify.App.Main;
 using static HC.Identify.Core.Identify.IdentifyEnum;
 
+using Cognex.VisionPro;
+using Cognex.VisionPro.ToolBlock;
+using Cognex.VisionPro.ImageFile;
+using Cognex.VisionPro.FGGigE;
+using Cognex.VisionPro.Exceptions;
+
 namespace HC.Identify.App
 {
-    public partial class VisionProSetting : FormMainChildren
+    public partial class VisionProSetting: Form //: FormMainChildren
     {
         bool isCameraOnline;       //是否连接相机
         string currentrDirectory;//当前根文件夹
@@ -51,6 +53,10 @@ namespace HC.Identify.App
         public VisionProSetting()
         {
             InitializeComponent();
+            cameraSettingAppService = new CameraSettingAppService();
+            GetCameraSetting();
+            //cameraSettingShowDto = new CameraSettingShowDto();
+            InitImage();
         }
 
         public VisionProSetting(Main mainForm)
@@ -75,6 +81,10 @@ namespace HC.Identify.App
                 totalImgCount = imgDir.GetFiles().Length;
                 fileInfos = imgDir.GetFileSystemInfos();
             }
+            else
+            {
+                return; //如果为空就返回
+            }
             if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
               fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
             {
@@ -88,7 +98,33 @@ namespace HC.Identify.App
         private void VisionProSetting_Load(object sender, EventArgs e)
         {
             //连接相机
-            ConnectionCamera();
+            CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
+            if (mFrameGrabbers.Count == 0)
+            {
+                isCameraOnline = false;
+                btnLiveDisplay.Enabled = false; //禁用连续取像
+                chkCamTrigOn.Enabled = false;   //禁用相机外部启用模式
+
+                MessageBox.Show("无相机连接，运行离线模式");
+            }
+            else//相机模式运行
+            {
+                isCameraOnline = true;
+                //获取第一个相机图片
+                icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+                // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
+                //添加获取完成处理事件
+                icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
+                int numReadyVal;   //读取值
+                int numPendingVal; //等待值
+                int iNum = icogAcqFifo.StartAcquire(); //开始获取
+                //获取图片
+                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                //显示图片
+                cogRecordDisplay.Image = icogColorImage;
+                cogRecordDisplay.Fit(false);
+            }
+            //ConnectionCamera();
             currentrDirectory = Directory.GetCurrentDirectory();
             cogToolBlock = (CogToolBlock)CogSerializer.LoadObjectFromFile(currentrDirectory + "\\TB_Set.Vpp");
             var csvDataPath = currentrDirectory + "\\Data\\Data.csv";

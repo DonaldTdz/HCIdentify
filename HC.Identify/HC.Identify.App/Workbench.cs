@@ -1037,5 +1037,14 @@ namespace HC.Identify.App
             }
             RefreshRunData();
         }
+
+        private void Workbench_InputLanguageChanging(object sender, InputLanguageChangingEventArgs e)
+        {
+            if (icogAcqFifo != null)
+            {
+                icogAcqFifo.Flush();
+                icogAcqFifo.FrameGrabber.Disconnect(false);
+            }
+        }
     }
 }

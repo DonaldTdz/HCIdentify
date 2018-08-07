@@ -94,7 +94,7 @@ namespace HC.Identify.App
                         };break;
                     case "VisionProSetting":
                         {
-                            form = new VisionProSetting(this);
+                            //form = new VisionProSetting(this);
                         };break;
                     case "BatchAdjustment":
                         {
