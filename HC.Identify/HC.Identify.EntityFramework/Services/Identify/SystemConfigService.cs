@@ -10,11 +10,11 @@ using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.EntityFramework.Services.Identify
 {
-   public class SystemConfigService
+    public class SystemConfigService
     {
         public List<SystemConfigDto> GetAllConfig()
         {
-            using (IdentifyContext context=new IdentifyContext())
+            using (IdentifyContext context = new IdentifyContext())
             {
                 var result = context.SystemConfig.Select(s => new SystemConfigDto
                 {
@@ -32,7 +32,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
         {
             using (IdentifyContext context = new IdentifyContext())
             {
-                var result = context.SystemConfig.Where(s=>s.Code==code).Select(s => new SystemConfigDto
+                var result = context.SystemConfig.Where(s => s.Code == code).Select(s => new SystemConfigDto
                 {
                     Id = s.Id,
                     Code = s.Code,
@@ -47,7 +47,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
         {
             using (IdentifyContext context = new IdentifyContext())
             {
-                var result=context.SystemConfig.AddRange(configs).Count();
+                var result = context.SystemConfig.AddRange(configs).Count();
                 context.SaveChanges();
                 return result;
             }
@@ -64,7 +64,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                     query.AdditiValue = item.AdditiValue;
                     query.IsAction = item.IsAction;
                 }
-               var result= context.SaveChanges();
+                var result = context.SaveChanges();
                 return result;
             }
         }

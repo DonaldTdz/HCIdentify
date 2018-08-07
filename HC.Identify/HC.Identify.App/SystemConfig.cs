@@ -31,15 +31,15 @@ namespace HC.Identify.App
             configs = systemConfigAppService.GetAllConfig();
             if (configs.Count > 0)
             {
-                foreach(var item in configs)
+                foreach (var item in configs)
                 {
-                    if(item.Code== ConfigEnum.中软)
+                    if (item.Code == ConfigEnum.中软)
                     {
                         txt_ZRIP.Text = item.Value;
                         txt_ZRPort.Text = item.AdditiValue;
                         check_isActionzr.Checked = item.IsAction;
                     }
-                    if(item.Code == ConfigEnum.条码)
+                    if (item.Code == ConfigEnum.条码)
                     {
                         txt_brandIP.Text = item.Value;
                         txt_brandPort.Text = item.AdditiValue;

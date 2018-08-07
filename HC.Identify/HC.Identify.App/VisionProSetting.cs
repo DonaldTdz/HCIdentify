@@ -28,7 +28,6 @@ namespace HC.Identify.App
     {
         bool isCameraOnline;       //是否连接相机
         string currentrDirectory;//当前根文件夹
-
         #region 康耐视
 
         ICogAcqFifo icogAcqFifo;  //获取数据
@@ -37,7 +36,10 @@ namespace HC.Identify.App
         CogToolBlock cogToolBlockCopy = new CogToolBlock();
         CogImageFileTool cogImageFile = new CogImageFileTool(); //图像处理工具
         private VisionProAppService visionProAppService;
-
+        //FileSystemInfo[] fileInfos;
+        //int imgIndex;
+        //ArrayList cogResultArray = new ArrayList();
+        //int totalImgCount = 0;
         #endregion
 
         #region 数据存储处理
@@ -109,6 +111,13 @@ namespace HC.Identify.App
             }
             else//相机模式运行
             {
+                ////相机外部模式（后期需验证）
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                //icogAcqFifo.Flush();
+                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
                 isCameraOnline = true;
                 //获取第一个相机图片
                 icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
@@ -639,7 +648,7 @@ namespace HC.Identify.App
                 }
                 //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
                 //visionProAppService._icogColorImage = icogColorImage;
-
+                
             }
 
             RunCalculation();
