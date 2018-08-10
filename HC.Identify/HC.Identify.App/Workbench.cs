@@ -109,10 +109,10 @@ namespace HC.Identify.App
                     this.MainForm.SetZRStatus(FrameStatusEnum.None);
                 }
             }
-            else
-            {
-                MessageBox.Show("请配置中软ip地址信息");
-            }
+            //else
+            //{
+            //    MessageBox.Show("请配置中软ip地址信息");
+            //}
             var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
             if (scanConfig != null)
             {

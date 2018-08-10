@@ -98,8 +98,8 @@ namespace HC.Identify.App
                     systemConfigAppService.UpdateOrCreate(Configs);
                     configs = systemConfigAppService.GetAllConfig();
                     MessageBox.Show("保存成功");
-                    System.Windows.Forms.Application.Restart();
-                    this.MainForm.Dispose();
+                    System.Windows.Forms.Application.Exit();
+                    //this.MainForm.Dispose();
                 }
                 catch (Exception ex)
                 {
