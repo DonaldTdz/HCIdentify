@@ -38,8 +38,15 @@
             this.toolFrameStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolFrameStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolS_scan = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolS_zr = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolRunStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolRunStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,8 +125,15 @@
             this.toolFrameStatus,
             this.toolFrameStatusVal,
             this.toolStripStatusLabel1,
+            this.toolStripStatusLabel3,
+            this.toolS_scan,
+            this.toolStripStatusLabel7,
+            this.toolStripStatusLabel6,
+            this.toolS_zr,
+            this.toolStripStatusLabel8,
             this.toolRunStatus,
-            this.toolRunStatusVal});
+            this.toolRunStatusVal,
+            this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 659);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
@@ -131,20 +145,58 @@
             // 
             this.toolFrameStatus.Name = "toolFrameStatus";
             this.toolFrameStatus.Size = new System.Drawing.Size(68, 17);
-            this.toolFrameStatus.Text = "相机未连接";
+            this.toolFrameStatus.Text = "相机视觉：";
             // 
             // toolFrameStatusVal
             // 
-            this.toolFrameStatusVal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolFrameStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolFrameStatusVal.Image")));
             this.toolFrameStatusVal.Name = "toolFrameStatusVal";
-            this.toolFrameStatusVal.Size = new System.Drawing.Size(16, 17);
+            this.toolFrameStatusVal.Size = new System.Drawing.Size(60, 17);
+            this.toolFrameStatusVal.Text = "未启用";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(144, 17);
-            this.toolStripStatusLabel1.Text = "                                  ";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(24, 17);
+            this.toolStripStatusLabel1.Text = "    ";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(68, 17);
+            this.toolStripStatusLabel3.Text = "相机读码：";
+            // 
+            // toolS_scan
+            // 
+            this.toolS_scan.Image = ((System.Drawing.Image)(resources.GetObject("toolS_scan.Image")));
+            this.toolS_scan.Name = "toolS_scan";
+            this.toolS_scan.Size = new System.Drawing.Size(60, 17);
+            this.toolS_scan.Text = "未启用";
+            // 
+            // toolStripStatusLabel7
+            // 
+            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
+            this.toolStripStatusLabel7.Size = new System.Drawing.Size(28, 17);
+            this.toolStripStatusLabel7.Text = "     ";
+            // 
+            // toolStripStatusLabel6
+            // 
+            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
+            this.toolStripStatusLabel6.Size = new System.Drawing.Size(68, 17);
+            this.toolStripStatusLabel6.Text = "中软通信：";
+            // 
+            // toolS_zr
+            // 
+            this.toolS_zr.Image = ((System.Drawing.Image)(resources.GetObject("toolS_zr.Image")));
+            this.toolS_zr.Name = "toolS_zr";
+            this.toolS_zr.Size = new System.Drawing.Size(60, 17);
+            this.toolS_zr.Text = "未启用";
+            // 
+            // toolStripStatusLabel8
+            // 
+            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
+            this.toolStripStatusLabel8.Size = new System.Drawing.Size(24, 17);
+            this.toolStripStatusLabel8.Text = "    ";
             // 
             // toolRunStatus
             // 
@@ -159,6 +211,11 @@
             this.toolRunStatusVal.Name = "toolRunStatusVal";
             this.toolRunStatusVal.Size = new System.Drawing.Size(60, 17);
             this.toolRunStatusVal.Text = "未开始";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
             // 
             // 系统管理ToolStripMenuItem
             // 
@@ -181,6 +238,7 @@
             this.系统配置ToolStripMenuItem1.Name = "系统配置ToolStripMenuItem1";
             this.系统配置ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.系统配置ToolStripMenuItem1.Text = "系统配置";
+            this.系统配置ToolStripMenuItem1.Click += new System.EventHandler(this.系统配置ToolStripMenuItem1_Click);
             // 
             // 视觉配置ToolStripMenuItem
             // 
@@ -259,6 +317,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "视觉识别控制系统";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -294,6 +353,13 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolRunStatus;
         private System.Windows.Forms.ToolStripStatusLabel toolRunStatusVal;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel toolS_scan;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.ToolStripStatusLabel toolS_zr;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel8;
     }
 }
 

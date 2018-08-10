@@ -1,4 +1,5 @@
-﻿using HC.Identify.Application.Identify;
+﻿using HC.Identify.Application;
+using HC.Identify.Application.Identify;
 using HC.Identify.Dto.Identify;
 using System;
 using System.Collections.Generic;
@@ -9,21 +10,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static HC.Identify.App.Main;
 using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
 {
-    public partial class SystemConfig : Form
+    public partial class SystemConfig : FormMainChildren
     {
         public SystemConfigAppService systemConfigAppService;
         public List<SystemConfigDto> configs;
+        SocketClient socketClient;
+        Workbench workbench;
+        public Main MainForm;
         public SystemConfig()
         {
             InitializeComponent();
         }
         public SystemConfig(Main mainForm)
         {
+            InitializeComponent();
             InitAddress();
+            MainForm = mainForm;
         }
         public void InitAddress()
         {
@@ -41,9 +48,14 @@ namespace HC.Identify.App
                     }
                     if (item.Code == ConfigEnum.条码)
                     {
-                        txt_brandIP.Text = item.Value;
-                        txt_brandPort.Text = item.AdditiValue;
+                        txt_brandIP.Text = "192.168.0.128";
+                        //txt_brandIP.Text = item.Value.ToString();
+                        txt_brandPort.Text = item.AdditiValue.ToString();
                         check_isActionBr.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.图像)
+                    {
+                        ck_photo.Checked = item.IsAction;
                     }
                 }
             }
@@ -51,39 +63,48 @@ namespace HC.Identify.App
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            var creConfig = new List<SystemConfigDto>();
-            var upConfig = new List<SystemConfigDto>();
-            //中软
-            var zrConfig = new SystemConfigDto();
-            zrConfig.Code = ConfigEnum.中软;
-            zrConfig.Value = txt_ZRIP.Text;
-            zrConfig.AdditiValue = txt_ZRPort.Text;
-            zrConfig.IsAction = check_isActionzr.Checked;
-            var resultzr = configs.Where(c => c.Code == ConfigEnum.中软).FirstOrDefault();
-            if (resultzr != null)
+            if (MessageBox.Show("保存之后需要重启，请确认？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                zrConfig.Id = resultzr.Id;
-                upConfig.Add(zrConfig);
-            }
-            //条码
-            var brConfig = new SystemConfigDto();
-            brConfig.Code = ConfigEnum.中软;
-            brConfig.Value = txt_ZRIP.Text;
-            brConfig.AdditiValue = txt_ZRPort.Text;
-            brConfig.IsAction = check_isActionzr.Checked;
-            var resultbr = configs.Where(c => c.Code == ConfigEnum.中软).FirstOrDefault();
-            if (resultbr != null)
-            {
-                zrConfig.Id = resultbr.Id;
-                creConfig.Add(zrConfig);
-            }
-            if (creConfig.Count > 0)
-            {
-                systemConfigAppService.CreateSystemConfig(creConfig);
-            }
-            if (upConfig.Count > 0)
-            {
-                systemConfigAppService.Update(upConfig);
+                var Configs = new List<SystemConfigDto>();
+                //var upConfig = new List<SystemConfigDto>();
+                //中软
+                var zrConfig = new SystemConfigDto();
+                zrConfig.Code = ConfigEnum.中软;
+                zrConfig.Value = txt_ZRIP.Text;
+                zrConfig.AdditiValue = txt_ZRPort.Text;
+                zrConfig.IsAction = check_isActionzr.Checked;
+                if (!string.IsNullOrEmpty(txt_ZRIP.Text) && !string.IsNullOrEmpty(txt_ZRPort.Text))
+                {
+                    Configs.Add(zrConfig);
+                }
+
+                //条码
+                var brConfig = new SystemConfigDto();
+                brConfig.Code = ConfigEnum.条码;
+                brConfig.Value = txt_brandIP.Text;
+                brConfig.AdditiValue = txt_brandPort.Text;
+                brConfig.IsAction = check_isActionBr.Checked;
+                if (!string.IsNullOrEmpty(txt_brandIP.Text) && !string.IsNullOrEmpty(txt_brandPort.Text))
+                {
+                    Configs.Add(brConfig);
+                }
+                //视觉相机
+                var phConfig = new SystemConfigDto();
+                phConfig.Code = ConfigEnum.图像;
+                phConfig.IsAction = ck_photo.Checked;
+                Configs.Add(phConfig);
+                try
+                {
+                    systemConfigAppService.UpdateOrCreate(Configs);
+                    configs = systemConfigAppService.GetAllConfig();
+                    MessageBox.Show("保存成功");
+                    System.Windows.Forms.Application.Restart();
+                    this.MainForm.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("保存失败，详细信息：" + ex.InnerException.Message);
+                }
             }
         }
 
@@ -105,7 +126,33 @@ namespace HC.Identify.App
                         txt_brandPort.Text = item.AdditiValue;
                         check_isActionBr.Checked = item.IsAction;
                     }
+                    if (item.Code == ConfigEnum.图像)
+                    {
+                        ck_photo.Checked = item.IsAction;
+                    }
                 }
+            }
+        }
+
+        private void btn_connect_Click(object sender, EventArgs e)
+        {
+            var zrIp = txt_ZRIP.Text;
+            var zrPort = txt_ZRPort.Text;
+            var zrIsCheck = check_isActionzr.Checked;
+            if(!string.IsNullOrEmpty(zrIp)&&!string.IsNullOrEmpty(zrPort))
+            {
+                socketClient = new SocketClient(zrIp, int.Parse(zrPort), zrIsCheck);
+                socketClient.Open();
+            }
+            var brIp = txt_brandIP.Text;
+            var brPort = txt_brandPort.Text;
+            var brIsCheck = check_isActionBr.Checked;
+            if (!string.IsNullOrEmpty(brIp) && !string.IsNullOrEmpty(brPort)&& brIsCheck)
+            {
+                workbench = new Workbench();
+                workbench.configs = systemConfigAppService.GetAllConfig();
+                workbench.ScanIsAction = brIsCheck;
+                workbench.Scanner();
             }
         }
     }

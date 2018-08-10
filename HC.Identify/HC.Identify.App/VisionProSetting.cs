@@ -24,7 +24,7 @@ using Cognex.VisionPro.Exceptions;
 
 namespace HC.Identify.App
 {
-    public partial class VisionProSetting: Form //: FormMainChildren
+    public partial class VisionProSetting : FormMainChildren
     {
         bool isCameraOnline;       //是否连接相机
         string currentrDirectory;//当前根文件夹

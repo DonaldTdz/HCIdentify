@@ -92,6 +92,7 @@ namespace HC.Identify.App
             this.lab_lastHose_title = new System.Windows.Forms.Label();
             this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btn_test = new System.Windows.Forms.Button();
+            this.btn_connect = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
@@ -398,7 +399,7 @@ namespace HC.Identify.App
             this.txtSpecHistry.Multiline = true;
             this.txtSpecHistry.Name = "txtSpecHistry";
             this.txtSpecHistry.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSpecHistry.Size = new System.Drawing.Size(300, 182);
+            this.txtSpecHistry.Size = new System.Drawing.Size(295, 218);
             this.txtSpecHistry.TabIndex = 1;
             // 
             // groupBox1
@@ -670,7 +671,7 @@ namespace HC.Identify.App
             // 
             // btn_test
             // 
-            this.btn_test.Location = new System.Drawing.Point(770, 555);
+            this.btn_test.Location = new System.Drawing.Point(686, 555);
             this.btn_test.Name = "btn_test";
             this.btn_test.Size = new System.Drawing.Size(102, 36);
             this.btn_test.TabIndex = 8;
@@ -679,12 +680,24 @@ namespace HC.Identify.App
             this.btn_test.Visible = false;
             this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
             // 
+            // btn_connect
+            // 
+            this.btn_connect.Location = new System.Drawing.Point(819, 555);
+            this.btn_connect.Name = "btn_connect";
+            this.btn_connect.Size = new System.Drawing.Size(102, 36);
+            this.btn_connect.TabIndex = 9;
+            this.btn_connect.Text = "重连相机扫码器";
+            this.btn_connect.UseVisualStyleBackColor = true;
+            this.btn_connect.Visible = false;
+            this.btn_connect.Click += new System.EventHandler(this.btn_connect_Click);
+            // 
             // Workbench
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 591);
+            this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.btn_test);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtSpecHistry);
@@ -697,6 +710,8 @@ namespace HC.Identify.App
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Workbench";
             this.Text = "工作台";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Workbench_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Workbench_FormClosed);
             this.Load += new System.EventHandler(this.Workbench_Load);
             this.InputLanguageChanging += new System.Windows.Forms.InputLanguageChangingEventHandler(this.Workbench_InputLanguageChanging);
             this.tabControl1.ResumeLayout(false);
@@ -777,5 +792,6 @@ namespace HC.Identify.App
         private System.Windows.Forms.Button btn_test;
         private System.Windows.Forms.Label lblIdentifyTime;
         private System.Windows.Forms.Label spendTime;
+        private System.Windows.Forms.Button btn_connect;
     }
 }

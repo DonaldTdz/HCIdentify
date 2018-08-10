@@ -58,7 +58,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
             {
                 foreach (var item in configs)
                 {
-                    var query = context.SystemConfig.Where(s => s.Id == item.Id).FirstOrDefault();
+                    var query = context.SystemConfig.Where(s => s.Code == item.Code).FirstOrDefault();
                     query.Code = item.Code;
                     query.Value = item.Value;
                     query.AdditiValue = item.AdditiValue;
@@ -68,5 +68,14 @@ namespace HC.Identify.EntityFramework.Services.Identify
                 return result;
             }
         }
+        public bool IsExtend(ConfigEnum code)
+        {
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                var isExtent = context.SystemConfig.Any(s => s.Code == code);
+                return isExtent;
+            }
+        }
+
     }
 }

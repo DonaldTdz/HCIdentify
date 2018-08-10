@@ -17,7 +17,7 @@ namespace HC.Identify.Dto.Identify
         /// <summary>
         /// 类型
         /// </summary>
-        public ConfigEnum? Code { get; set; }
+        public ConfigEnum Code { get; set; }
 
         /// <summary>
         /// 值（ip）

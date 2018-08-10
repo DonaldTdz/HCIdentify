@@ -39,7 +39,8 @@
             this.txt_brandPort = new System.Windows.Forms.TextBox();
             this.check_isActionBr = new System.Windows.Forms.CheckBox();
             this.btn_Save = new System.Windows.Forms.Button();
-            this.btn_Cancel = new System.Windows.Forms.Button();
+            this.lab_Photo = new System.Windows.Forms.Label();
+            this.ck_photo = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -47,9 +48,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(206, 204);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 12);
+            this.label1.Size = new System.Drawing.Size(77, 12);
             this.label1.TabIndex = 0;
-            this.label1.Text = "中软接口IP:";
+            this.label1.Text = "中软接口IP：";
             // 
             // txt_ZRIP
             // 
@@ -89,9 +90,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(206, 265);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 12);
+            this.label3.Size = new System.Drawing.Size(77, 12);
             this.label3.TabIndex = 5;
-            this.label3.Text = "条码系统IP:";
+            this.label3.Text = "条码相机IP：";
             // 
             // txt_brandIP
             // 
@@ -128,7 +129,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(335, 489);
+            this.btn_Save.Location = new System.Drawing.Point(337, 470);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(86, 39);
             this.btn_Save.TabIndex = 10;
@@ -136,22 +137,32 @@
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
-            // btn_Cancel
+            // lab_Photo
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(468, 489);
-            this.btn_Cancel.Name = "btn_Cancel";
-            this.btn_Cancel.Size = new System.Drawing.Size(75, 39);
-            this.btn_Cancel.TabIndex = 11;
-            this.btn_Cancel.Text = "取消";
-            this.btn_Cancel.UseVisualStyleBackColor = true;
-            this.btn_Cancel.Click += new System.EventHandler(this.btn_Cancel_Click);
+            this.lab_Photo.AutoSize = true;
+            this.lab_Photo.Location = new System.Drawing.Point(208, 159);
+            this.lab_Photo.Name = "lab_Photo";
+            this.lab_Photo.Size = new System.Drawing.Size(65, 12);
+            this.lab_Photo.TabIndex = 11;
+            this.lab_Photo.Text = "视觉相机：";
+            // 
+            // ck_photo
+            // 
+            this.ck_photo.AutoSize = true;
+            this.ck_photo.Location = new System.Drawing.Point(283, 155);
+            this.ck_photo.Name = "ck_photo";
+            this.ck_photo.Size = new System.Drawing.Size(72, 16);
+            this.ck_photo.TabIndex = 12;
+            this.ck_photo.Text = "是否启用";
+            this.ck_photo.UseVisualStyleBackColor = true;
             // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 591);
-            this.Controls.Add(this.btn_Cancel);
+            this.Controls.Add(this.ck_photo);
+            this.Controls.Add(this.lab_Photo);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.check_isActionBr);
             this.Controls.Add(this.txt_brandPort);
@@ -183,6 +194,7 @@
         private System.Windows.Forms.TextBox txt_brandPort;
         private System.Windows.Forms.CheckBox check_isActionBr;
         private System.Windows.Forms.Button btn_Save;
-        private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.Label lab_Photo;
+        private System.Windows.Forms.CheckBox ck_photo;
     }
 }

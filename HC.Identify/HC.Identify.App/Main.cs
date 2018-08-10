@@ -19,6 +19,8 @@ namespace HC.Identify.App
         UserAppService userAppServer;
         public FrameStatusEnum FrameStatus { get; set; }
         public RunStatusEnum RunStatus { get; set; }
+        public FrameStatusEnum ZRStatus { get; set; }
+        public FrameStatusEnum ScannerStatus { get; set; }
         //COMServer cOMServer;//串口通信测试
         //SocketServer socketServer;
         //SocketClient socketClient;
@@ -91,14 +93,18 @@ namespace HC.Identify.App
                     case "Workbench":
                         {
                             form = new Workbench(this);
-                        };break;
+                        }; break;
                     case "VisionProSetting":
                         {
-                            //form = new VisionProSetting(this);
-                        };break;
+                            form = new VisionProSetting(this);
+                        }; break;
                     case "BatchAdjustment":
                         {
                             form = new BatchAdjustment(this);
+                        }; break;
+                    case "SystemConfig":
+                        {
+                            form = new SystemConfig(this);
                         }; break;
                     default:
                         break;
@@ -118,14 +124,23 @@ namespace HC.Identify.App
             {
                 case FrameStatusEnum.None:
                     {
-                        this.toolFrameStatus.Text = "相机未连接";
+                        this.toolFrameStatusVal.Text = "未连接";
+                        this.toolFrameStatusVal.ForeColor = Color.Red;
                         this.toolFrameStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
                     }
                     break;
                 case FrameStatusEnum.Connected:
                     {
-                        this.toolFrameStatus.Text = "相机已连接";
+                        this.toolFrameStatusVal.Text = "已连接";
+                        this.toolFrameStatusVal.ForeColor = Color.Green;
                         this.toolFrameStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                case FrameStatusEnum.NotEnabled:
+                    {
+                        this.toolFrameStatusVal.Text = "未启用";
+                        this.toolFrameStatusVal.ForeColor = Color.Gray;
+                        this.toolFrameStatusVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
                     }
                     break;
                 default:
@@ -175,7 +190,8 @@ namespace HC.Identify.App
         public enum FrameStatusEnum
         {
             None = 0, //未连接
-            Connected = 1 //已连接
+            Connected = 1, //已连接
+            NotEnabled = 3,//未启用
         }
 
         public enum RunStatusEnum
@@ -225,6 +241,86 @@ namespace HC.Identify.App
                 return true;
             }
 
+        }
+
+        private void 系统配置ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.ShowForm("SystemConfig");
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// 设置中软状态
+        /// </summary>
+        /// <param name="frameStatusEnum"></param>
+        public void SetZRStatus(FrameStatusEnum frameStatusEnum)
+        {
+            this.ZRStatus = frameStatusEnum;
+            switch (frameStatusEnum)
+            {
+                case FrameStatusEnum.None:
+                    {
+                        this.toolS_zr.Text = "未连接";
+                        this.toolS_zr.ForeColor = Color.Red;
+                        this.toolS_zr.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
+                    }
+                    break;
+                case FrameStatusEnum.Connected:
+                    {
+                        this.toolS_zr.Text = "已连接";
+                        this.toolS_zr.ForeColor = Color.Green;
+                        this.toolS_zr.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                case FrameStatusEnum.NotEnabled:
+                    {
+                        this.toolS_zr.Text = "未启用";
+                        this.toolS_zr.ForeColor = Color.Gray;
+                        this.toolS_zr.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 设置读码器状态
+        /// </summary>
+        /// <param name="frameStatusEnum"></param>
+        public void SetScannerStatus(FrameStatusEnum frameStatusEnum)
+        {
+            this.ScannerStatus = frameStatusEnum;
+            switch (frameStatusEnum)
+            {
+                case FrameStatusEnum.None:
+                    {
+                        this.toolS_scan.Text = "未连接";
+                        this.toolS_scan.ForeColor = Color.Red;
+                        this.toolS_scan.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
+                    }
+                    break;
+                case FrameStatusEnum.Connected:
+                    {
+                        this.toolS_scan.Text = "已连接";
+                        this.toolS_scan.ForeColor = Color.Green;
+                        this.toolS_scan.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                case FrameStatusEnum.NotEnabled:
+                    {
+                        this.toolS_scan.Text = "未启用";
+                        this.toolS_scan.ForeColor = Color.Gray;
+                        this.toolS_scan.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

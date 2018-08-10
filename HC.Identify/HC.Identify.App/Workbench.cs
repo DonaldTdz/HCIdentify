@@ -41,13 +41,13 @@ namespace HC.Identify.App
         private IList<OrderInfoTableDto> orderInfos;//当前选项的详细订单信息
         private SystemConfigAppService systemConfigAppService;
         private SystemConfigDto config;
-        private IList<SystemConfigDto> configs;
+        public IList<SystemConfigDto> configs;
         public CsvSpecification imgData;
 
         private bool IsStart = false; //是否开始
         //扫码器
         public Thread threadScanner = null;
-        Socket scannerSocket = null;
+        SocketClient scannerSocket = null;
         public bool scanConnected = false;
         //测试
         FileSystemInfo[] fileInfos;
@@ -59,7 +59,7 @@ namespace HC.Identify.App
         COMServer cOMServer;//串口通信测试
         SocketServer socketServer;
         SocketClient socketClient;
-        public bool IsConnection = false;
+        public bool IsConnection = false;//中软通信是否连接
         public bool ScanIsAction = false;//扫码器是否启用
 
         public Workbench()
@@ -73,8 +73,8 @@ namespace HC.Identify.App
             this.MainForm = mainForm;
             InitServices();         //初始化服务
             BindDistributionLine(); //配送线路
-            initCommunication();
-            InitFrame();            //初始化相机
+            initCommunication();//在相机初始化（InitFrame()）之前初始化
+            InitFrame(); //初始化相机
             //InitImage();//测试-图片集初始化
         }
         /// <summary>
@@ -85,6 +85,8 @@ namespace HC.Identify.App
             systemConfigAppService = new SystemConfigAppService();
             configs = systemConfigAppService.GetAllConfig();
             config = configs.Where(s => s.Code == ConfigEnum.中软).FirstOrDefault();
+
+            #region 测试代码
             //串口测试初始化
             //cOMServer = new COMServer("COM4", 9600, 7, StopBits.One, Parity.Even);
             //cOMServer.Open();
@@ -92,14 +94,19 @@ namespace HC.Identify.App
             //服务端
             //socketServer = new SocketServer();
             //socketServer.Open();
+            #endregion
             //客户端
             if (config != null)
             {
                 socketClient = new SocketClient(config.Value, int.Parse(config.AdditiValue), config.IsAction);
-                if (!IsConnection)
+                socketClient.Open();
+                if (socketClient.IsConnection)
                 {
-                    socketClient.Open();
-                    IsConnection = true;
+                    this.MainForm.SetZRStatus(FrameStatusEnum.Connected);
+                }
+                else if (socketClient.IsAction)
+                {
+                    this.MainForm.SetZRStatus(FrameStatusEnum.None);
                 }
             }
             else
@@ -109,7 +116,11 @@ namespace HC.Identify.App
             var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
             if (scanConfig != null)
             {
-                ScanIsAction = scanConfig.IsAction;
+                ScanIsAction = scanConfig.IsAction;//用于判断读码或相机结果匹配方法的调用位置
+                if (scanConfig.IsAction)
+                {
+                    this.MainForm.SetScannerStatus(FrameStatusEnum.None);
+                }
             }
 
         }
@@ -203,39 +214,47 @@ namespace HC.Identify.App
         /// </summary>
         private void InitFrame()
         {
-            CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
-            if (mFrameGrabbers.Count == 0)
+            var photoConfig = configs.Where(c => c.Code == ConfigEnum.图像).FirstOrDefault();
+            if (photoConfig != null && photoConfig.IsAction)
             {
-                this.MainForm.SetFrameStatus(FrameStatusEnum.None);
-            }
-            else//相机模式运行
-            {
-                //相机外部模式（后期需验证）
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.Flush();
-                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
-
-                //获取第一个相机图片
-                icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
-                // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
-                //添加获取完成处理事件
-                icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
-                int numReadyVal;   //读取值
-                int numPendingVal; //等待值
-                int iNum = icogAcqFifo.StartAcquire(); //开始获取
-                                                       //获取图片
-                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
-                //显示图片
-                cogRecordDisplay.Image = icogColorImage;
-                cogRecordDisplay.Fit(false);
-                this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
-                visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
-                if (ScanIsAction)
+                CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
+                if (mFrameGrabbers.Count == 0)
                 {
-                    OrderMatch();
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.None);
                 }
+                else//相机模式运行
+                {
+                    //相机外部模式（后期需验证）
+                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                    icogAcqFifo.Flush();
+                    icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
+                    //获取第一个相机图片
+                    icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+                    // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
+                    //添加获取完成处理事件
+                    icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
+                    int numReadyVal;   //读取值
+                    int numPendingVal; //等待值
+                    int iNum = icogAcqFifo.StartAcquire(); //开始获取
+                                                           //获取图片
+                    icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                    //显示图片
+                    cogRecordDisplay.Image = icogColorImage;
+                    cogRecordDisplay.Fit(false);
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
+                    visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+                }
+            }
+            else
+            {
+                this.MainForm.SetFrameStatus(FrameStatusEnum.NotEnabled);
+            }
+            if (ScanIsAction)
+            {
+                Scanner();
             }
         }
 
@@ -265,7 +284,7 @@ namespace HC.Identify.App
                 benginDate = DateTime.Now;
                 imgData = visionProAppService.GetMatchSpecification();//获取匹配结果
                 endDate = DateTime.Now;
-                //写日志
+                #region 写日志
                 var photoRe = "";
                 if (imgData == null)
                 {
@@ -279,9 +298,10 @@ namespace HC.Identify.App
                     photoRe = imgData.Specification.ToString() + "," + goName + "," + DateTime.Now;
                 }
                 CommHelper.WriteLog(_appPath, "最终读取结果：", photoRe);
+                #endregion
                 if (!ScanIsAction)
                 {
-                    OrderMatch();
+                    PhotoMatch();
                     lblIdentifyTime.Text = (endDate - benginDate).Milliseconds.ToString() + "ms";
                 }
             }
@@ -289,7 +309,7 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("The following error has occured\n" + ce.Message);
             }
-           
+
             #region 原代码
             //identifyTotal++;//识别总数+1
             ////匹配计算
@@ -577,20 +597,37 @@ namespace HC.Identify.App
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (this.MainForm.FrameStatus == FrameStatusEnum.None)
+            if (this.MainForm.FrameStatus == FrameStatusEnum.None && this.MainForm.ScannerStatus == FrameStatusEnum.None)
             {
-                MessageBox.Show("请先连接相机后再试");
+                MessageBox.Show("请至少启用一种识别相机再试");
                 return;
             }
-            if (cogRecordDisplay.LiveDisplayRunning)
+            //if (cogRecordDisplay.LiveDisplayRunning)
+            //{
+            //    StartRun();
+            //    this.MainForm.SetRunStatus(RunStatusEnum.Running);
+            //}
+            //else
+            //{
+            //    StopRun();
+            //    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+            //}
+            //当读码器连接成功后启用线程
+            //if (this.MainForm.ScannerStatus == FrameStatusEnum.Connected)
+            //{
+            //    threadScanner.Start();
+            //    scanConnected = true;
+            //}
+
+            if (this.MainForm.RunStatus == RunStatusEnum.Running)
             {
-                StartRun();
-                this.MainForm.SetRunStatus(RunStatusEnum.Running);
+                btnStart.Text = "开始";
+                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
             }
             else
             {
-                StopRun();
-                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                btnStart.Text = "停止";
+                this.MainForm.SetRunStatus(RunStatusEnum.Running);
             }
         }
 
@@ -604,7 +641,7 @@ namespace HC.Identify.App
 
         private void StartRun()
         {
-            //相机模式需解开
+            ////相机模式需解开
             //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
             //cogRecordDisplay.StaticGraphics.Clear();
             //cogRecordDisplay.Record = null;
@@ -615,7 +652,7 @@ namespace HC.Identify.App
             //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
             //cogRecordDisplay.StartLiveDisplay(icogAcqFifo);
             btnStart.Text = "停止";
-            this.MainForm.SetRunStatus(RunStatusEnum.Running);//????
+            this.MainForm.SetRunStatus(RunStatusEnum.Running);
         }
 
         #endregion
@@ -656,34 +693,25 @@ namespace HC.Identify.App
         #region 测试
         private void btn_test_Click(object sender, EventArgs e)
         {
-            OrderMatch();
+            //OrderMatch();
         }
 
         private void RunCalculation()
         {
-            OrderMatch();
+            //OrderMatch();
         }
 
         #endregion
 
-        private void OrderMatch()
+        private void PhotoMatch()
         {
-            if (!ScanIsAction)
-            {
-                identifyTotal++;//识别总数+1
-                var sepec = imgData != null ? imgData.Specification : null;
-
-                //// 测试--正式环境需注释
-                //CheckImage();//切换图片---测试使用（最后改成相机模式切换）
-                //var sepVio = visionProAppService.GetMatchSpecification();//获取匹配结果
-                //var sepec = sepVio != null ? sepVio.Specification : null;
-
-                MatchResult(sepec);
-            }
-            else
-            {
-                Scanner();
-            }
+            //identifyTotal++;//识别总数+1
+            var sepec = imgData != null ? imgData.Specification : null;
+            ////// 测试--正式环境需注释
+            ////CheckImage();//切换图片---测试使用（最后改成相机模式切换）
+            ////var sepVio = visionProAppService.GetMatchSpecification();//获取匹配结果
+            ////var sepec = sepVio != null ? sepVio.Specification : null;
+            MatchResult(sepec);
         }
         #region 备份
         private void OrderMatchBackUP()
@@ -767,31 +795,33 @@ namespace HC.Identify.App
         #endregion
         public void Scanner()
         {
-            try
+            var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            if (scanConfig != null)
             {
-                var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
-                if (scanConfig != null)
+                #region 原读码器通信
+                //设定服务器IP地址  
+                //IPAddress ip = IPAddress.Parse(scanConfig.Value);
+                ////Socket串口通信
+                //scannerSocket = new SocketClient(scanConfig.Value, int.Parse(scanConfig.AdditiValue), scanConfig.IsAction);
+                //scannerSocket.Open();
+                //scannerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //IPEndPoint endPoint = new IPEndPoint(ip, int.Parse(scanConfig.AdditiValue)); // 用指定的ip和端口号初始化IPEndPoint实例
+                //scannerSocket.Connect(endPoint);
+                #endregion
+
+                InstantiationScan(scanConfig);
+                if (scannerSocket.IsConnection)
                 {
-                    //设定服务器IP地址  
-                    IPAddress ip = IPAddress.Parse(scanConfig.Value);
-                    ////Socket串口通信
-                    scannerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    IPEndPoint endPoint = new IPEndPoint(ip, int.Parse(scanConfig.AdditiValue)); // 用指定的ip和端口号初始化IPEndPoint实例
-                    scannerSocket.Connect(endPoint);
                     threadScanner = new Thread(GetScannerOfData);
                     threadScanner.IsBackground = true;
                     //启动线程
                     threadScanner.Start();
                     scanConnected = true;
                 }
-                else
-                {
-                    MessageBox.Show("请配置扫码器ip地址信息");
-                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("连接条码系统失败！失败原因可能为：" + ex.ToString());
+                MessageBox.Show("请配置扫码器ip地址信息");
             }
         }
         string _appPath = System.Windows.Forms.Application.StartupPath;
@@ -803,10 +833,12 @@ namespace HC.Identify.App
             string sepec = "";
             while (true)
             {
-                byte[] receive = new byte[1024];
-                var data = scannerSocket.Receive(receive);
-                var sepScan = Encoding.UTF8.GetString(receive, 0, data);
-                identifyTotal++;//识别总数+1
+                //byte[] receive = new byte[1024];
+                //var data = scannerSocket.clientSocket.Receive(receive);
+                //var sepScan = Encoding.UTF8.GetString(receive, 0, data);
+                //if (scannerSocket.IsAction && scannerSocket.IsConnection && scannerSocket.clientSocket.Available <= 0) continue;
+                var sepScan = scannerSocket.Recive();
+                //identifyTotal++;//识别总数+1
                 string[] split = { "|" };
                 token = sepScan.Split(split, StringSplitOptions.None);
                 switch (token[0])
@@ -814,7 +846,7 @@ namespace HC.Identify.App
                     case "Exit":
                         scanConnected = false;
                         //BeginInvoke(new EventHandler(), token[1]);  // Invoke保证线程安全
-                        scannerSocket.Shutdown(SocketShutdown.Both);
+                        //scannerSocket.Shutdown(SocketShutdown.Both);
                         scannerSocket.Close();
                         break;
                     case "Chat":
@@ -834,17 +866,11 @@ namespace HC.Identify.App
                 else
                 {
                     Thread.Sleep(50);
-
-                    //// 测试正式环境需注释
-                    //CheckImage();//切换图片---测试使用（最后改成相机模式切换）
-                    //var sepVio = visionProAppService.GetMatchSpecification();//获取匹配结果
-                    //sepec = sepVio != null ? sepVio.Specification : null;
-
                     //正式环境
                     sepec = imgData != null ? imgData.Specification : null;
                     endDates = DateTime.Now;
                 }
-                Invoke(new MethodInvoker(delegate ()
+                Invoke(new MethodInvoker(delegate ()//线程安全
                 {
                     lblIdentifyTime.Text = (endDates - benginDate).Milliseconds.ToString() + "ms";
                     MatchResult(sepec);
@@ -964,54 +990,71 @@ namespace HC.Identify.App
 
         public void MatchResult(string sepec)
         {
-            if (sepec == null)//不匹配结果保存异常图片
+            if (this.MainForm.RunStatus == RunStatusEnum.Running)
             {
-                //visionProAppService.SaveImage();
-                this.lblSpecText.Text = string.Empty;
-                this.lblSpecName.Text = string.Empty;
-                this.lblSpecResult.Text = "未匹配模板";
-                this.lblSpecResult.ForeColor = Color.Red;
-                //发送暂停指令
-                //ComSeverSend("NG");//串口通信
-                SocketSend("NG");//socket通信
-                                 // .....
-                StopRun();
-                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-            }
-            else
-            {
-                identifiedNum++; //已识别 + 1
-                this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}\r\n", DateTime.Now.ToString("HH:mm ss"), sepec));
-                this.lblSpecText.Text = sepec;
-                //如识别到 判断当前订单是否存在该商品
-                var goods = orderInfos.Where(o => o.Brand == sepec).FirstOrDefault();
-                var goName = goods != null ? goods.Specification + "," : "";
-                var photoRe = sepec.ToString() + "," + goName + DateTime.Now;
-                CommHelper.WriteLog(_appPath, "最终读取结果：", photoRe);
-                if (goods != null)//匹配正常
+                identifyTotal++;//识别总数+1
+                if (sepec == null)//不匹配结果保存异常图片
                 {
-                    if (goods.Num > goods.Matched)
+                    //visionProAppService.SaveImage();
+                    this.lblSpecText.Text = string.Empty;
+                    this.lblSpecName.Text = string.Empty;
+                    this.lblSpecResult.Text = "未匹配模板";
+                    this.lblSpecResult.ForeColor = Color.Red;
+                    //发送暂停指令
+                    //ComSeverSend("NG");//串口通信
+                    SocketSend("NG");//socket通信
+                                     // .....
+                    StopRun();
+                    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                }
+                else
+                {
+                    identifiedNum++; //已识别 + 1
+                    this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}\r\n", DateTime.Now.ToString("HH:mm ss"), sepec));
+                    this.lblSpecText.Text = sepec;
+                    //如识别到 判断当前订单是否存在该商品
+                    var goods = orderInfos.Where(o => o.Brand == sepec).FirstOrDefault();
+                    var goName = goods != null ? goods.Specification + "," : "";
+                    var photoRe = sepec.ToString() + "," + goName + DateTime.Now;
+                    CommHelper.WriteLog(_appPath, "最终读取结果：", photoRe);
+                    if (goods != null)//匹配正常
                     {
-                        this.lblSpecName.Text = goods.Specification;
-                        this.lblSpecResult.Text = "匹配成功";
-                        this.lblSpecResult.ForeColor = Color.Green;
-                        goods.Matched++;
-                        orderCheckNum++;//订单匹配总数+1
-                                        //发送中软匹配成功
-                                        //ComSeverSend(goods.Brand);//串口通信
-                        SocketSend(goods.Brand);//socket通信
-                                                // ......
-                                                //更新订单信息的datagrid
-                        orderInfos.Remove(goods);
-                        goods.Matched = goods.Matched++;
-                        orderInfos.Add(goods);
-                        GV_orderInfo.DataSource = orderInfos;
-                        GV_orderInfo.Refresh();
+                        if (goods.Num > goods.Matched)
+                        {
+                            this.lblSpecName.Text = goods.Specification;
+                            this.lblSpecResult.Text = "匹配成功";
+                            this.lblSpecResult.ForeColor = Color.Green;
+                            goods.Matched++;
+                            orderCheckNum++;//订单匹配总数+1
+                                            //发送中软匹配成功
+                                            //ComSeverSend(goods.Brand);//串口通信
+                            SocketSend(goods.Brand);//socket通信
+                                                    // ......
+                                                    //更新订单信息的datagrid
+                            orderInfos.Remove(goods);
+                            goods.Matched = goods.Matched++;
+                            orderInfos.Add(goods);
+                            GV_orderInfo.DataSource = orderInfos;
+                            GV_orderInfo.Refresh();
+                        }
+                        else
+                        {
+                            this.lblSpecName.Text = goods.Specification;
+                            this.lblSpecResult.Text = "匹配已满";
+                            this.lblSpecResult.ForeColor = Color.Red;
+                            //发送暂停指令
+                            //ComSeverSend("NG");//串口通信
+                            SocketSend("NG");//socket通信
+                                             // ......
+                            StopRun();
+                            this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                        }
+
                     }
-                    else
+                    else //当前订单不存在
                     {
-                        this.lblSpecName.Text = goods.Specification;
-                        this.lblSpecResult.Text = "匹配已满";
+                        this.lblSpecName.Text = string.Empty;
+                        this.lblSpecResult.Text = "订单不存在";
                         this.lblSpecResult.ForeColor = Color.Red;
                         //发送暂停指令
                         //ComSeverSend("NG");//串口通信
@@ -1020,22 +1063,9 @@ namespace HC.Identify.App
                         StopRun();
                         this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
                     }
-
                 }
-                else //当前订单不存在
-                {
-                    this.lblSpecName.Text = string.Empty;
-                    this.lblSpecResult.Text = "订单不存在";
-                    this.lblSpecResult.ForeColor = Color.Red;
-                    //发送暂停指令
-                    //ComSeverSend("NG");//串口通信
-                    SocketSend("NG");//socket通信
-                                     // ......
-                    StopRun();
-                    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-                }
+                RefreshRunData();
             }
-            RefreshRunData();
         }
 
         private void Workbench_InputLanguageChanging(object sender, InputLanguageChangingEventArgs e)
@@ -1044,6 +1074,97 @@ namespace HC.Identify.App
             {
                 icogAcqFifo.Flush();
                 icogAcqFifo.FrameGrabber.Disconnect(false);
+            }
+        }
+
+        private void Workbench_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (threadScanner != null)
+            {
+                threadScanner.Abort();//终止线程
+            }
+            if (socketClient != null)
+            {
+                socketClient.IsConnection = false;
+                socketClient.Close();//需要判断曾经是否连接中软
+            }
+            if (scannerSocket != null)
+            {
+                scannerSocket.IsConnection = false;
+                scannerSocket.Close();//扫码器
+            }
+        }
+
+        private void Workbench_FormClosed(object sender, FormClosedEventArgs e)
+        {
+           
+        }
+
+        /// <summary>
+        /// 重新连接通信设备
+        /// </summary>
+        private void btn_connect_Click(object sender, EventArgs e)
+        {
+            configs = systemConfigAppService.GetAllConfig();
+            ////中软
+            //var zrconfig = configs.Where(s => s.Code == ConfigEnum.中软).FirstOrDefault();
+            //if (zrconfig != null)
+            //{
+            //    if (socketClient != null)
+            //    {
+            //        socketClient.Address = zrconfig.Value;
+            //        socketClient.Port = int.Parse(zrconfig.AdditiValue);
+            //        socketClient.IsAction = zrconfig.IsAction;
+            //        socketClient.Close();
+            //        socketClient.Open();
+            //    }
+            //    else
+            //    {
+            //        socketClient = new SocketClient(zrconfig.Value, int.Parse(zrconfig.AdditiValue), zrconfig.IsAction);
+            //    }
+
+            //}
+            //条码
+            //scannerSocket.Close();
+            var brConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            if (brConfig != null && brConfig.IsAction)
+            {
+                Scanner();
+                ScanIsAction = brConfig.IsAction;
+                var aa = scannerSocket.Port;
+            }
+        }
+        /// <summary>
+        /// 连接读码器通信
+        /// </summary>
+        /// <param name="brconfig"></param>
+        public void InstantiationScan(SystemConfigDto brconfig)
+        {
+            if (scannerSocket != null)
+            {
+                scannerSocket.Address = brconfig.Value;
+                scannerSocket.Port = int.Parse(brconfig.AdditiValue);
+                scannerSocket.IsAction = brconfig.IsAction;
+                scannerSocket.Close();
+                scannerSocket.Open();
+            }
+            else
+            {
+                scannerSocket = new SocketClient(brconfig.Value, int.Parse(brconfig.AdditiValue), brconfig.IsAction);
+                scannerSocket.Open();
+            }
+            //设置读码器状态
+            if (scannerSocket.IsConnection)
+            {
+                this.MainForm.SetScannerStatus(FrameStatusEnum.Connected);
+            }
+            else if (scannerSocket.IsAction)
+            {
+                this.MainForm.SetScannerStatus(FrameStatusEnum.None);
+            }
+            else
+            {
+                this.MainForm.SetScannerStatus(FrameStatusEnum.NotEnabled);
             }
         }
     }
