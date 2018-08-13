@@ -48,8 +48,7 @@ namespace HC.Identify.App
                     }
                     if (item.Code == ConfigEnum.条码)
                     {
-                        txt_brandIP.Text = "192.168.0.128";
-                        //txt_brandIP.Text = item.Value.ToString();
+                        txt_brandIP.Text = item.Value.ToString();
                         txt_brandPort.Text = item.AdditiValue.ToString();
                         check_isActionBr.Checked = item.IsAction;
                     }
@@ -96,7 +95,7 @@ namespace HC.Identify.App
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
-                    configs = systemConfigAppService.GetAllConfig();
+                    //configs = systemConfigAppService.GetAllConfig();
                     MessageBox.Show("保存成功");
                     System.Windows.Forms.Application.Exit();
                     //this.MainForm.Dispose();
@@ -107,7 +106,11 @@ namespace HC.Identify.App
                 }
             }
         }
-
+        /// <summary>
+        /// 取消（已去除）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_Cancel_Click(object sender, EventArgs e)
         {
             if (configs.Count > 0)
@@ -134,6 +137,11 @@ namespace HC.Identify.App
             }
         }
 
+        /// <summary>
+        /// 重新连接（已去除）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_connect_Click(object sender, EventArgs e)
         {
             var zrIp = txt_ZRIP.Text;

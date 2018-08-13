@@ -250,6 +250,7 @@ namespace HC.Identify.App
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Environment.Exit(0);
             Dispose();
         }
 

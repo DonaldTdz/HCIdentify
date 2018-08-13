@@ -597,7 +597,7 @@ namespace HC.Identify.App
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (this.MainForm.FrameStatus == FrameStatusEnum.None && this.MainForm.ScannerStatus == FrameStatusEnum.None)
+            if (this.MainForm.FrameStatus != FrameStatusEnum.Connected && this.MainForm.ScannerStatus != FrameStatusEnum.Connected)
             {
                 MessageBox.Show("请至少启用一种识别相机再试");
                 return;
@@ -1101,7 +1101,7 @@ namespace HC.Identify.App
         }
 
         /// <summary>
-        /// 重新连接通信设备
+        /// 重新连接通信设备（已去除）
         /// </summary>
         private void btn_connect_Click(object sender, EventArgs e)
         {
