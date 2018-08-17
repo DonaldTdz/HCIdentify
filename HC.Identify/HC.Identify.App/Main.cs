@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -250,7 +251,7 @@ namespace HC.Identify.App
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Environment.Exit(0);
+           
             Dispose();
         }
 
@@ -322,6 +323,12 @@ namespace HC.Identify.App
                 default:
                     break;
             }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Thread.Sleep(30);//当保存配置调用System.Windows.Forms.Application.Exit()关闭窗口需要等它执行一会儿Environment.Exit(0);执行才不会出错
+            Environment.Exit(0);
         }
     }
 }

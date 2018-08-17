@@ -15,7 +15,7 @@ using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
 {
-    public partial class SystemConfig : FormMainChildren
+    public partial class SystemConfig : FormMainChildren //Form
     {
         public SystemConfigAppService systemConfigAppService;
         public List<SystemConfigDto> configs;
@@ -56,6 +56,10 @@ namespace HC.Identify.App
                     {
                         ck_photo.Checked = item.IsAction;
                     }
+                    if(item.Code== ConfigEnum.调试模式)
+                    {
+                        check_debug.Checked = item.IsAction;
+                    }
                 }
             }
         }
@@ -92,6 +96,12 @@ namespace HC.Identify.App
                 phConfig.Code = ConfigEnum.图像;
                 phConfig.IsAction = ck_photo.Checked;
                 Configs.Add(phConfig);
+
+                //调试模式
+                var debugConfig = new SystemConfigDto();
+                debugConfig.Code = ConfigEnum.调试模式;
+                debugConfig.IsAction = check_debug.Checked;
+                Configs.Add(debugConfig);
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
@@ -132,6 +142,10 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.图像)
                     {
                         ck_photo.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.调试模式)
+                    {
+                        check_debug.Checked = item.IsAction;
                     }
                 }
             }

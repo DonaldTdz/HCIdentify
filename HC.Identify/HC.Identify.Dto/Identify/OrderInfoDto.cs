@@ -59,4 +59,22 @@ namespace HC.Identify.Dto.Identify
             }
         }
     }
+
+    /// <summary>
+    /// 匹配结果
+    /// </summary>
+    public class OrderInfoMatchRe
+    {
+        public Guid Id { get; set; }
+        public string Brand { get; set; }
+        public string Specification { get; set; }
+        /// <summary>
+        /// 匹配状态
+        /// </summary>
+        public string MatchStatus { get; set; }
+        /// <summary>
+        /// 匹配时间
+        /// </summary>
+        public string MatchTime { get; set; }
+    }
 }

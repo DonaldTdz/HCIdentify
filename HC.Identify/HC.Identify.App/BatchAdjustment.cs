@@ -13,7 +13,7 @@ using static HC.Identify.App.Main;
 
 namespace HC.Identify.App
 {
-    public partial class BatchAdjustment : FormMainChildren
+    public partial class BatchAdjustment : FormMainChildren //Form
     {
         //定义全局主窗口，刷新状态
         public Main MainForm;

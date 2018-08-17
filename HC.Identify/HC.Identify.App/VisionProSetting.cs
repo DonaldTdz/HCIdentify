@@ -87,6 +87,10 @@ namespace HC.Identify.App
             {
                 return; //如果为空就返回
             }
+            if (fileInfos.Length == 0)
+            {
+                return;
+            }
             if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
               fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
             {
@@ -273,11 +277,13 @@ namespace HC.Identify.App
 
             ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
             cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
+            //cogRecordDisplay.Record = SubRecords["CogImageConvertTool1.OutputImage"];//启用新算法时解开注释
             cogRecordDisplay.Fit(true);
             cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
             if (cogResultArray.Count == 0)
             {
-                MessageBox.Show("ToolBlock结果为空！");
+                //MessageBox.Show("ToolBlock结果为空！");
+                cogRecordDisplay.Image = icogColorImage;
                 return null;
             }
             if (!isCameraOnline)
@@ -352,7 +358,7 @@ namespace HC.Identify.App
             //计算
             //var spec = Calculation(cogResultArray);
             visionProAppService._icogColorImage = icogColorImage;
-            var spec = visionProAppService.GetMatchSpecification();//获取匹配结果
+            var spec = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
             if (spec != null)
             {
                 txtMatchSpec.Text = spec.Specification;
@@ -366,6 +372,7 @@ namespace HC.Identify.App
             }
             else
             {
+                txtMatchSpec.Text = "";
                 lblResultDesc.Text = "NG"; //匹配成功
                 lblResultDesc.ForeColor = Color.Red;
             }
@@ -519,8 +526,6 @@ namespace HC.Identify.App
 
         private void btnReRun_Click(object sender, EventArgs e)
         {
-            //ToolBlockRun(); //修改
-            //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
             visionProAppService._icogColorImage = icogColorImage;
             visionProAppService.GetToolBlockValues();
             SetCurrentInageInfo();
@@ -605,6 +610,19 @@ namespace HC.Identify.App
 
         private void btnReMatchRun_Click(object sender, EventArgs e)
         {
+            //更新模板数据（data）重新运行时可匹配新注册数据
+            var csvDataPath = currentrDirectory + "\\Data\\Data.csv";
+            if (!File.Exists(csvDataPath))
+            {
+                MessageBox.Show("数据文件不存在或路径错误！");
+                return;
+            }
+            VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
+            csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
+            visionProAppService._csvSpecList = csvSpecList;
+
+            //更新下拉框的数据;
+            BindRegisteredSpec();
             RunCalculation();
         }
 
@@ -616,9 +634,12 @@ namespace HC.Identify.App
         {
             if (isCameraOnline)
             {
-                int numReadyVal, numPendingVal;
-                int iNum = icogAcqFifo.StartAcquire();
-                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                if (icogAcqFifo != null)
+                {
+                    int numReadyVal, numPendingVal;
+                    int iNum = icogAcqFifo.StartAcquire();
+                    icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                }
             }
             else
             {

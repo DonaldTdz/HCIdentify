@@ -50,10 +50,20 @@ namespace HC.Identify.Application
 
         public void Send(string content)
         {
-            if (IsAction && IsConnection)
+            try
             {
-                clientSocket.Send(Encoding.Default.GetBytes(content.ToString()));
+                if (IsAction && IsConnection)
+                {
+                    clientSocket.Send(Encoding.Default.GetBytes(content.ToString()));
+                }
             }
+            catch (Exception ex)
+            {
+                IsConnection = false;
+                MessageBox.Show("发送信息失败，错误信息：" + ex.Message);
+                return;
+            }
+
         }
         public string Recive()
         {

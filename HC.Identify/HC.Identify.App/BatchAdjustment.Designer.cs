@@ -33,16 +33,16 @@ namespace HC.Identify.App
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.GV_OrderSum = new System.Windows.Forms.DataGridView();
-            this.btn_up = new System.Windows.Forms.Button();
-            this.btn_down = new System.Windows.Forms.Button();
-            this.combo_OrderSum = new System.Windows.Forms.ComboBox();
-            this.btn_save = new System.Windows.Forms.Button();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AreaName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RetailName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Sequence = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_up = new System.Windows.Forms.Button();
+            this.btn_down = new System.Windows.Forms.Button();
+            this.combo_OrderSum = new System.Windows.Forms.ComboBox();
+            this.btn_save = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GV_OrderSum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,45 +79,6 @@ namespace HC.Identify.App
             this.GV_OrderSum.RowTemplate.Height = 23;
             this.GV_OrderSum.Size = new System.Drawing.Size(960, 531);
             this.GV_OrderSum.TabIndex = 0;
-            // 
-            // btn_up
-            // 
-            this.btn_up.Location = new System.Drawing.Point(13, 12);
-            this.btn_up.Name = "btn_up";
-            this.btn_up.Size = new System.Drawing.Size(75, 33);
-            this.btn_up.TabIndex = 1;
-            this.btn_up.Text = "向上";
-            this.btn_up.UseVisualStyleBackColor = true;
-            this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
-            // 
-            // btn_down
-            // 
-            this.btn_down.Location = new System.Drawing.Point(126, 12);
-            this.btn_down.Name = "btn_down";
-            this.btn_down.Size = new System.Drawing.Size(75, 32);
-            this.btn_down.TabIndex = 2;
-            this.btn_down.Text = "向下";
-            this.btn_down.UseVisualStyleBackColor = true;
-            this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
-            // 
-            // combo_OrderSum
-            // 
-            this.combo_OrderSum.FormattingEnabled = true;
-            this.combo_OrderSum.Location = new System.Drawing.Point(254, 24);
-            this.combo_OrderSum.Name = "combo_OrderSum";
-            this.combo_OrderSum.Size = new System.Drawing.Size(205, 20);
-            this.combo_OrderSum.TabIndex = 3;
-            this.combo_OrderSum.SelectionChangeCommitted += new System.EventHandler(this.combo_OrderSum_SelectionChangeCommitted);
-            // 
-            // btn_save
-            // 
-            this.btn_save.Location = new System.Drawing.Point(883, 13);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(75, 32);
-            this.btn_save.TabIndex = 4;
-            this.btn_save.Text = "保存";
-            this.btn_save.UseVisualStyleBackColor = true;
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
             // Id
             // 
@@ -161,6 +122,45 @@ namespace HC.Identify.App
             this.RIndex.HeaderText = "序号";
             this.RIndex.Name = "RIndex";
             this.RIndex.Visible = false;
+            // 
+            // btn_up
+            // 
+            this.btn_up.Location = new System.Drawing.Point(13, 12);
+            this.btn_up.Name = "btn_up";
+            this.btn_up.Size = new System.Drawing.Size(75, 33);
+            this.btn_up.TabIndex = 1;
+            this.btn_up.Text = "向上";
+            this.btn_up.UseVisualStyleBackColor = true;
+            this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
+            // 
+            // btn_down
+            // 
+            this.btn_down.Location = new System.Drawing.Point(126, 12);
+            this.btn_down.Name = "btn_down";
+            this.btn_down.Size = new System.Drawing.Size(75, 32);
+            this.btn_down.TabIndex = 2;
+            this.btn_down.Text = "向下";
+            this.btn_down.UseVisualStyleBackColor = true;
+            this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
+            // 
+            // combo_OrderSum
+            // 
+            this.combo_OrderSum.FormattingEnabled = true;
+            this.combo_OrderSum.Location = new System.Drawing.Point(254, 24);
+            this.combo_OrderSum.Name = "combo_OrderSum";
+            this.combo_OrderSum.Size = new System.Drawing.Size(205, 20);
+            this.combo_OrderSum.TabIndex = 3;
+            this.combo_OrderSum.SelectionChangeCommitted += new System.EventHandler(this.combo_OrderSum_SelectionChangeCommitted);
+            // 
+            // btn_save
+            // 
+            this.btn_save.Location = new System.Drawing.Point(883, 13);
+            this.btn_save.Name = "btn_save";
+            this.btn_save.Size = new System.Drawing.Size(75, 32);
+            this.btn_save.TabIndex = 4;
+            this.btn_save.Text = "保存";
+            this.btn_save.UseVisualStyleBackColor = true;
+            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
             // BatchAdjustment
             // 

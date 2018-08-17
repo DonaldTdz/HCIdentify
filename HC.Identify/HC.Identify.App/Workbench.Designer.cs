@@ -34,6 +34,14 @@ namespace HC.Identify.App
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Workbench));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
@@ -61,7 +69,6 @@ namespace HC.Identify.App
             this.txt_UUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txt_Matched = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txt_Unmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtSpecHistry = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_dowload = new System.Windows.Forms.Button();
             this.combo_area = new System.Windows.Forms.ComboBox();
@@ -69,10 +76,6 @@ namespace HC.Identify.App
             this.btn_lasthouse = new System.Windows.Forms.Button();
             this.btn_nexthouse = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.labOrderNotCheck = new System.Windows.Forms.Label();
-            this.labOrderCheck = new System.Windows.Forms.Label();
-            this.lab_notcheck_title = new System.Windows.Forms.Label();
-            this.lab_cheked_title = new System.Windows.Forms.Label();
             this.lab_num = new System.Windows.Forms.Label();
             this.lab_houseNum = new System.Windows.Forms.Label();
             this.lab_num_title = new System.Windows.Forms.Label();
@@ -81,6 +84,10 @@ namespace HC.Identify.App
             this.lab_areaName = new System.Windows.Forms.Label();
             this.lab_retaName_title = new System.Windows.Forms.Label();
             this.lab_areaName_title = new System.Windows.Forms.Label();
+            this.labOrderNotCheck = new System.Windows.Forms.Label();
+            this.labOrderCheck = new System.Windows.Forms.Label();
+            this.lab_notcheck_title = new System.Windows.Forms.Label();
+            this.lab_cheked_title = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lab_nextnHose = new System.Windows.Forms.Label();
             this.lab_nextHose = new System.Windows.Forms.Label();
@@ -93,6 +100,15 @@ namespace HC.Identify.App
             this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btn_test = new System.Windows.Forms.Button();
             this.btn_connect = new System.Windows.Forms.Button();
+            this.txtSpecHistry = new System.Windows.Forms.TextBox();
+            this.group_matchOrder = new System.Windows.Forms.GroupBox();
+            this.dataGrid_match = new System.Windows.Forms.DataGridView();
+            this.SortNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BrandS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Specific = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MatchTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Match = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
@@ -103,16 +119,18 @@ namespace HC.Identify.App
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderInfoBindingSource)).BeginInit();
+            this.group_matchOrder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_match)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(5, 3);
+            this.tabControl1.Location = new System.Drawing.Point(363, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(661, 592);
+            this.tabControl1.Size = new System.Drawing.Size(668, 612);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -122,7 +140,7 @@ namespace HC.Identify.App
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(653, 566);
+            this.tabPage1.Size = new System.Drawing.Size(660, 586);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "相机识别";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -142,7 +160,7 @@ namespace HC.Identify.App
             this.cogRecordDisplay.MouseWheelSensitivity = 1D;
             this.cogRecordDisplay.Name = "cogRecordDisplay";
             this.cogRecordDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay.OcxState")));
-            this.cogRecordDisplay.Size = new System.Drawing.Size(645, 452);
+            this.cogRecordDisplay.Size = new System.Drawing.Size(656, 452);
             this.cogRecordDisplay.TabIndex = 7;
             // 
             // groupBox4
@@ -162,7 +180,7 @@ namespace HC.Identify.App
             this.groupBox4.Controls.Add(this.lab_alreadyRead_title);
             this.groupBox4.Location = new System.Drawing.Point(2, 459);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(645, 101);
+            this.groupBox4.Size = new System.Drawing.Size(658, 124);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "匹配结果";
@@ -170,15 +188,15 @@ namespace HC.Identify.App
             // lblIdentifyTime
             // 
             this.lblIdentifyTime.AutoSize = true;
-            this.lblIdentifyTime.Location = new System.Drawing.Point(588, 67);
+            this.lblIdentifyTime.Location = new System.Drawing.Point(594, 100);
             this.lblIdentifyTime.Name = "lblIdentifyTime";
-            this.lblIdentifyTime.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifyTime.Size = new System.Drawing.Size(17, 12);
             this.lblIdentifyTime.TabIndex = 9;
             // 
             // spendTime
             // 
             this.spendTime.AutoSize = true;
-            this.spendTime.Location = new System.Drawing.Point(528, 67);
+            this.spendTime.Location = new System.Drawing.Point(523, 100);
             this.spendTime.Name = "spendTime";
             this.spendTime.Size = new System.Drawing.Size(65, 12);
             this.spendTime.TabIndex = 8;
@@ -187,9 +205,9 @@ namespace HC.Identify.App
             // lblIdentifiedRate
             // 
             this.lblIdentifiedRate.AutoSize = true;
-            this.lblIdentifiedRate.Location = new System.Drawing.Point(471, 67);
+            this.lblIdentifiedRate.Location = new System.Drawing.Point(475, 100);
             this.lblIdentifiedRate.Name = "lblIdentifiedRate";
-            this.lblIdentifiedRate.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifiedRate.Size = new System.Drawing.Size(17, 12);
             this.lblIdentifiedRate.TabIndex = 7;
             // 
             // lblSpecText
@@ -197,7 +215,7 @@ namespace HC.Identify.App
             this.lblSpecText.AutoSize = true;
             this.lblSpecText.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblSpecText.ForeColor = System.Drawing.Color.Black;
-            this.lblSpecText.Location = new System.Drawing.Point(1, 26);
+            this.lblSpecText.Location = new System.Drawing.Point(-2, 47);
             this.lblSpecText.Name = "lblSpecText";
             this.lblSpecText.Size = new System.Drawing.Size(205, 24);
             this.lblSpecText.TabIndex = 2;
@@ -206,7 +224,7 @@ namespace HC.Identify.App
             // lab_readRate_title
             // 
             this.lab_readRate_title.AutoSize = true;
-            this.lab_readRate_title.Location = new System.Drawing.Point(400, 67);
+            this.lab_readRate_title.Location = new System.Drawing.Point(392, 100);
             this.lab_readRate_title.Name = "lab_readRate_title";
             this.lab_readRate_title.Size = new System.Drawing.Size(77, 12);
             this.lab_readRate_title.TabIndex = 6;
@@ -217,7 +235,7 @@ namespace HC.Identify.App
             this.lblSpecResult.AutoSize = true;
             this.lblSpecResult.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblSpecResult.ForeColor = System.Drawing.Color.Green;
-            this.lblSpecResult.Location = new System.Drawing.Point(483, 26);
+            this.lblSpecResult.Location = new System.Drawing.Point(478, 47);
             this.lblSpecResult.Name = "lblSpecResult";
             this.lblSpecResult.Size = new System.Drawing.Size(110, 24);
             this.lblSpecResult.TabIndex = 4;
@@ -226,16 +244,16 @@ namespace HC.Identify.App
             // lblNoIdentifiedNum
             // 
             this.lblNoIdentifiedNum.AutoSize = true;
-            this.lblNoIdentifiedNum.Location = new System.Drawing.Point(344, 67);
+            this.lblNoIdentifiedNum.Location = new System.Drawing.Point(349, 103);
             this.lblNoIdentifiedNum.Name = "lblNoIdentifiedNum";
-            this.lblNoIdentifiedNum.Size = new System.Drawing.Size(0, 12);
+            this.lblNoIdentifiedNum.Size = new System.Drawing.Size(17, 12);
             this.lblNoIdentifiedNum.TabIndex = 5;
             // 
             // lblSpecName
             // 
             this.lblSpecName.AutoSize = true;
             this.lblSpecName.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblSpecName.Location = new System.Drawing.Point(207, 26);
+            this.lblSpecName.Location = new System.Drawing.Point(224, 47);
             this.lblSpecName.Name = "lblSpecName";
             this.lblSpecName.Size = new System.Drawing.Size(186, 24);
             this.lblSpecName.TabIndex = 3;
@@ -244,7 +262,7 @@ namespace HC.Identify.App
             // lab_unRead_title
             // 
             this.lab_unRead_title.AutoSize = true;
-            this.lab_unRead_title.Location = new System.Drawing.Point(283, 67);
+            this.lab_unRead_title.Location = new System.Drawing.Point(261, 103);
             this.lab_unRead_title.Name = "lab_unRead_title";
             this.lab_unRead_title.Size = new System.Drawing.Size(65, 12);
             this.lab_unRead_title.TabIndex = 4;
@@ -253,7 +271,7 @@ namespace HC.Identify.App
             // lab_checkAmount_title
             // 
             this.lab_checkAmount_title.AutoSize = true;
-            this.lab_checkAmount_title.Location = new System.Drawing.Point(4, 67);
+            this.lab_checkAmount_title.Location = new System.Drawing.Point(0, 103);
             this.lab_checkAmount_title.Name = "lab_checkAmount_title";
             this.lab_checkAmount_title.Size = new System.Drawing.Size(65, 12);
             this.lab_checkAmount_title.TabIndex = 0;
@@ -262,23 +280,23 @@ namespace HC.Identify.App
             // lblIdentifiedNum
             // 
             this.lblIdentifiedNum.AutoSize = true;
-            this.lblIdentifiedNum.Location = new System.Drawing.Point(199, 67);
+            this.lblIdentifiedNum.Location = new System.Drawing.Point(203, 103);
             this.lblIdentifiedNum.Name = "lblIdentifiedNum";
-            this.lblIdentifiedNum.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifiedNum.Size = new System.Drawing.Size(17, 12);
             this.lblIdentifiedNum.TabIndex = 3;
             // 
             // lblIdentifyTotal
             // 
             this.lblIdentifyTotal.AutoSize = true;
-            this.lblIdentifyTotal.Location = new System.Drawing.Point(75, 67);
+            this.lblIdentifyTotal.Location = new System.Drawing.Point(71, 103);
             this.lblIdentifyTotal.Name = "lblIdentifyTotal";
-            this.lblIdentifyTotal.Size = new System.Drawing.Size(0, 12);
+            this.lblIdentifyTotal.Size = new System.Drawing.Size(17, 12);
             this.lblIdentifyTotal.TabIndex = 1;
             // 
             // lab_alreadyRead_title
             // 
             this.lab_alreadyRead_title.AutoSize = true;
-            this.lab_alreadyRead_title.Location = new System.Drawing.Point(141, 67);
+            this.lab_alreadyRead_title.Location = new System.Drawing.Point(132, 103);
             this.lab_alreadyRead_title.Name = "lab_alreadyRead_title";
             this.lab_alreadyRead_title.Size = new System.Drawing.Size(65, 12);
             this.lab_alreadyRead_title.TabIndex = 2;
@@ -291,7 +309,7 @@ namespace HC.Identify.App
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(653, 566);
+            this.tabPage2.Size = new System.Drawing.Size(660, 586);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "订单明细";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -393,20 +411,11 @@ namespace HC.Identify.App
             this.txt_Unmatched.Name = "txt_Unmatched";
             this.txt_Unmatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // txtSpecHistry
-            // 
-            this.txtSpecHistry.Location = new System.Drawing.Point(672, 367);
-            this.txtSpecHistry.Multiline = true;
-            this.txtSpecHistry.Name = "txtSpecHistry";
-            this.txtSpecHistry.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSpecHistry.Size = new System.Drawing.Size(295, 218);
-            this.txtSpecHistry.TabIndex = 1;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btn_dowload);
             this.groupBox1.Controls.Add(this.combo_area);
-            this.groupBox1.Location = new System.Drawing.Point(671, 5);
+            this.groupBox1.Location = new System.Drawing.Point(1038, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(301, 62);
             this.groupBox1.TabIndex = 1;
@@ -434,7 +443,7 @@ namespace HC.Identify.App
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(671, 76);
+            this.btnStart.Location = new System.Drawing.Point(1039, 70);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(100, 40);
             this.btnStart.TabIndex = 2;
@@ -444,7 +453,7 @@ namespace HC.Identify.App
             // 
             // btn_lasthouse
             // 
-            this.btn_lasthouse.Location = new System.Drawing.Point(792, 77);
+            this.btn_lasthouse.Location = new System.Drawing.Point(1165, 70);
             this.btn_lasthouse.Name = "btn_lasthouse";
             this.btn_lasthouse.Size = new System.Drawing.Size(80, 40);
             this.btn_lasthouse.TabIndex = 3;
@@ -454,7 +463,7 @@ namespace HC.Identify.App
             // 
             // btn_nexthouse
             // 
-            this.btn_nexthouse.Location = new System.Drawing.Point(892, 77);
+            this.btn_nexthouse.Location = new System.Drawing.Point(1259, 70);
             this.btn_nexthouse.Name = "btn_nexthouse";
             this.btn_nexthouse.Size = new System.Drawing.Size(80, 40);
             this.btn_nexthouse.TabIndex = 4;
@@ -464,10 +473,6 @@ namespace HC.Identify.App
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.labOrderNotCheck);
-            this.groupBox2.Controls.Add(this.labOrderCheck);
-            this.groupBox2.Controls.Add(this.lab_notcheck_title);
-            this.groupBox2.Controls.Add(this.lab_cheked_title);
             this.groupBox2.Controls.Add(this.lab_num);
             this.groupBox2.Controls.Add(this.lab_houseNum);
             this.groupBox2.Controls.Add(this.lab_num_title);
@@ -476,67 +481,33 @@ namespace HC.Identify.App
             this.groupBox2.Controls.Add(this.lab_areaName);
             this.groupBox2.Controls.Add(this.lab_retaName_title);
             this.groupBox2.Controls.Add(this.lab_areaName_title);
-            this.groupBox2.Location = new System.Drawing.Point(671, 130);
+            this.groupBox2.Location = new System.Drawing.Point(1039, 116);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(301, 141);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "批次订单信息";
             // 
-            // labOrderNotCheck
-            // 
-            this.labOrderNotCheck.AutoSize = true;
-            this.labOrderNotCheck.Location = new System.Drawing.Point(253, 112);
-            this.labOrderNotCheck.Name = "labOrderNotCheck";
-            this.labOrderNotCheck.Size = new System.Drawing.Size(0, 12);
-            this.labOrderNotCheck.TabIndex = 7;
-            // 
-            // labOrderCheck
-            // 
-            this.labOrderCheck.AutoSize = true;
-            this.labOrderCheck.Location = new System.Drawing.Point(61, 113);
-            this.labOrderCheck.Name = "labOrderCheck";
-            this.labOrderCheck.Size = new System.Drawing.Size(0, 12);
-            this.labOrderCheck.TabIndex = 7;
-            // 
-            // lab_notcheck_title
-            // 
-            this.lab_notcheck_title.AutoSize = true;
-            this.lab_notcheck_title.Location = new System.Drawing.Point(197, 113);
-            this.lab_notcheck_title.Name = "lab_notcheck_title";
-            this.lab_notcheck_title.Size = new System.Drawing.Size(53, 12);
-            this.lab_notcheck_title.TabIndex = 6;
-            this.lab_notcheck_title.Text = "未检量：";
-            // 
-            // lab_cheked_title
-            // 
-            this.lab_cheked_title.AutoSize = true;
-            this.lab_cheked_title.Location = new System.Drawing.Point(8, 112);
-            this.lab_cheked_title.Name = "lab_cheked_title";
-            this.lab_cheked_title.Size = new System.Drawing.Size(53, 12);
-            this.lab_cheked_title.TabIndex = 6;
-            this.lab_cheked_title.Text = "已检量：";
-            // 
             // lab_num
             // 
             this.lab_num.AutoSize = true;
-            this.lab_num.Location = new System.Drawing.Point(252, 90);
+            this.lab_num.Location = new System.Drawing.Point(258, 111);
             this.lab_num.Name = "lab_num";
-            this.lab_num.Size = new System.Drawing.Size(0, 12);
+            this.lab_num.Size = new System.Drawing.Size(11, 12);
             this.lab_num.TabIndex = 3;
             // 
             // lab_houseNum
             // 
             this.lab_houseNum.AutoSize = true;
-            this.lab_houseNum.Location = new System.Drawing.Point(58, 88);
+            this.lab_houseNum.Location = new System.Drawing.Point(65, 111);
             this.lab_houseNum.Name = "lab_houseNum";
-            this.lab_houseNum.Size = new System.Drawing.Size(0, 12);
+            this.lab_houseNum.Size = new System.Drawing.Size(11, 12);
             this.lab_houseNum.TabIndex = 5;
             // 
             // lab_num_title
             // 
             this.lab_num_title.AutoSize = true;
-            this.lab_num_title.Location = new System.Drawing.Point(197, 89);
+            this.lab_num_title.Location = new System.Drawing.Point(199, 111);
             this.lab_num_title.Name = "lab_num_title";
             this.lab_num_title.Size = new System.Drawing.Size(53, 12);
             this.lab_num_title.TabIndex = 1;
@@ -545,7 +516,7 @@ namespace HC.Identify.App
             // lab_houseNum_title
             // 
             this.lab_houseNum_title.AutoSize = true;
-            this.lab_houseNum_title.Location = new System.Drawing.Point(7, 87);
+            this.lab_houseNum_title.Location = new System.Drawing.Point(6, 111);
             this.lab_houseNum_title.Name = "lab_houseNum_title";
             this.lab_houseNum_title.Size = new System.Drawing.Size(53, 12);
             this.lab_houseNum_title.TabIndex = 4;
@@ -554,23 +525,23 @@ namespace HC.Identify.App
             // lab_retaName
             // 
             this.lab_retaName.AutoSize = true;
-            this.lab_retaName.Location = new System.Drawing.Point(57, 59);
+            this.lab_retaName.Location = new System.Drawing.Point(65, 71);
             this.lab_retaName.Name = "lab_retaName";
-            this.lab_retaName.Size = new System.Drawing.Size(0, 12);
+            this.lab_retaName.Size = new System.Drawing.Size(11, 12);
             this.lab_retaName.TabIndex = 3;
             // 
             // lab_areaName
             // 
             this.lab_areaName.AutoSize = true;
-            this.lab_areaName.Location = new System.Drawing.Point(56, 26);
+            this.lab_areaName.Location = new System.Drawing.Point(65, 38);
             this.lab_areaName.Name = "lab_areaName";
-            this.lab_areaName.Size = new System.Drawing.Size(0, 12);
+            this.lab_areaName.Size = new System.Drawing.Size(11, 12);
             this.lab_areaName.TabIndex = 2;
             // 
             // lab_retaName_title
             // 
             this.lab_retaName_title.AutoSize = true;
-            this.lab_retaName_title.Location = new System.Drawing.Point(7, 59);
+            this.lab_retaName_title.Location = new System.Drawing.Point(5, 71);
             this.lab_retaName_title.Name = "lab_retaName_title";
             this.lab_retaName_title.Size = new System.Drawing.Size(53, 12);
             this.lab_retaName_title.TabIndex = 1;
@@ -579,11 +550,45 @@ namespace HC.Identify.App
             // lab_areaName_title
             // 
             this.lab_areaName_title.AutoSize = true;
-            this.lab_areaName_title.Location = new System.Drawing.Point(7, 26);
+            this.lab_areaName_title.Location = new System.Drawing.Point(5, 38);
             this.lab_areaName_title.Name = "lab_areaName_title";
             this.lab_areaName_title.Size = new System.Drawing.Size(53, 12);
             this.lab_areaName_title.TabIndex = 0;
             this.lab_areaName_title.Text = "线  路：";
+            // 
+            // labOrderNotCheck
+            // 
+            this.labOrderNotCheck.AutoSize = true;
+            this.labOrderNotCheck.Location = new System.Drawing.Point(240, 528);
+            this.labOrderNotCheck.Name = "labOrderNotCheck";
+            this.labOrderNotCheck.Size = new System.Drawing.Size(17, 12);
+            this.labOrderNotCheck.TabIndex = 7;
+            // 
+            // labOrderCheck
+            // 
+            this.labOrderCheck.AutoSize = true;
+            this.labOrderCheck.Location = new System.Drawing.Point(58, 528);
+            this.labOrderCheck.Name = "labOrderCheck";
+            this.labOrderCheck.Size = new System.Drawing.Size(17, 12);
+            this.labOrderCheck.TabIndex = 7;
+            // 
+            // lab_notcheck_title
+            // 
+            this.lab_notcheck_title.AutoSize = true;
+            this.lab_notcheck_title.Location = new System.Drawing.Point(172, 528);
+            this.lab_notcheck_title.Name = "lab_notcheck_title";
+            this.lab_notcheck_title.Size = new System.Drawing.Size(53, 12);
+            this.lab_notcheck_title.TabIndex = 6;
+            this.lab_notcheck_title.Text = "未检量：";
+            // 
+            // lab_cheked_title
+            // 
+            this.lab_cheked_title.AutoSize = true;
+            this.lab_cheked_title.Location = new System.Drawing.Point(-2, 528);
+            this.lab_cheked_title.Name = "lab_cheked_title";
+            this.lab_cheked_title.Size = new System.Drawing.Size(53, 12);
+            this.lab_cheked_title.TabIndex = 6;
+            this.lab_cheked_title.Text = "已检量：";
             // 
             // panel1
             // 
@@ -596,9 +601,9 @@ namespace HC.Identify.App
             this.panel1.Controls.Add(this.lab_lastlHose_title);
             this.panel1.Controls.Add(this.lab_nextHose_title);
             this.panel1.Controls.Add(this.lab_lastHose_title);
-            this.panel1.Location = new System.Drawing.Point(672, 279);
+            this.panel1.Location = new System.Drawing.Point(1039, 263);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 75);
+            this.panel1.Size = new System.Drawing.Size(301, 75);
             this.panel1.TabIndex = 7;
             // 
             // lab_nextnHose
@@ -671,7 +676,7 @@ namespace HC.Identify.App
             // 
             // btn_test
             // 
-            this.btn_test.Location = new System.Drawing.Point(686, 555);
+            this.btn_test.Location = new System.Drawing.Point(1039, 574);
             this.btn_test.Name = "btn_test";
             this.btn_test.Size = new System.Drawing.Size(102, 36);
             this.btn_test.TabIndex = 8;
@@ -682,7 +687,7 @@ namespace HC.Identify.App
             // 
             // btn_connect
             // 
-            this.btn_connect.Location = new System.Drawing.Point(819, 555);
+            this.btn_connect.Location = new System.Drawing.Point(1220, 571);
             this.btn_connect.Name = "btn_connect";
             this.btn_connect.Size = new System.Drawing.Size(102, 36);
             this.btn_connect.TabIndex = 9;
@@ -691,12 +696,136 @@ namespace HC.Identify.App
             this.btn_connect.Visible = false;
             this.btn_connect.Click += new System.EventHandler(this.btn_connect_Click);
             // 
+            // txtSpecHistry
+            // 
+            this.txtSpecHistry.Location = new System.Drawing.Point(1039, 344);
+            this.txtSpecHistry.Multiline = true;
+            this.txtSpecHistry.Name = "txtSpecHistry";
+            this.txtSpecHistry.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSpecHistry.Size = new System.Drawing.Size(301, 256);
+            this.txtSpecHistry.TabIndex = 1;
+            // 
+            // group_matchOrder
+            // 
+            this.group_matchOrder.Controls.Add(this.labOrderNotCheck);
+            this.group_matchOrder.Controls.Add(this.dataGrid_match);
+            this.group_matchOrder.Controls.Add(this.lab_notcheck_title);
+            this.group_matchOrder.Controls.Add(this.labOrderCheck);
+            this.group_matchOrder.Controls.Add(this.lab_cheked_title);
+            this.group_matchOrder.Location = new System.Drawing.Point(2, 2);
+            this.group_matchOrder.Name = "group_matchOrder";
+            this.group_matchOrder.Size = new System.Drawing.Size(362, 605);
+            this.group_matchOrder.TabIndex = 10;
+            this.group_matchOrder.TabStop = false;
+            // 
+            // dataGrid_match
+            // 
+            this.dataGrid_match.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid_match.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGrid_match.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid_match.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SortNum,
+            this.Id,
+            this.BrandS,
+            this.Specific,
+            this.MatchTime,
+            this.Match});
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid_match.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGrid_match.Location = new System.Drawing.Point(1, 0);
+            this.dataGrid_match.Name = "dataGrid_match";
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.NullValue = "Index";
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid_match.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGrid_match.RowHeadersVisible = false;
+            this.dataGrid_match.RowTemplate.Height = 23;
+            this.dataGrid_match.Size = new System.Drawing.Size(361, 463);
+            this.dataGrid_match.TabIndex = 0;
+            this.dataGrid_match.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGrid_match_RowPostPaint);
+            // 
+            // SortNum
+            // 
+            this.SortNum.FillWeight = 58.37563F;
+            this.SortNum.HeaderText = "";
+            this.SortNum.Name = "SortNum";
+            this.SortNum.Width = 23;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Id.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            // 
+            // BrandS
+            // 
+            this.BrandS.DataPropertyName = "Brand";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.BrandS.DefaultCellStyle = dataGridViewCellStyle5;
+            this.BrandS.FillWeight = 177.204F;
+            this.BrandS.HeaderText = "条码";
+            this.BrandS.Name = "BrandS";
+            this.BrandS.Width = 89;
+            // 
+            // Specific
+            // 
+            this.Specific.DataPropertyName = "Specification";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Specific.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Specific.FillWeight = 25.52285F;
+            this.Specific.HeaderText = "规格";
+            this.Specific.Name = "Specific";
+            // 
+            // MatchTime
+            // 
+            this.MatchTime.DataPropertyName = "MatchTime";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MatchTime.DefaultCellStyle = dataGridViewCellStyle7;
+            this.MatchTime.FillWeight = 134.9363F;
+            this.MatchTime.HeaderText = "匹配时间";
+            this.MatchTime.Name = "MatchTime";
+            this.MatchTime.Width = 88;
+            // 
+            // Match
+            // 
+            this.Match.DataPropertyName = "MatchStatus";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.Match.DefaultCellStyle = dataGridViewCellStyle8;
+            this.Match.FillWeight = 103.9612F;
+            this.Match.HeaderText = "状态";
+            this.Match.Name = "Match";
+            this.Match.Width = 60;
+            // 
             // Workbench
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(984, 591);
+            this.ClientSize = new System.Drawing.Size(1344, 611);
+            this.Controls.Add(this.group_matchOrder);
             this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.btn_test);
             this.Controls.Add(this.panel1);
@@ -727,6 +856,9 @@ namespace HC.Identify.App
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orderInfoBindingSource)).EndInit();
+            this.group_matchOrder.ResumeLayout(false);
+            this.group_matchOrder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_match)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -752,7 +884,6 @@ namespace HC.Identify.App
         private System.Windows.Forms.Label lab_num_title;
         private System.Windows.Forms.Label labOrderNotCheck;
         private System.Windows.Forms.Label lab_notcheck_title;
-        private System.Windows.Forms.TextBox txtSpecHistry;
         private System.Windows.Forms.Label lblSpecResult;
         private System.Windows.Forms.Label lblSpecName;
         private System.Windows.Forms.Label lblSpecText;
@@ -793,5 +924,14 @@ namespace HC.Identify.App
         private System.Windows.Forms.Label lblIdentifyTime;
         private System.Windows.Forms.Label spendTime;
         private System.Windows.Forms.Button btn_connect;
+        private System.Windows.Forms.TextBox txtSpecHistry;
+        private System.Windows.Forms.GroupBox group_matchOrder;
+        private System.Windows.Forms.DataGridView dataGrid_match;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SortNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BrandS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Specific;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MatchTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Match;
     }
 }

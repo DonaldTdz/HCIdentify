@@ -25,6 +25,6 @@ namespace HC.Identify.Application.VisionPro
         /// <summary>
         /// 获取匹配结果
         /// </summary>
-        CsvSpecification GetMatchSpecification();
+        CsvSpecification GetMatchSpecification(out ArrayList cogResultArray);
     }
 }

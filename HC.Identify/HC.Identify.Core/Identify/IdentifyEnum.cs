@@ -23,7 +23,12 @@ namespace HC.Identify.Core.Identify
             图像=1,
             中软=2,
             条码=3,
+            调试模式=4,
         }
-
+        public enum SwitchEnum
+        {
+            上一户 = 0,
+            下一户 = 1
+        }
     }
 }

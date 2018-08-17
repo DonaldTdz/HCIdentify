@@ -86,7 +86,7 @@ namespace HC.Identify.Application.VisionPro
             //}
             using (StreamWriter logFile = new StreamWriter(logFilePath, true))
             {
-                string log = string.Format("\r\n时间：{0} 匹配产品规格:{1} 匹配值：{2}", DateTime.Now.ToString("yyyyMMdd_HHmmssfff"), matchedSpec, maxScore.ToString("F3"));
+                string log = string.Format("\r\n时间：{0} 规格:{1} 匹配值：{2}", DateTime.Now.ToString("yyyyMMdd_HHmmssfff"), matchedSpec, maxScore.ToString("F3"));
                 logFile.WriteLine(log);
             }
         }

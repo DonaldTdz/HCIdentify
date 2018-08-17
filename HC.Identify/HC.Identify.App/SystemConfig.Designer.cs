@@ -41,6 +41,8 @@
             this.btn_Save = new System.Windows.Forms.Button();
             this.lab_Photo = new System.Windows.Forms.Label();
             this.ck_photo = new System.Windows.Forms.CheckBox();
+            this.lab_debug = new System.Windows.Forms.Label();
+            this.check_debug = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -140,7 +142,7 @@
             // lab_Photo
             // 
             this.lab_Photo.AutoSize = true;
-            this.lab_Photo.Location = new System.Drawing.Point(208, 159);
+            this.lab_Photo.Location = new System.Drawing.Point(206, 159);
             this.lab_Photo.Name = "lab_Photo";
             this.lab_Photo.Size = new System.Drawing.Size(65, 12);
             this.lab_Photo.TabIndex = 11;
@@ -156,11 +158,32 @@
             this.ck_photo.Text = "是否启用";
             this.ck_photo.UseVisualStyleBackColor = true;
             // 
+            // lab_debug
+            // 
+            this.lab_debug.AutoSize = true;
+            this.lab_debug.Location = new System.Drawing.Point(206, 315);
+            this.lab_debug.Name = "lab_debug";
+            this.lab_debug.Size = new System.Drawing.Size(65, 12);
+            this.lab_debug.TabIndex = 13;
+            this.lab_debug.Text = "调试模式：";
+            // 
+            // check_debug
+            // 
+            this.check_debug.AutoSize = true;
+            this.check_debug.Location = new System.Drawing.Point(283, 315);
+            this.check_debug.Name = "check_debug";
+            this.check_debug.Size = new System.Drawing.Size(72, 16);
+            this.check_debug.TabIndex = 14;
+            this.check_debug.Text = "是否启用";
+            this.check_debug.UseVisualStyleBackColor = true;
+            // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 591);
+            this.Controls.Add(this.check_debug);
+            this.Controls.Add(this.lab_debug);
             this.Controls.Add(this.ck_photo);
             this.Controls.Add(this.lab_Photo);
             this.Controls.Add(this.btn_Save);
@@ -196,5 +219,7 @@
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.Label lab_Photo;
         private System.Windows.Forms.CheckBox ck_photo;
+        private System.Windows.Forms.Label lab_debug;
+        private System.Windows.Forms.CheckBox check_debug;
     }
 }
