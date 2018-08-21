@@ -108,7 +108,7 @@ namespace HC.Identify.App
                 }
                 else if (socketClient.IsAction)
                 {
-                    this.MainForm.SetZRStatus(FrameStatusEnum.None);
+                    this.MainForm.SetZRStatus(FrameStatusEnum.NoConnected);
                 }
             }
             //else
@@ -121,7 +121,7 @@ namespace HC.Identify.App
                 ScanIsAction = scanConfig.IsAction;//用于判断读码或相机结果匹配方法的调用位置
                 if (scanConfig.IsAction)
                 {
-                    this.MainForm.SetScannerStatus(FrameStatusEnum.None);
+                    this.MainForm.SetScannerStatus(FrameStatusEnum.NoConnected);
                 }
             }
 
@@ -222,7 +222,7 @@ namespace HC.Identify.App
                 CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
                 if (mFrameGrabbers.Count == 0)
                 {
-                    this.MainForm.SetFrameStatus(FrameStatusEnum.None);
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.NoConnected);
                 }
                 else//相机模式运行
                 {
@@ -1065,7 +1065,7 @@ namespace HC.Identify.App
             }
             else if (scannerSocket.IsAction)
             {
-                this.MainForm.SetScannerStatus(FrameStatusEnum.None);
+                this.MainForm.SetScannerStatus(FrameStatusEnum.NoConnected);
             }
             else
             {

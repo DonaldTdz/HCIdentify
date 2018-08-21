@@ -141,7 +141,7 @@ namespace HC.Identify.App
             this.FrameStatus = frameStatus;
             switch (frameStatus)
             {
-                case FrameStatusEnum.None:
+                case FrameStatusEnum.NoConnected:
                     {
                         this.toolFrameStatusVal.Text = "未连接";
                         this.toolFrameStatusVal.ForeColor = Color.Red;
@@ -208,7 +208,7 @@ namespace HC.Identify.App
 
         public enum FrameStatusEnum
         {
-            None = 0, //未连接
+            NoConnected = 0, //未连接
             Connected = 1, //已连接
             NotEnabled = 3,//未启用
         }
@@ -282,7 +282,7 @@ namespace HC.Identify.App
             this.ZRStatus = frameStatusEnum;
             switch (frameStatusEnum)
             {
-                case FrameStatusEnum.None:
+                case FrameStatusEnum.NoConnected:
                     {
                         this.toolS_zr.Text = "未连接";
                         this.toolS_zr.ForeColor = Color.Red;
@@ -317,7 +317,7 @@ namespace HC.Identify.App
             this.ScannerStatus = frameStatusEnum;
             switch (frameStatusEnum)
             {
-                case FrameStatusEnum.None:
+                case FrameStatusEnum.NoConnected:
                     {
                         this.toolS_scan.Text = "未连接";
                         this.toolS_scan.ForeColor = Color.Red;
