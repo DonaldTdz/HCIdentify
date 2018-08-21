@@ -43,13 +43,14 @@ namespace HC.Identify.App
             }
             else
             {
-                var isExtend = userAppService.UserIsExtend(accont, password);
-                if (isExtend)
+                var user = userAppService.GetSigleUser(accont, password);
+                if (user!=null)
                 {
                     //Session["Account"] =accont;
                     //Session["Password"] =password;
                     Main ma = new Main();
                     ma.Show();
+                    ma.loginUser = user;
                     this.Visible = false;
                 }
                 else

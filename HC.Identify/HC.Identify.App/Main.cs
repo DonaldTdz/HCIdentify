@@ -1,5 +1,7 @@
 ﻿using HC.Identify.Application;
 using HC.Identify.Application.Identify;
+using HC.Identify.Core.Identify;
+using HC.Identify.Dto.Identify;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +27,7 @@ namespace HC.Identify.App
         //COMServer cOMServer;//串口通信测试
         //SocketServer socketServer;
         //SocketClient socketClient;
+        public UserDto loginUser=new UserDto();
         public Main()
         {
             InitializeComponent();
@@ -35,7 +38,6 @@ namespace HC.Identify.App
         private void Main_Load(object sender, EventArgs e)
         {
             InitData();
-
             // //串口测试
             // cOMServer = new COMServer("COM4", 9600, 8, StopBits.One, Parity.Even);
             // cOMServer.Open();
@@ -53,6 +55,14 @@ namespace HC.Identify.App
             //socketClient.Send("socketClient");
         }
 
+        public void IsManager()
+        {
+            if (loginUser.Role != RoleEnum.系统管理员)
+            {
+                系统用户ToolStripMenuItem.Visible = false;
+            }
+        }
+
         //初始化控件
         public void InitControles()
         {
@@ -66,7 +76,7 @@ namespace HC.Identify.App
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private void 视觉配置ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,6 +116,14 @@ namespace HC.Identify.App
                     case "SystemConfig":
                         {
                             form = new SystemConfig(this);
+                        }; break;
+                    case "UserInfo":
+                        {
+                            form = new UserInfo(this);
+                        }; break;
+                    case "AboutSystem":
+                        {
+                            form = new AboutSystem(this);
                         }; break;
                     default:
                         break;
@@ -329,6 +347,17 @@ namespace HC.Identify.App
         {
             Thread.Sleep(30);//当保存配置调用System.Windows.Forms.Application.Exit()关闭窗口需要等它执行一会儿Environment.Exit(0);执行才不会出错
             Environment.Exit(0);
+        }
+
+        private void 系统用户ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ShowForm("UserInfo");
+        }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutSystem form = new AboutSystem();
+            form.ShowDialog();
         }
     }
 }

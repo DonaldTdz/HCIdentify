@@ -28,7 +28,7 @@ using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
 {
-    public partial class Workbench : FormMainChildren      //  Form  
+    public partial class Workbench : FormMainChildren            //  Form    
     {
         //定义全局主窗口 刷新状态
         public Main MainForm;
@@ -921,9 +921,10 @@ namespace HC.Identify.App
                             orderInfoMatchRe.Id = goods.Id;
                             orderInfoMatchRe.Brand = goods.Brand;
                             orderInfoMatchRe.Specification = goods.Specification;
-                            orderInfoMatchRe.MatchStatus = "已匹配";
+                            orderInfoMatchRe.MatchStatus = "OK";
                             orderInfoMatchRe.MatchTime = DateTime.Now.ToString("yy-M-d HH:mm");
                             orderInfoMatchRes.Add(orderInfoMatchRe);
+                            orderInfoMatchRes.OrderByDescending(o => o.MatchTime).ToList();
                             if (dataGrid_match.DataSource != null)
                             {
                                 List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
@@ -933,8 +934,8 @@ namespace HC.Identify.App
                             {
                                 dataGrid_match.Rows.Clear();
                             }
-
                             dataGrid_match.DataSource = orderInfoMatchRes;
+                            //dataGrid_match.Sort(dataGrid_match.Columns[4], ListSortDirection.Descending);
                             dataGrid_match.Refresh();
                         }
                         else
@@ -1078,39 +1079,46 @@ namespace HC.Identify.App
         /// <param name="switchEnum"></param>
         public void SwitchHouse(SwitchEnum switchEnum)
         {
-            if (switchEnum == SwitchEnum.上一户)
+            if (this.MainForm.RunStatus == RunStatusEnum.Running)
             {
-                if (orderNum == orderCheckNum)
+                if (switchEnum == SwitchEnum.上一户)
                 {
-                    sequence = sequence - 1;
-                    GetOrderSum(sequence);
-                    imgIndex = 0;//测试
-                    InitRunData();
-                    //已识别界面数据清空...
-                    ClearDataGridMatch();
+                    if (orderNum == orderCheckNum)
+                    {
+                        sequence = sequence - 1;
+                        GetOrderSum(sequence);
+                        imgIndex = 0;//测试
+                        InitRunData();
+                        //已识别界面数据清空...
+                        ClearDataGridMatch();
+                    }
+                    else
+                    {
+                        SocketSend("NG");//socket通信
+                        MessageBox.Show("当前用户订单未处理完！！！,无法切换");
+                    }
                 }
-                else
+                else if (switchEnum == SwitchEnum.下一户)
                 {
-                    SocketSend("NG");//socket通信
-                    MessageBox.Show("当前用户订单未处理完！！！,无法切换");
+                    if (orderNum == orderCheckNum)
+                    {
+                        sequence = sequence + 1;
+                        GetOrderSum(sequence);
+                        imgIndex = 0;//测试
+                        InitRunData();
+                        //已识别界面数据清空...
+                        ClearDataGridMatch();
+                    }
+                    else
+                    {
+                        SocketSend("NG");//socket通信
+                        MessageBox.Show("当前用户订单未处理完！！！,无法切换");
+                    }
                 }
             }
-            else if (switchEnum == SwitchEnum.下一户)
+            else
             {
-                if (orderNum == orderCheckNum)
-                {
-                    sequence = sequence + 1;
-                    GetOrderSum(sequence);
-                    imgIndex = 0;//测试
-                    InitRunData();
-                    //已识别界面数据清空...
-                    ClearDataGridMatch();
-                }
-                else
-                {
-                    SocketSend("NG");//socket通信
-                    MessageBox.Show("当前用户订单未处理完！！！,无法切换");
-                }
+                MessageBox.Show("请点击开始");
             }
 
         }

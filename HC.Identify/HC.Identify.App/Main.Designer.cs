@@ -48,7 +48,7 @@
             this.toolRunStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统用户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.视觉配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -220,18 +220,19 @@
             // 系统管理ToolStripMenuItem
             // 
             this.系统管理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.系统配置ToolStripMenuItem,
+            this.系统用户ToolStripMenuItem,
             this.系统配置ToolStripMenuItem1,
             this.视觉配置ToolStripMenuItem});
             this.系统管理ToolStripMenuItem.Name = "系统管理ToolStripMenuItem";
             this.系统管理ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.系统管理ToolStripMenuItem.Text = "系统";
             // 
-            // 系统配置ToolStripMenuItem
+            // 系统用户ToolStripMenuItem
             // 
-            this.系统配置ToolStripMenuItem.Name = "系统配置ToolStripMenuItem";
-            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.系统配置ToolStripMenuItem.Text = "系统用户";
+            this.系统用户ToolStripMenuItem.Name = "系统用户ToolStripMenuItem";
+            this.系统用户ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.系统用户ToolStripMenuItem.Text = "系统用户";
+            this.系统用户ToolStripMenuItem.Click += new System.EventHandler(this.系统用户ToolStripMenuItem_Click);
             // 
             // 系统配置ToolStripMenuItem1
             // 
@@ -271,14 +272,15 @@
             // 操作手册ToolStripMenuItem
             // 
             this.操作手册ToolStripMenuItem.Name = "操作手册ToolStripMenuItem";
-            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.操作手册ToolStripMenuItem.Text = "操作手册";
             // 
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.关于ToolStripMenuItem.Text = "关于本系统";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
@@ -339,7 +341,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripMenuItem 系统管理ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 系统配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 系统用户ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 系统配置ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 视觉配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 数据查询ToolStripMenuItem;

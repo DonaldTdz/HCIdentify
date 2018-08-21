@@ -33,5 +33,19 @@ namespace HC.Identify.Application.Identify
             return result.Count != 0;
         }
 
+        /// <summary>
+        /// 查询所有用户信息
+        /// </summary>
+        /// <returns></returns>
+        public IList<UserDto> GetAllUser()
+        {
+            var result = userService.GetAllUser();
+            return result;
+        }
+        public UserDto GetSigleUser(string name, string password)
+        {
+            var result = userService.GetSigleUser(name,password);
+            return result;
+        }
     }
 }

@@ -95,6 +95,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutSystem.Designer.cs">
+      <DependentUpon>AboutSystem.cs</DependentUpon>
+    </Compile>
     <Compile Include="BatchAdjustment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,12 +127,21 @@
     <Compile Include="SystemConfig.Designer.cs">
       <DependentUpon>SystemConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserInfo.Designer.cs">
+      <DependentUpon>UserInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="VisionProSetting.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VisionProSetting.Designer.cs">
       <DependentUpon>VisionProSetting.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AboutSystem.resx">
+      <DependentUpon>AboutSystem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BatchAdjustment.resx">
       <DependentUpon>BatchAdjustment.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,6 +169,9 @@
     </Compile>
     <EmbeddedResource Include="SystemConfig.resx">
       <DependentUpon>SystemConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInfo.resx">
+      <DependentUpon>UserInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VisionProSetting.resx">
       <DependentUpon>VisionProSetting.cs</DependentUpon>

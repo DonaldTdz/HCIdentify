@@ -74,10 +74,10 @@ namespace HC.Identify.App
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.GV_OrderSum.DefaultCellStyle = dataGridViewCellStyle2;
-            this.GV_OrderSum.Location = new System.Drawing.Point(12, 60);
+            this.GV_OrderSum.Location = new System.Drawing.Point(84, 61);
             this.GV_OrderSum.Name = "GV_OrderSum";
             this.GV_OrderSum.RowTemplate.Height = 23;
-            this.GV_OrderSum.Size = new System.Drawing.Size(960, 531);
+            this.GV_OrderSum.Size = new System.Drawing.Size(1170, 531);
             this.GV_OrderSum.TabIndex = 0;
             // 
             // Id
@@ -166,7 +166,7 @@ namespace HC.Identify.App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 591);
+            this.ClientSize = new System.Drawing.Size(1344, 591);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.combo_OrderSum);
             this.Controls.Add(this.btn_down);
