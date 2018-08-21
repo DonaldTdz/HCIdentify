@@ -219,9 +219,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\上翻.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\green.ico" />
     <Content Include="Resources\red.ico" />
     <Content Include="Resources\yellow_new.ico" />

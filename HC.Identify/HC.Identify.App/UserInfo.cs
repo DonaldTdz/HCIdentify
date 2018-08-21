@@ -18,8 +18,7 @@ namespace HC.Identify.App
 
         //定义全局主窗口 刷新状态
         public Main MainForm;
-        private UserAppService userAppService = new UserAppService();
-        public IList<UserDto> list;
+        private UserAppService userAppService;
         public UserInfo()
         {
             InitializeComponent();
@@ -27,16 +26,20 @@ namespace HC.Identify.App
 
         public UserInfo(Main mainForm)
         {
+            InitializeComponent();
             this.MainForm = mainForm;
-            userAppService = new UserAppService();
-            InitTable();
+            userAppService = new UserAppService();   
         }
 
-        public void InitTable()
+        public void GetUserList()
         {
-            list = userAppService.GetAllUser();
-            //gv_useInfo.DataSource = list;
-            GV_userInfo.DataSource = list;
+            var userList = userAppService.GetAllUser();
+            gvUserList.DataSource = userList;
+        }
+
+        private void UserInfo_Load(object sender, EventArgs e)
+        {
+            GetUserList();
         }
     }
 }
