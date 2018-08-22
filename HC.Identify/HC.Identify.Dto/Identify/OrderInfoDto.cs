@@ -6,32 +6,32 @@ using System.Threading.Tasks;
 
 namespace HC.Identify.Dto.Identify
 {
-   public class OrderInfoDto
-    {
-        public Guid Id { get; set; }
+   //public class OrderInfoDto
+   // {
+   //     public Guid Id { get; set; }
 
-        public string UUID { get; set; }
+   //     public string UUID { get; set; }
 
-        public string Brand { get; set; }
+   //     public string Brand { get; set; }
 
-        public string Specification { get; set; }
+   //     public string Specification { get; set; }
 
-        public int? Num { get; set; }
+   //     public int? Num { get; set; }
 
-        public DateTime? PostDate { get; set; }
+   //     public DateTime? PostDate { get; set; }
 
-        /// <summary>
-        /// 已匹配数量
-        /// </summary>
-        public int? Matched { get; set; }
+   //     /// <summary>
+   //     /// 已匹配数量
+   //     /// </summary>
+   //     public int? Matched { get; set; }
 
-        /// <summary>
-        /// 未匹配数量
-        /// </summary>
-        public int? Unmatched { get; set; }
+   //     /// <summary>
+   //     /// 未匹配数量
+   //     /// </summary>
+   //     public int? Unmatched { get; set; }
 
-    }
-    public class OrderInfoTableDto
+   // }
+    public class OrderInfoDto
     {
         public Guid Id { get; set; }
 
@@ -58,6 +58,13 @@ namespace HC.Identify.Dto.Identify
                 return Num - Matched;
             }
         }
+    }
+
+    public class OrderInfoMatchResult
+    {
+        public bool IsExists { get; set; }
+
+        public OrderInfoDto OrderInfo { get; set; }
     }
 
     /// <summary>

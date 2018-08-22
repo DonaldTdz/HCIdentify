@@ -38,7 +38,7 @@ namespace HC.Identify.App
         private OrderSumAppService orderSumAppService;
         private OrderInfoAppService orderInfoAppService;
         private VisionProAppService visionProAppService;
-        private IList<OrderInfoTableDto> orderInfos;//当前选项的详细订单信息
+        private IList<OrderInfoDto> orderInfos;//当前选项的详细订单信息
         private SystemConfigAppService systemConfigAppService;
         private SystemConfigDto config;
         public IList<SystemConfigDto> configs;
@@ -115,7 +115,7 @@ namespace HC.Identify.App
             //{
             //    MessageBox.Show("请配置中软ip地址信息");
             //}
-            var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            var scanConfig = configs.Where(s => s.Code == ConfigEnum.读码).FirstOrDefault();
             if (scanConfig != null)
             {
                 ScanIsAction = scanConfig.IsAction;//用于判断读码或相机结果匹配方法的调用位置
@@ -745,7 +745,7 @@ namespace HC.Identify.App
         /// </summary>
         public void Scanner()
         {
-            var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            var scanConfig = configs.Where(s => s.Code == ConfigEnum.读码).FirstOrDefault();
             if (scanConfig != null)
             {
                 #region 原读码器通信
@@ -1031,7 +1031,7 @@ namespace HC.Identify.App
             //}
             //条码
             //scannerSocket.Close();
-            var brConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            var brConfig = configs.Where(s => s.Code == ConfigEnum.读码).FirstOrDefault();
             if (brConfig != null && brConfig.IsAction)
             {
                 Scanner();

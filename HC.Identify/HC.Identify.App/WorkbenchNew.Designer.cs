@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkbenchNew));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnPreviousHouse = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.ddlAareaLine = new System.Windows.Forms.ComboBox();
@@ -62,7 +62,7 @@
             this.lblIdentifyTime = new System.Windows.Forms.Label();
             this.spendTime = new System.Windows.Forms.Label();
             this.lblIdentifiedRate = new System.Windows.Forms.Label();
-            this.lblSpecText = new System.Windows.Forms.Label();
+            this.lblBrandText = new System.Windows.Forms.Label();
             this.labReadRateTitle = new System.Windows.Forms.Label();
             this.lblSpecResult = new System.Windows.Forms.Label();
             this.lblNoIdentifiedNum = new System.Windows.Forms.Label();
@@ -145,6 +145,7 @@
             this.ddlAareaLine.Name = "ddlAareaLine";
             this.ddlAareaLine.Size = new System.Drawing.Size(205, 20);
             this.ddlAareaLine.TabIndex = 0;
+            this.ddlAareaLine.SelectedIndexChanged += new System.EventHandler(this.ddlAareaLine_SelectedIndexChanged);
             // 
             // btnDownload
             // 
@@ -197,19 +198,20 @@
             this.btnOrderInit.TabIndex = 1;
             this.btnOrderInit.Text = "初始化";
             this.btnOrderInit.UseVisualStyleBackColor = true;
+            this.btnOrderInit.Click += new System.EventHandler(this.btnOrderInit_Click);
             // 
             // gvOrderInfo
             // 
             this.gvOrderInfo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gvOrderInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvOrderInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvOrderInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.gvOrderInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvOrderInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.txtId,
@@ -219,14 +221,14 @@
             this.txtUUID,
             this.txtMatched,
             this.txtUnmatched});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gvOrderInfo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gvOrderInfo.DefaultCellStyle = dataGridViewCellStyle12;
             this.gvOrderInfo.Location = new System.Drawing.Point(7, 47);
             this.gvOrderInfo.Name = "gvOrderInfo";
             this.gvOrderInfo.RowTemplate.Height = 23;
@@ -320,7 +322,7 @@
             this.groupBox4.Controls.Add(this.lblIdentifyTime);
             this.groupBox4.Controls.Add(this.spendTime);
             this.groupBox4.Controls.Add(this.lblIdentifiedRate);
-            this.groupBox4.Controls.Add(this.lblSpecText);
+            this.groupBox4.Controls.Add(this.lblBrandText);
             this.groupBox4.Controls.Add(this.labReadRateTitle);
             this.groupBox4.Controls.Add(this.lblSpecResult);
             this.groupBox4.Controls.Add(this.lblNoIdentifiedNum);
@@ -366,14 +368,14 @@
             // 
             // lblSpecText
             // 
-            this.lblSpecText.AutoSize = true;
-            this.lblSpecText.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblSpecText.ForeColor = System.Drawing.Color.Black;
-            this.lblSpecText.Location = new System.Drawing.Point(-4, 30);
-            this.lblSpecText.Name = "lblSpecText";
-            this.lblSpecText.Size = new System.Drawing.Size(190, 21);
-            this.lblSpecText.TabIndex = 2;
-            this.lblSpecText.Text = "6901028227704  ";
+            this.lblBrandText.AutoSize = true;
+            this.lblBrandText.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblBrandText.ForeColor = System.Drawing.Color.Black;
+            this.lblBrandText.Location = new System.Drawing.Point(-4, 30);
+            this.lblBrandText.Name = "lblSpecText";
+            this.lblBrandText.Size = new System.Drawing.Size(190, 21);
+            this.lblBrandText.TabIndex = 2;
+            this.lblBrandText.Text = "6901028227704  ";
             // 
             // labReadRateTitle
             // 
@@ -599,19 +601,19 @@
             this.labLastlHose.Size = new System.Drawing.Size(0, 12);
             this.labLastlHose.TabIndex = 5;
             // 
-            // labNextHose
+            // labNextHouse
             // 
             this.labNextHouse.AutoSize = true;
             this.labNextHouse.Location = new System.Drawing.Point(62, 49);
-            this.labNextHouse.Name = "labNextHose";
+            this.labNextHouse.Name = "labNextHouse";
             this.labNextHouse.Size = new System.Drawing.Size(0, 12);
             this.labNextHouse.TabIndex = 6;
             // 
-            // labNextHouse
+            // labNextNHouse
             // 
             this.labNextNHouse.AutoSize = true;
             this.labNextNHouse.Location = new System.Drawing.Point(206, 49);
-            this.labNextNHouse.Name = "labNextHouse";
+            this.labNextNHouse.Name = "labNextNHouse";
             this.labNextNHouse.Size = new System.Drawing.Size(0, 12);
             this.labNextNHouse.TabIndex = 7;
             // 
@@ -671,14 +673,14 @@
             // 
             this.gvMatchResult.AllowUserToAddRows = false;
             this.gvMatchResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvMatchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvMatchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.gvMatchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvMatchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SortNum,
@@ -687,25 +689,25 @@
             this.Specific,
             this.MatchTime,
             this.Match});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gvMatchResult.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gvMatchResult.DefaultCellStyle = dataGridViewCellStyle19;
             this.gvMatchResult.Location = new System.Drawing.Point(1, 0);
             this.gvMatchResult.Name = "gvMatchResult";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.NullValue = "Index";
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvMatchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle20.NullValue = "Index";
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvMatchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
             this.gvMatchResult.RowHeadersVisible = false;
             this.gvMatchResult.RowTemplate.Height = 23;
             this.gvMatchResult.Size = new System.Drawing.Size(361, 577);
@@ -721,8 +723,8 @@
             // Id
             // 
             this.Id.DataPropertyName = "Id";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Id.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Id.DefaultCellStyle = dataGridViewCellStyle14;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.Visible = false;
@@ -730,8 +732,8 @@
             // BrandS
             // 
             this.BrandS.DataPropertyName = "Brand";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.BrandS.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.BrandS.DefaultCellStyle = dataGridViewCellStyle15;
             this.BrandS.FillWeight = 177.204F;
             this.BrandS.HeaderText = "条码";
             this.BrandS.Name = "BrandS";
@@ -740,8 +742,8 @@
             // Specific
             // 
             this.Specific.DataPropertyName = "Specification";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Specific.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Specific.DefaultCellStyle = dataGridViewCellStyle16;
             this.Specific.FillWeight = 25.52285F;
             this.Specific.HeaderText = "规格";
             this.Specific.Name = "Specific";
@@ -749,8 +751,8 @@
             // MatchTime
             // 
             this.MatchTime.DataPropertyName = "MatchTime";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MatchTime.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MatchTime.DefaultCellStyle = dataGridViewCellStyle17;
             this.MatchTime.FillWeight = 134.9363F;
             this.MatchTime.HeaderText = "匹配时间";
             this.MatchTime.Name = "MatchTime";
@@ -760,10 +762,10 @@
             // Match
             // 
             this.Match.DataPropertyName = "MatchStatus";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.Match.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.Match.DefaultCellStyle = dataGridViewCellStyle18;
             this.Match.FillWeight = 103.9612F;
             this.Match.HeaderText = "状态";
             this.Match.Name = "Match";
@@ -778,11 +780,11 @@
             this.labOrderNotCheck.TabIndex = 7;
             this.labOrderNotCheck.Text = "2";
             // 
-            // labNum
+            // labOrderTotalNum
             // 
             this.labOrderTotalNum.AutoSize = true;
             this.labOrderTotalNum.Location = new System.Drawing.Point(69, 591);
-            this.labOrderTotalNum.Name = "labNum";
+            this.labOrderTotalNum.Name = "labOrderTotalNum";
             this.labOrderTotalNum.Size = new System.Drawing.Size(11, 12);
             this.labOrderTotalNum.TabIndex = 3;
             this.labOrderTotalNum.Text = "2";
@@ -866,7 +868,7 @@
         private System.Windows.Forms.Label lblIdentifyTime;
         private System.Windows.Forms.Label spendTime;
         private System.Windows.Forms.Label lblIdentifiedRate;
-        private System.Windows.Forms.Label lblSpecText;
+        private System.Windows.Forms.Label lblBrandText;
         private System.Windows.Forms.Label labReadRateTitle;
         private System.Windows.Forms.Label lblSpecResult;
         private System.Windows.Forms.Label lblNoIdentifiedNum;

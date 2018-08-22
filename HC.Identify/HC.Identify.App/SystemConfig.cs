@@ -46,7 +46,7 @@ namespace HC.Identify.App
                         txt_ZRPort.Text = item.AdditiValue;
                         check_isActionzr.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.条码)
+                    if (item.Code == ConfigEnum.读码)
                     {
                         txt_brandIP.Text = item.Value.ToString();
                         txt_brandPort.Text = item.AdditiValue.ToString();
@@ -83,7 +83,7 @@ namespace HC.Identify.App
 
                 //条码
                 var brConfig = new SystemConfigDto();
-                brConfig.Code = ConfigEnum.条码;
+                brConfig.Code = ConfigEnum.读码;
                 brConfig.Value = txt_brandIP.Text;
                 brConfig.AdditiValue = txt_brandPort.Text;
                 brConfig.IsAction = check_isActionBr.Checked;
@@ -133,7 +133,7 @@ namespace HC.Identify.App
                         txt_ZRPort.Text = item.AdditiValue;
                         check_isActionzr.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.条码)
+                    if (item.Code == ConfigEnum.读码)
                     {
                         txt_brandIP.Text = item.Value;
                         txt_brandPort.Text = item.AdditiValue;

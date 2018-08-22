@@ -184,6 +184,13 @@ namespace HC.Identify.EntityFramework.Services.Identify
 
             }
         }
-         
+
+        public string[] GetUUIDsByLineCode(int lineCode)
+        {
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                return context.OrderSums.Where(o => o.AreaCode == lineCode).Select(o => o.UUID).ToArray();
+            }
+        }
     }
 }

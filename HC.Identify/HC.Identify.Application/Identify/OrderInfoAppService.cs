@@ -11,19 +11,28 @@ namespace HC.Identify.Application.Identify
     public class OrderInfoAppService : IdentifyAppServiceBase
     {
         private OrderInfoService orderInfoService;
+        private OrderSumService orderSumService;
         public OrderInfoAppService()
         {
             orderInfoService = new OrderInfoService();
+            orderSumService = new OrderSumService();
         }
 
         /// <summary>
         /// 根据UUID获取订信息
         /// </summary>
-        /// <param name="uuid"></param>
-        /// <returns></returns>
-        public IList<OrderInfoTableDto> GetOrderInfoByUUID(string uuid)
+        public IList<OrderInfoDto> GetOrderInfoByUUID(string uuid)
         {
-            return orderInfoService.GetOrderInfoByUUID(uuid);
+            return orderInfoService.GetOrderListByUUID(uuid);
+        }
+
+        /// <summary>
+        /// 根据线路获取该线路下所有订单
+        /// </summary>
+        public IList<OrderInfoDto> GetOrderInfoByLineCode(int lineCode)
+        {
+            var uuids = orderSumService.GetUUIDsByLineCode(lineCode);
+            return orderInfoService.GetOrderListByUUIDs(uuids);
         }
     }
 }
