@@ -1,12 +1,17 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Exceptions;
+using Cognex.VisionPro.ToolBlock;
 using HC.Identify.Application;
 using HC.Identify.Application.Identify;
+using HC.Identify.Application.VisionPro;
 using HC.Identify.Dto.Identify;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,6 +29,18 @@ namespace HC.Identify.App
         private OrderSumAppService orderSumAppService;
         private OrderInfoAppService orderInfoAppService;
         private SystemConfigAppService systemConfigAppService;
+        private VisionProAppService visionProAppService;
+
+        /// <summary>
+        /// 算法配置路径
+        /// </summary>
+        public static string VppPath
+        {
+            get
+            {
+                return string.Format("{0}\\TB_Set.Vpp", Directory.GetCurrentDirectory());
+            }
+        }
 
         public WorkbenchNew()
         {
@@ -47,15 +64,51 @@ namespace HC.Identify.App
             InitAeareLine();        //初始化批次信息
 
             BindOrderMatchResult();
+            InitFrame();
             InitReadCodeSocketClient(); //初始化读码通讯   
         }
 
         //关闭
         private void WorkbenchNew_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            //断开图像相机连接
+            if (icogAcqFifo != null)
+            {
+                icogAcqFifo.Flush();
+                icogAcqFifo.FrameGrabber.Disconnect(false);
+            }
+            //断开识别相机连接
+            if (zrSocketClient != null)
+            {
+                zrSocketClient.Close();
+            }
+            //断开中软连接
+            if (readCodeSocketClient != null)
+            {
+                readCodeSocketClient.Close();
+            }
         }
 
+        /// <summary>
+        /// 启动运行
+        /// </summary>
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (this.MainForm.FrameStatus != FrameStatusEnum.Connected && this.MainForm.ScannerStatus != FrameStatusEnum.Connected)
+            {
+                MessageBox.Show("请至少启用一种识别相机再试");
+                return;
+            }
+
+            if (this.MainForm.RunStatus == RunStatusEnum.Running)
+            {
+                StopRun();
+            }
+            else
+            {
+                StartRun();
+            }
+        }
 
         #endregion
 
@@ -634,8 +687,15 @@ namespace HC.Identify.App
                 }
                 else //否则取图像结果
                 {
-                    Thread.Sleep(50);//需要加配置 注意
-                    brand = ImgBrand;
+                    if (SystemConfig[ConfigEnum.图像].IsAction)
+                    {
+                        Thread.Sleep(50);//注意:需要加配置 
+                        brand = ImgBrand;
+                    }
+                    else
+                    {
+                        brand = null;
+                    }
                 }
                 endDates = DateTime.Now;
                 Invoke(new MethodInvoker(delegate ()//线程安全
@@ -653,12 +713,110 @@ namespace HC.Identify.App
 
         #region 图像识别
 
-        #endregion
+        ICogImage icogColorImage;                             //图像控件
+        CogToolBlock cogToolBlock = new CogToolBlock();       //图像连接工具
+        ArrayList cogResultArray = new ArrayList();
+
+        /// <summary>
+        /// 相机初始化
+        /// </summary>
+        private void InitFrame()
+        {
+            if (SystemConfig[ConfigEnum.图像].IsAction)
+            {
+                CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
+                if (mFrameGrabbers.Count == 0)
+                {
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.NoConnected);
+                }
+                else//相机模式运行
+                {
+
+                    //获取第一个相机图片
+                    icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+                    // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
+                    //添加获取完成处理事件
+                    icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
+                    int numReadyVal;   //读取值
+                    int numPendingVal; //等待值
+                    int iNum = icogAcqFifo.StartAcquire(); //开始获取
+                                                           //获取图片
+                    icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                    //显示图片
+                    cogRecordDisplay.Image = icogColorImage;
+                    cogRecordDisplay.Fit(false);
+                    cogToolBlock = (CogToolBlock)CogSerializer.LoadObjectFromFile(VppPath);
+                    visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
+                }
+            }
+            else
+            {
+                this.MainForm.SetFrameStatus(FrameStatusEnum.NotEnabled);
+            }
+        }
+
+        /// <summary>
+        /// 相机外部模式触发
+        /// </summary>
+        private void CompleteAcquire(Object sender, CogCompleteEventArgs e)
+        {
+            if (this.MainForm.FrameStatus != FrameStatusEnum.Connected)
+            {
+                return;
+            }
+            if (InvokeRequired)
+            {
+                Invoke(new CogCompleteEventHandler(CompleteAcquire), new object[] { sender, e });
+                return;
+            }
+            int numReadyVal;   //读取值
+            int numPendingVal; //等待值
+            bool busyVal;
+            CogAcqInfo info = new CogAcqInfo();
+            DateTime benginDate;
+            DateTime endDate;
+            try
+            {
+                icogAcqFifo.GetFifoState(out numPendingVal, out numReadyVal, out busyVal);
+                if (numReadyVal > 0)
+                {
+                    icogColorImage = icogAcqFifo.CompleteAcquireEx(info);
+                    cogRecordDisplay.Image = icogColorImage;
+                    cogRecordDisplay.Fit(false);
+                }
+                visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
+                benginDate = DateTime.Now;
+                var csvSpec = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
+                endDate = DateTime.Now;
+                if (csvSpec == null)
+                {
+                    visionProAppService.SaveImage();//保存没有匹配到模板的图片
+                    MatchResult(null);
+                    //photoRe = "相机未匹配到模板" + "," + DateTime.Now;
+                }
+                else
+                {
+                    ImgBrand = csvSpec.Specification;
+                    if (!SystemConfig[ConfigEnum.读码].IsAction)//如果读码没有启用直接匹配
+                    {
+                        MatchResult(ImgBrand);
+                        ImgBrand = null;
+                        lblIdentifyTime.Text = (endDate - benginDate).Milliseconds.ToString() + "ms";
+                    }
+                }
+                //CommHelper.WriteLog(_appPath, "最终读取结果：", photoRe);   
+            }
+            catch (CogException ce)
+            {
+                MessageBox.Show("The following error has occured\n" + ce.Message);
+            }
+        }
 
         #endregion
 
-       
+        #endregion
 
-
+      
     }
 }
