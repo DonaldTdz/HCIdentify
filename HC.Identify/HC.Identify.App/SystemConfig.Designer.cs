@@ -43,12 +43,15 @@
             this.ck_photo = new System.Windows.Forms.CheckBox();
             this.lab_debug = new System.Windows.Forms.Label();
             this.check_debug = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtSleepTime = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(206, 204);
+            this.label1.Location = new System.Drawing.Point(194, 132);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 12);
             this.label1.TabIndex = 0;
@@ -56,7 +59,7 @@
             // 
             // txt_ZRIP
             // 
-            this.txt_ZRIP.Location = new System.Drawing.Point(283, 199);
+            this.txt_ZRIP.Location = new System.Drawing.Point(313, 123);
             this.txt_ZRIP.Name = "txt_ZRIP";
             this.txt_ZRIP.Size = new System.Drawing.Size(174, 21);
             this.txt_ZRIP.TabIndex = 1;
@@ -64,7 +67,7 @@
             // check_isActionzr
             // 
             this.check_isActionzr.AutoSize = true;
-            this.check_isActionzr.Location = new System.Drawing.Point(610, 203);
+            this.check_isActionzr.Location = new System.Drawing.Point(640, 128);
             this.check_isActionzr.Name = "check_isActionzr";
             this.check_isActionzr.Size = new System.Drawing.Size(72, 16);
             this.check_isActionzr.TabIndex = 2;
@@ -73,7 +76,7 @@
             // 
             // txt_ZRPort
             // 
-            this.txt_ZRPort.Location = new System.Drawing.Point(518, 198);
+            this.txt_ZRPort.Location = new System.Drawing.Point(546, 123);
             this.txt_ZRPort.Name = "txt_ZRPort";
             this.txt_ZRPort.Size = new System.Drawing.Size(60, 21);
             this.txt_ZRPort.TabIndex = 3;
@@ -81,7 +84,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(483, 203);
+            this.label2.Location = new System.Drawing.Point(511, 132);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
@@ -90,7 +93,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(206, 265);
+            this.label3.Location = new System.Drawing.Point(194, 191);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 12);
             this.label3.TabIndex = 5;
@@ -98,7 +101,7 @@
             // 
             // txt_brandIP
             // 
-            this.txt_brandIP.Location = new System.Drawing.Point(283, 262);
+            this.txt_brandIP.Location = new System.Drawing.Point(313, 188);
             this.txt_brandIP.Name = "txt_brandIP";
             this.txt_brandIP.Size = new System.Drawing.Size(174, 21);
             this.txt_brandIP.TabIndex = 6;
@@ -106,7 +109,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(483, 265);
+            this.label4.Location = new System.Drawing.Point(508, 197);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 7;
@@ -114,7 +117,7 @@
             // 
             // txt_brandPort
             // 
-            this.txt_brandPort.Location = new System.Drawing.Point(518, 262);
+            this.txt_brandPort.Location = new System.Drawing.Point(546, 188);
             this.txt_brandPort.Name = "txt_brandPort";
             this.txt_brandPort.Size = new System.Drawing.Size(60, 21);
             this.txt_brandPort.TabIndex = 8;
@@ -122,7 +125,7 @@
             // check_isActionBr
             // 
             this.check_isActionBr.AutoSize = true;
-            this.check_isActionBr.Location = new System.Drawing.Point(610, 264);
+            this.check_isActionBr.Location = new System.Drawing.Point(637, 193);
             this.check_isActionBr.Name = "check_isActionBr";
             this.check_isActionBr.Size = new System.Drawing.Size(72, 16);
             this.check_isActionBr.TabIndex = 9;
@@ -131,7 +134,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(337, 470);
+            this.btn_Save.Location = new System.Drawing.Point(393, 466);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(86, 39);
             this.btn_Save.TabIndex = 10;
@@ -142,7 +145,7 @@
             // lab_Photo
             // 
             this.lab_Photo.AutoSize = true;
-            this.lab_Photo.Location = new System.Drawing.Point(206, 159);
+            this.lab_Photo.Location = new System.Drawing.Point(508, 252);
             this.lab_Photo.Name = "lab_Photo";
             this.lab_Photo.Size = new System.Drawing.Size(65, 12);
             this.lab_Photo.TabIndex = 11;
@@ -151,7 +154,7 @@
             // ck_photo
             // 
             this.ck_photo.AutoSize = true;
-            this.ck_photo.Location = new System.Drawing.Point(283, 155);
+            this.ck_photo.Location = new System.Drawing.Point(637, 248);
             this.ck_photo.Name = "ck_photo";
             this.ck_photo.Size = new System.Drawing.Size(72, 16);
             this.ck_photo.TabIndex = 12;
@@ -161,7 +164,7 @@
             // lab_debug
             // 
             this.lab_debug.AutoSize = true;
-            this.lab_debug.Location = new System.Drawing.Point(206, 315);
+            this.lab_debug.Location = new System.Drawing.Point(194, 305);
             this.lab_debug.Name = "lab_debug";
             this.lab_debug.Size = new System.Drawing.Size(65, 12);
             this.lab_debug.TabIndex = 13;
@@ -170,18 +173,46 @@
             // check_debug
             // 
             this.check_debug.AutoSize = true;
-            this.check_debug.Location = new System.Drawing.Point(283, 315);
+            this.check_debug.Location = new System.Drawing.Point(313, 301);
             this.check_debug.Name = "check_debug";
             this.check_debug.Size = new System.Drawing.Size(72, 16);
             this.check_debug.TabIndex = 14;
             this.check_debug.Text = "是否启用";
             this.check_debug.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(194, 252);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(113, 12);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "视觉相机沉睡时间：";
+            // 
+            // txtSleepTime
+            // 
+            this.txtSleepTime.Location = new System.Drawing.Point(313, 243);
+            this.txtSleepTime.Name = "txtSleepTime";
+            this.txtSleepTime.Size = new System.Drawing.Size(100, 21);
+            this.txtSleepTime.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(419, 252);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "ms";
+            // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 591);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtSleepTime);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.check_debug);
             this.Controls.Add(this.lab_debug);
             this.Controls.Add(this.ck_photo);
@@ -221,5 +252,8 @@
         private System.Windows.Forms.CheckBox ck_photo;
         private System.Windows.Forms.Label lab_debug;
         private System.Windows.Forms.CheckBox check_debug;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtSleepTime;
+        private System.Windows.Forms.Label label6;
     }
 }

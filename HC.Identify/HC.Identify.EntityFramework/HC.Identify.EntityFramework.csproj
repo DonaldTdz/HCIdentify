@@ -75,6 +75,7 @@
     <Compile Include="Services\Identify\OrderSumService.cs" />
     <Compile Include="Services\Identify\SystemConfigService.cs" />
     <Compile Include="Services\Identify\UserService.cs" />
+    <Compile Include="Services\Ms01\OrderInfoMsService.cs" />
     <Compile Include="Services\Ms01\OrderSumMsService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -33,16 +33,16 @@ namespace HC.Identify.App
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.GV_OrderSum = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AreaName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RetailName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sequence = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_up = new System.Windows.Forms.Button();
             this.btn_down = new System.Windows.Forms.Button();
             this.combo_OrderSum = new System.Windows.Forms.ComboBox();
             this.btn_save = new System.Windows.Forms.Button();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AreaName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RetailName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sequence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.GV_OrderSum)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,11 +61,11 @@ namespace HC.Identify.App
             this.GV_OrderSum.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GV_OrderSum.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
+            this.RIndex,
             this.AreaName,
             this.RetailName,
             this.Sequence,
-            this.Num,
-            this.RIndex});
+            this.Num});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -74,54 +74,13 @@ namespace HC.Identify.App
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.GV_OrderSum.DefaultCellStyle = dataGridViewCellStyle2;
-            this.GV_OrderSum.Location = new System.Drawing.Point(84, 61);
+            this.GV_OrderSum.Location = new System.Drawing.Point(0, 61);
             this.GV_OrderSum.Name = "GV_OrderSum";
+            this.GV_OrderSum.RowHeadersVisible = false;
             this.GV_OrderSum.RowTemplate.Height = 23;
-            this.GV_OrderSum.Size = new System.Drawing.Size(1170, 531);
+            this.GV_OrderSum.Size = new System.Drawing.Size(1344, 530);
             this.GV_OrderSum.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Id.Visible = false;
-            // 
-            // AreaName
-            // 
-            this.AreaName.DataPropertyName = "AreaName";
-            this.AreaName.HeaderText = "区域";
-            this.AreaName.Name = "AreaName";
-            this.AreaName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // RetailName
-            // 
-            this.RetailName.DataPropertyName = "RetailerName";
-            this.RetailName.HeaderText = "零售户";
-            this.RetailName.Name = "RetailName";
-            this.RetailName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Sequence
-            // 
-            this.Sequence.DataPropertyName = "Sequence";
-            this.Sequence.HeaderText = "订单顺序";
-            this.Sequence.Name = "Sequence";
-            this.Sequence.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Num
-            // 
-            this.Num.DataPropertyName = "Num";
-            this.Num.HeaderText = "数量";
-            this.Num.Name = "Num";
-            this.Num.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // RIndex
-            // 
-            this.RIndex.DataPropertyName = "RIndex";
-            this.RIndex.HeaderText = "序号";
-            this.RIndex.Name = "RIndex";
-            this.RIndex.Visible = false;
+            this.GV_OrderSum.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.GV_OrderSum_RowPostPaint);
             // 
             // btn_up
             // 
@@ -162,6 +121,54 @@ namespace HC.Identify.App
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
             // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Id.Visible = false;
+            // 
+            // RIndex
+            // 
+            this.RIndex.DataPropertyName = "RIndex";
+            this.RIndex.FillWeight = 25.38071F;
+            this.RIndex.HeaderText = "序号";
+            this.RIndex.Name = "RIndex";
+            // 
+            // AreaName
+            // 
+            this.AreaName.DataPropertyName = "AreaName";
+            this.AreaName.FillWeight = 118.6548F;
+            this.AreaName.HeaderText = "区域";
+            this.AreaName.Name = "AreaName";
+            this.AreaName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // RetailName
+            // 
+            this.RetailName.DataPropertyName = "RetailerName";
+            this.RetailName.FillWeight = 118.6548F;
+            this.RetailName.HeaderText = "零售户";
+            this.RetailName.Name = "RetailName";
+            this.RetailName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Sequence
+            // 
+            this.Sequence.DataPropertyName = "Sequence";
+            this.Sequence.FillWeight = 118.6548F;
+            this.Sequence.HeaderText = "订单顺序";
+            this.Sequence.Name = "Sequence";
+            this.Sequence.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Sequence.Visible = false;
+            // 
+            // Num
+            // 
+            this.Num.DataPropertyName = "Num";
+            this.Num.FillWeight = 118.6548F;
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            this.Num.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // BatchAdjustment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -174,6 +181,7 @@ namespace HC.Identify.App
             this.Controls.Add(this.GV_OrderSum);
             this.Name = "BatchAdjustment";
             this.Text = "批次调整";
+            this.Load += new System.EventHandler(this.BatchAdjustment_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GV_OrderSum)).EndInit();
             this.ResumeLayout(false);
 
@@ -187,10 +195,10 @@ namespace HC.Identify.App
         private System.Windows.Forms.ComboBox combo_OrderSum;
         private System.Windows.Forms.Button btn_save;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RIndex;
         private System.Windows.Forms.DataGridViewTextBoxColumn AreaName;
         private System.Windows.Forms.DataGridViewTextBoxColumn RetailName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Sequence;
         private System.Windows.Forms.DataGridViewTextBoxColumn Num;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RIndex;
     }
 }

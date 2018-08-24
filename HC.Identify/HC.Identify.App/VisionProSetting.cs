@@ -380,7 +380,7 @@ namespace HC.Identify.App
             //计算用时
             DateTime aftertime = DateTime.Now;
             txtUseTime.Text = aftertime.Subtract(befortime).Milliseconds.ToString();//毫秒
-           
+
         }
 
         #endregion
@@ -669,7 +669,7 @@ namespace HC.Identify.App
                 }
                 //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
                 //visionProAppService._icogColorImage = icogColorImage;
-                
+
             }
 
             RunCalculation();
@@ -734,17 +734,28 @@ namespace HC.Identify.App
             chkShowPic.Checked = cameraSettingShowDto.ShowPic;
             chkAutoSaveImage.Checked = cameraSettingShowDto.AutoSave;
         }
-
         public void GetCameraSetting()
         {
             var list = cameraSettingAppService.GetCameraSetting();
             cameraSettingShowDto = new CameraSettingShowDto();
+            var pathDto = new CameraSettingCreateDto();
             foreach (var item in list)
             {
-                if(item.Code == CameraEnum.图片位置)
+                if (item.Code == CameraEnum.图片位置)
                 {
-                    cameraSettingShowDto.PicPath = item.Value;
-                    txtImgPath.Text = item.Value;
+                    if (!string.IsNullOrEmpty(item.Value))
+                    {
+                        if (!Directory.Exists(item.Value))
+                        {
+                            item.Value = string.Empty;
+                            cameraSettingAppService.UpdateSingleSetting(item);
+                        }
+                        else
+                        {
+                            cameraSettingShowDto.PicPath = item.Value;
+                            txtImgPath.Text = item.Value;
+                        }
+                    }
                 }
                 if (item.Code == CameraEnum.相机外部模式)
                 {
@@ -772,19 +783,8 @@ namespace HC.Identify.App
                     cameraSettingShowDto.AutoSave = bool.Parse(item.Value);
                     chkAutoSaveImage.Checked = bool.Parse(item.Value);
                 }
-                //cameraSetting.PicPath = item.Code == CameraEnum.图片位置 ? item.Value : "";
-                //cameraSetting.CameraMode = item.Code == CameraEnum.相机外部模式 ? bool.Parse(item.Value) : false;
-                //cameraSetting.Simulation = item.Code == CameraEnum.仿真 ? bool.Parse(item.Value) : false;
-                //cameraSetting.SaveData = item.Code == CameraEnum.保存数据 ? bool.Parse(item.Value) : false;
-                //cameraSetting.ShowPic = item.Code == CameraEnum.显示图形 ? bool.Parse(item.Value) : false;
-                //cameraSetting.AutoSave = item.Code == CameraEnum.自动存图 ? bool.Parse(item.Value) : false;
             }
-            //txtImgPath.Text = cameraSetting.PicPath;
-            //chkCamTrigOn.Checked = cameraSetting.CameraMode;
-            //chkSimulation.Checked = cameraSetting.Simulation;
-            //chkAutoSaveData.Checked = cameraSetting.SaveData;
-            //chkShowPic.Checked = cameraSetting.ShowPic;
-            //chkAutoSaveImage.Checked = cameraSetting.AutoSave;
+
         }
         #endregion
 
@@ -831,7 +831,7 @@ namespace HC.Identify.App
             autoSave.Descs = CameraEnum.自动存图.ToString();
             autoSave.Value = chkAutoSaveImage.Checked.ToString();
             list.Add(autoSave);
-           var result= cameraSettingAppService.SaveCameraSetting(list);
+            var result = cameraSettingAppService.SaveCameraSetting(list);
             if (result)
             {
                 MessageBox.Show("保存成功");

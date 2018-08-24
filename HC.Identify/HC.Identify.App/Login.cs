@@ -48,9 +48,8 @@ namespace HC.Identify.App
                 {
                     //Session["Account"] =accont;
                     //Session["Password"] =password;
-                    Main ma = new Main();
+                    Main ma = new Main(user);
                     ma.Show();
-                    ma.loginUser = user;
                     this.Visible = false;
                 }
                 else

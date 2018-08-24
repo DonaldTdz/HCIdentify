@@ -58,6 +58,9 @@
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolUserName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -122,6 +125,9 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolUser,
+            this.toolUserName,
+            this.toolStripStatusLabel9,
             this.toolFrameStatus,
             this.toolFrameStatusVal,
             this.toolStripStatusLabel1,
@@ -272,13 +278,13 @@
             // 操作手册ToolStripMenuItem
             // 
             this.操作手册ToolStripMenuItem.Name = "操作手册ToolStripMenuItem";
-            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.操作手册ToolStripMenuItem.Text = "操作手册";
             // 
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.关于ToolStripMenuItem.Text = "关于本系统";
             this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
@@ -302,6 +308,23 @@
             this.menuStrip1.Size = new System.Drawing.Size(1344, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolUser
+            // 
+            this.toolUser.Name = "toolUser";
+            this.toolUser.Size = new System.Drawing.Size(68, 17);
+            this.toolUser.Text = "登录用户：";
+            // 
+            // toolUserName
+            // 
+            this.toolUserName.Name = "toolUserName";
+            this.toolUserName.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusLabel9
+            // 
+            this.toolStripStatusLabel9.Name = "toolStripStatusLabel9";
+            this.toolStripStatusLabel9.Size = new System.Drawing.Size(28, 17);
+            this.toolStripStatusLabel9.Text = "     ";
             // 
             // Main
             // 
@@ -363,6 +386,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.ToolStripStatusLabel toolS_zr;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel8;
+        private System.Windows.Forms.ToolStripStatusLabel toolUser;
+        private System.Windows.Forms.ToolStripStatusLabel toolUserName;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel9;
     }
 }
 

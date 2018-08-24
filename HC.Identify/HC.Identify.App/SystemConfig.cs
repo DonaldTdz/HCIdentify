@@ -60,6 +60,10 @@ namespace HC.Identify.App
                     {
                         check_debug.Checked = item.IsAction;
                     }
+                    if (item.Code == ConfigEnum.视觉相机沉睡)
+                    {
+                        txtSleepTime.Text = item.Value;
+                    }
                 }
             }
         }
@@ -102,6 +106,13 @@ namespace HC.Identify.App
                 debugConfig.Code = ConfigEnum.调试模式;
                 debugConfig.IsAction = check_debug.Checked;
                 Configs.Add(debugConfig);
+
+                //视觉相机沉睡时间
+                var sleepTimeConfig = new SystemConfigDto();
+                sleepTimeConfig.Code = ConfigEnum.视觉相机沉睡;
+                sleepTimeConfig.Value = txtSleepTime.Text;
+                Configs.Add(sleepTimeConfig);
+
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
@@ -146,6 +157,10 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.调试模式)
                     {
                         check_debug.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.调试模式)
+                    {
+                        txtSleepTime.Text = item.Value;
                     }
                 }
             }

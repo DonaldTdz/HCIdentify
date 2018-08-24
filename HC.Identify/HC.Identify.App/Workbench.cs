@@ -497,7 +497,7 @@ namespace HC.Identify.App
         private void btn_dowload_Click(object sender, EventArgs e)
         {
             btn_dowload.Visible = false;
-            var result = orderSumAppService.DowloadData();
+            var result = orderSumAppService.DowloadOrderSumData();
             ComboxGetValue();
             if (combo_area.SelectedValue != null)
             {

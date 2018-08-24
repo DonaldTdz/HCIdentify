@@ -37,19 +37,22 @@ namespace HC.Identify.Application.Identify
         {
             return orderSumService.GetOrderSumByAreaCode(code);
         }
-        public int DowloadData()
+
+        /// <summary>
+        /// 下载线路户数信息
+        /// </summary>
+        public int DowloadOrderSumData()
         {
             var list = orderSumMsService.GetOrderSumMs();
             if (list.Count > 0)
             {
-                return orderSumService.DowloadData(list);
+                return orderSumService.DownloadData(list);
             }
             else
             {
                 return 0;
             }
         }
-
         public IList<OrderSumForUpDoen> GetOrderSums(int code)
         {
             return orderSumService.GetOrderSums(code);

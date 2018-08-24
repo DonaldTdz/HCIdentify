@@ -28,13 +28,15 @@ namespace HC.Identify.App
             InitializeComponent();
             MainForm = mainForm;
             InitServices();
-            InitData();
         }
         private void InitServices()
         {
             orderSumAppService = new OrderSumAppService();
         }
-
+        private void BatchAdjustment_Load(object sender, EventArgs e)
+        {
+            InitData();
+        }
         private void InitData()
         {
             ComboxGetValue();
@@ -46,6 +48,7 @@ namespace HC.Identify.App
                 //获取当前选中项下的打包订单信息
                 orderSums = orderSumAppService.GetOrderSums(code).OrderBy(o => o.RIndex).ToList();
                 GV_OrderSum.DataSource = orderSums;
+                GV_OrderSum.Refresh();
                 //this.GV_OrderSum.Sort(this.GV_OrderSum.Columns[5], ListSortDirection.Ascending);
             }
         }
@@ -116,12 +119,12 @@ namespace HC.Identify.App
                     }
                 }
                 var selectIndex = index - 1;
-                orderSums = orderSums.OrderBy(o => o.RIndex).ToList();
-                GV_OrderSum.DataSource = orderSums;
+                //orderSums = orderSums.OrderBy(o => o.RIndex).ToList();
+                GV_OrderSum.DataSource = orderSums.OrderBy(o => o.RIndex).ToList();
                 GV_OrderSum.Refresh();
                 GV_OrderSum.ClearSelection();
                 GV_OrderSum.Rows[selectIndex].Selected = true;
-                GV_OrderSum.CurrentCell = GV_OrderSum.Rows[selectIndex].Cells[1];
+                GV_OrderSum.CurrentCell = GV_OrderSum.Rows[selectIndex].Cells[2];//区域
                 GV_OrderSum.CurrentRow.Selected = true;
             }
 
@@ -170,13 +173,12 @@ namespace HC.Identify.App
                     }
                 }
                 var selectIndex = index + 1;
-                orderSums = orderSums.OrderBy(o => o.RIndex).ToList();
-                GV_OrderSum.DataSource = orderSums;
+                GV_OrderSum.DataSource = orderSums.OrderBy(o => o.RIndex).ToList();
                 GV_OrderSum.Refresh();//刷新DataGridView
                 //定位到向下的目标行
                 GV_OrderSum.ClearSelection();
                 GV_OrderSum.Rows[selectIndex].Selected = true;
-                GV_OrderSum.CurrentCell = GV_OrderSum.Rows[selectIndex].Cells[1];
+                GV_OrderSum.CurrentCell = GV_OrderSum.Rows[selectIndex].Cells[2];//区域
                 GV_OrderSum.CurrentRow.Selected = true;
 
             }
@@ -193,6 +195,20 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("保存失败");
             }
+        }
+
+        /// <summary>
+        /// 为线路户数列表增加序号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GV_OrderSum_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            ////添加匹配结果表序号
+            //foreach (DataGridViewRow dr in GV_OrderSum.Rows)
+            //{
+            //    dr.Cells[0].Value = dr.Index + 1;
+            //}
         }
     }
 }

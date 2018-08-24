@@ -28,11 +28,12 @@ namespace HC.Identify.App
         //SocketServer socketServer;
         //SocketClient socketClient;
         public UserDto loginUser=new UserDto();
-        public Main()
+        public Main(UserDto user)
         {
             InitializeComponent();
             userAppServer = new UserAppService();
             InitControles();
+            loginUser = user;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -53,6 +54,7 @@ namespace HC.Identify.App
             //socketClient = new SocketClient("192.168.0.128", 89);
             //socketClient.Open();
             //socketClient.Send("socketClient");
+            IsManager();
         }
 
         public void IsManager()
@@ -61,12 +63,15 @@ namespace HC.Identify.App
             {
                 系统用户ToolStripMenuItem.Visible = false;
             }
+            toolUserName.Text = loginUser.Account;
         }
 
         //初始化控件
         public void InitControles()
         {
-            this.ShowForm("Workbench");
+            //this.ShowForm("Workbench");
+            this.ShowForm("WorkbenchNew");
+
         }
 
         public void InitData()
@@ -86,7 +91,8 @@ namespace HC.Identify.App
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            this.ShowForm("Workbench");
+            //this.ShowForm("Workbench");
+            this.ShowForm("WorkbenchNew");
         }
 
         private void ShowForm(string formName)
@@ -124,6 +130,10 @@ namespace HC.Identify.App
                     case "AboutSystem":
                         {
                             form = new AboutSystem(this);
+                        }; break;
+                    case "WorkbenchNew":
+                        {
+                            form = new WorkbenchNew(this);
                         }; break;
                     default:
                         break;

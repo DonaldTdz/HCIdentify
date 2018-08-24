@@ -1,5 +1,6 @@
 ﻿using HC.Identify.Dto.Identify;
 using HC.Identify.EntityFramework.Services.Identify;
+using HC.Identify.EntityFramework.Services.Ms01;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,13 @@ namespace HC.Identify.Application.Identify
     {
         private OrderInfoService orderInfoService;
         private OrderSumService orderSumService;
+        private OrderInfoMsService OrderInfoMsService;
+
         public OrderInfoAppService()
         {
             orderInfoService = new OrderInfoService();
             orderSumService = new OrderSumService();
+            OrderInfoMsService = new OrderInfoMsService();
         }
 
         /// <summary>
@@ -33,6 +37,22 @@ namespace HC.Identify.Application.Identify
         {
             var uuids = orderSumService.GetUUIDsByLineCode(lineCode);
             return orderInfoService.GetOrderListByUUIDs(uuids);
+        }
+
+        /// <summary>
+        /// 现在订单信息
+        /// </summary>
+        public int DownloadOrderInfoData()
+        {
+            var list = OrderInfoMsService.GetOrderInfoMsList();
+            if (list.Count > 0)
+            {
+               return  orderInfoService.DownloadOrderInfoData(list);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

@@ -24,6 +24,8 @@ namespace HC.Identify.Core.Identify
             中软 = 2,
             读码 = 3,
             调试模式 = 4,
+            视觉相机沉睡=5,
+            订单顺序模式=6,
         }
         public enum SwitchEnum
         {
