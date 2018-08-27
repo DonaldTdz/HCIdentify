@@ -789,7 +789,10 @@ namespace HC.Identify.App
                 {
                     if (SystemConfig[ConfigEnum.图像].IsAction)
                     {
-                        Thread.Sleep(int .Parse(SystemConfig[ConfigEnum.视觉相机沉睡].Value));//注意:需要加配置 
+                        if (!string.IsNullOrEmpty(SystemConfig[ConfigEnum.视觉相机沉睡].Value))
+                        {
+                            Thread.Sleep(int.Parse(SystemConfig[ConfigEnum.视觉相机沉睡].Value));//注意:需要加配置 
+                        }
                         brand = ImgBrand;
                     }
                     else
