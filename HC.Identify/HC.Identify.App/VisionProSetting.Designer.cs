@@ -479,6 +479,7 @@
             this.Text = "视觉配置";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VisionProSetting_FormClosing);
             this.Load += new System.EventHandler(this.VisionProSetting_Load);
+            this.Leave += new System.EventHandler(this.VisionProSetting_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).EndInit();
             this.groupImgSaveBox.ResumeLayout(false);

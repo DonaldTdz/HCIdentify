@@ -34,6 +34,6 @@ namespace HC.Identify.EntityFramework.DBContexts
         public DbSet<OrderSum> OrderSums { get; set; }
         public DbSet<CameraSetting> CameraSetting { get; set; }
         public DbSet<SystemConfig> SystemConfig { get; set; }
-
+        public DbSet<OrderSmokeSeq> OrderSmokeSeq { get; set; }
     }
 }

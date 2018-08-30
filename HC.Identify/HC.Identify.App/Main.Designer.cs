@@ -154,8 +154,10 @@
             // 
             // toolUserName
             // 
+            this.toolUserName.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.toolUserName.Name = "toolUserName";
-            this.toolUserName.Size = new System.Drawing.Size(0, 17);
+            this.toolUserName.Size = new System.Drawing.Size(15, 17);
+            this.toolUserName.Text = "1";
             // 
             // toolStripStatusLabel9
             // 
@@ -288,13 +290,13 @@
             // 操作手册ToolStripMenuItem
             // 
             this.操作手册ToolStripMenuItem.Name = "操作手册ToolStripMenuItem";
-            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.操作手册ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.操作手册ToolStripMenuItem.Text = "操作手册";
             // 
             // 关于ToolStripMenuItem
             // 
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.关于ToolStripMenuItem.Text = "关于本系统";
             this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 

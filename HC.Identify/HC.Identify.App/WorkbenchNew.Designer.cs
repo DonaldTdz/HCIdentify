@@ -107,6 +107,8 @@
             this.Specific = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MatchTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Match = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sequence = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrderInfo)).BeginInit();
@@ -686,7 +688,9 @@
             this.BrandS,
             this.Specific,
             this.MatchTime,
-            this.Match});
+            this.Match,
+            this.UUID,
+            this.Sequence});
             dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -802,6 +806,19 @@
             this.Match.Name = "Match";
             this.Match.Width = 60;
             // 
+            // UUID
+            // 
+            this.UUID.HeaderText = "UUID";
+            this.UUID.Name = "UUID";
+            this.UUID.Visible = false;
+            // 
+            // Sequence
+            // 
+            this.Sequence.DataPropertyName = "Sequence";
+            this.Sequence.HeaderText = "落烟顺序";
+            this.Sequence.Name = "Sequence";
+            this.Sequence.Visible = false;
+            // 
             // WorkbenchNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -820,6 +837,7 @@
             this.Name = "WorkbenchNew";
             this.Text = "工作台";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WorkbenchNew_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WorkbenchNew_FormClosed);
             this.Load += new System.EventHandler(this.WorkbenchNew_Load);
             this.groupBox1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -909,5 +927,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Specific;
         private System.Windows.Forms.DataGridViewTextBoxColumn MatchTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn Match;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UUID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Sequence;
     }
 }

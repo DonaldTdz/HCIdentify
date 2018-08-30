@@ -89,6 +89,7 @@
     <Compile Include="IdentifyAppServiceBase.cs" />
     <Compile Include="Identify\CameraSettingAppService.cs" />
     <Compile Include="Identify\OrderInfoAppService.cs" />
+    <Compile Include="Identify\OrderSmokeSeqAppService.cs" />
     <Compile Include="Identify\OrderSumAppService.cs" />
     <Compile Include="Identify\SystemConfigAppService.cs" />
     <Compile Include="Identify\UserAppService.cs" />

@@ -83,5 +83,12 @@ namespace HC.Identify.Dto.Identify
         /// 匹配时间
         /// </summary>
         public string MatchTime { get; set; }
+
+        /// <summary>
+        /// 落烟顺序
+        /// </summary>
+        public int Sequence { get; set; }
+
+        public string UUID { get; set; }
     }
 }

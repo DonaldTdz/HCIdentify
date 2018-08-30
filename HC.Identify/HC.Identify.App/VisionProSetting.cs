@@ -403,6 +403,25 @@ namespace HC.Identify.App
         {
             if (!isShowTool)
             {
+                //关闭相机外部模式
+                if (chkCamTrigOn.Checked)
+                {
+                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    icogAcqFifo.Flush();
+                    icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                    chkCamTrigOn.Checked = false;//相机外部模式
+                }
+                //关闭连续取像
+                if (cogRecordDisplay.LiveDisplayRunning)
+                {
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    cogRecordDisplay.StopLiveDisplay();
+                    btnLiveDisplay.Text = "连续取像";
+                }
+
+                //开启工具设置
                 isShowTool = true;
                 btnToolSetting.Text = "关闭设置";
                 cogToolBlockEditV2.Visible = true;
@@ -449,6 +468,7 @@ namespace HC.Identify.App
             }
             else
             {
+                //相机外部模式关闭
                 icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
                 cogRecordDisplay.StaticGraphics.Clear();
                 cogRecordDisplay.Record = null;
@@ -706,6 +726,14 @@ namespace HC.Identify.App
                 icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
 
+                //关闭连续取像
+                if (cogRecordDisplay.LiveDisplayRunning)
+                {
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    cogRecordDisplay.StopLiveDisplay();
+                    btnLiveDisplay.Text = "连续取像";
+                }
+
             }
             else
             {
@@ -849,6 +877,23 @@ namespace HC.Identify.App
             {
                 txtCurrentImgFileName.Text = fileInfos[imgIndex].Name.Substring(0, (fileInfos[imgIndex].Name.Length - 4));  //当前图像文件名
                 txtCurrentSpec.Text = fileInfos[imgIndex].Name.Substring(0, (fileInfos[imgIndex].Name.Length - 4));         //当前产品规格型号
+            }
+        }
+
+        /// <summary>
+        /// 窗体切换到另外的窗体时
+        /// </summary>
+        private void VisionProSetting_Leave(object sender, EventArgs e)
+        {
+            //关闭相机外部模式
+            if (chkCamTrigOn.Checked)
+            {
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                chkCamTrigOn.Checked = false;//相机外部模式
             }
         }
     }

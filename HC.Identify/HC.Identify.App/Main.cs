@@ -61,9 +61,11 @@ namespace HC.Identify.App
         {
             if (loginUser.Role != RoleEnum.系统管理员)
             {
-                系统用户ToolStripMenuItem.Visible = false;
+                系统管理ToolStripMenuItem.Visible = false;
+                //系统用户ToolStripMenuItem.Visible = false;
             }
             toolUserName.Text = loginUser.Account;
+            toolUserName.ForeColor = Color.SkyBlue;
         }
 
         //初始化控件
@@ -280,7 +282,7 @@ namespace HC.Identify.App
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
            
-            Dispose();
+            //Dispose();
         }
 
         /// <summary>
@@ -355,7 +357,7 @@ namespace HC.Identify.App
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Thread.Sleep(30);//当保存配置调用System.Windows.Forms.Application.Exit()关闭窗口需要等它执行一会儿Environment.Exit(0);执行才不会出错
+            //Thread.Sleep(30);//当保存配置调用System.Windows.Forms.Application.Exit()关闭窗口需要等它执行一会儿Environment.Exit(0);执行才不会出错
             Environment.Exit(0);
         }
 

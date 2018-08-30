@@ -62,6 +62,7 @@
     <Compile Include="Identify\CameraSetting.cs" />
     <Compile Include="Identify\IdentifyEnum.cs" />
     <Compile Include="Identify\OrderInfo.cs" />
+    <Compile Include="Identify\OrderSmokeSeq.cs" />
     <Compile Include="Identify\OrderSum.cs" />
     <Compile Include="Identify\SystemConfig.cs" />
     <Compile Include="Identify\User.cs" />
