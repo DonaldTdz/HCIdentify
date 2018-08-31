@@ -46,6 +46,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtSleepTime = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ckOrderSeq = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -187,7 +189,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(113, 12);
             this.label5.TabIndex = 15;
-            this.label5.Text = "视觉相机沉睡时间：";
+            this.label5.Text = "视觉相机等待时间：";
             // 
             // txtSleepTime
             // 
@@ -205,11 +207,32 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "ms";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(649, 292);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 12);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "订单顺序模式：";
+            // 
+            // ckOrderSeq
+            // 
+            this.ckOrderSeq.AutoSize = true;
+            this.ckOrderSeq.Location = new System.Drawing.Point(826, 291);
+            this.ckOrderSeq.Name = "ckOrderSeq";
+            this.ckOrderSeq.Size = new System.Drawing.Size(72, 16);
+            this.ckOrderSeq.TabIndex = 19;
+            this.ckOrderSeq.Text = "是否启用";
+            this.ckOrderSeq.UseVisualStyleBackColor = true;
+            // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 611);
+            this.Controls.Add(this.ckOrderSeq);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtSleepTime);
             this.Controls.Add(this.label5);
@@ -255,5 +278,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtSleepTime;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox ckOrderSeq;
     }
 }

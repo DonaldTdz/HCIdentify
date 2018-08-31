@@ -476,6 +476,18 @@ namespace HC.Identify.App
                 InitOrderSummary();
                 //清空匹配结果
                 ClearOrderMatchResult();
+                if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
+                {
+                    //重新绑定订单匹配结果
+                    BindOrderMatchResult();
+                    foreach (var item in OrderMatchResult)
+                    {
+                        item.MatchStatus = "";
+                        item.MatchTime = "";
+                    }
+                    gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.Black;
+                    gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.White;
+                }
             }
             else
             {
@@ -583,24 +595,27 @@ namespace HC.Identify.App
             var result = true;
             if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
             {
-                if (OrderMatchResult[orderSquence].Brand == orderInfo.Brand)
+                if (OrderMatchResult != null && orderSquence < OrderMatchResult.Count)
                 {
-                    OrderMatchResult[orderSquence].MatchStatus = "OK";
-                    OrderMatchResult[orderSquence].MatchTime = DateTime.Now.ToString("HH:mm ss");
-                    gvMatchResult.Rows[orderSquence].Cells["Match"].Style.ForeColor = Color.White;
-                    gvMatchResult.Rows[orderSquence].Cells["Match"].Style.BackColor = Color.Green;
+                    if (OrderMatchResult[orderSquence].Brand == orderInfo.Brand)
+                    {
+                        OrderMatchResult[orderSquence].MatchStatus = "OK";
+                        OrderMatchResult[orderSquence].MatchTime = DateTime.Now.ToString("HH:mm ss");
+                        gvMatchResult.Rows[orderSquence].Cells["Match"].Style.ForeColor = Color.White;
+                        gvMatchResult.Rows[orderSquence].Cells["Match"].Style.BackColor = Color.Green;
 
-                    orderSquence++;
-                    result = true;
-                }
-                else
-                {
-                    OrderMatchResult[orderSquence].MatchStatus = "NG";
-                    OrderMatchResult[orderSquence].MatchTime = DateTime.Now.ToString("HH:mm ss");
-                    gvMatchResult.Rows[orderSquence].Cells["Match"].Style.ForeColor = Color.Black;
-                    gvMatchResult.Rows[orderSquence].Cells["Match"].Style.BackColor = Color.Red;
-                    //给中软发送NG 调用处已写
-                    result = false;
+                        orderSquence++;
+                        result = true;
+                    }
+                    else
+                    {
+                        OrderMatchResult[orderSquence].MatchStatus = "NG";
+                        OrderMatchResult[orderSquence].MatchTime = DateTime.Now.ToString("HH:mm ss");
+                        gvMatchResult.Rows[orderSquence].Cells["Match"].Style.ForeColor = Color.Black;
+                        gvMatchResult.Rows[orderSquence].Cells["Match"].Style.BackColor = Color.Red;
+                        //给中软发送NG 调用处已写
+                        result = false;
+                    }
                 }
             }//下面部分为else
             else
@@ -623,6 +638,8 @@ namespace HC.Identify.App
                     gvMatchResult.Rows.Clear();
                 }
                 gvMatchResult.DataSource = OrderMatchResult;
+                gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.White;
+                gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.Green;
                 //注意：需要验证刷新可行性(不清除刷新无效<针对增加数据源的数据，只是修改数据源的数据有效>)
                 result = true;
             }
@@ -840,8 +857,9 @@ namespace HC.Identify.App
             string t = "";
             while (true)
             {
-                benginDate = DateTime.Now;
+                //benginDate = DateTime.Now;
                 var readCode = readCodeSocketClient.Recive();
+                benginDate = DateTime.Now;
                 var token = readCode.Split(new string[] { "|" }, StringSplitOptions.None);
                 switch (token[0])
                 {

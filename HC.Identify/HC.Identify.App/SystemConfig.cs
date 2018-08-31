@@ -64,6 +64,10 @@ namespace HC.Identify.App
                     {
                         txtSleepTime.Text = item.Value;
                     }
+                    if (item.Code == ConfigEnum.订单顺序模式)
+                    {
+                        ckOrderSeq.Checked = item.IsAction;
+                    }
                 }
             }
         }
@@ -112,6 +116,12 @@ namespace HC.Identify.App
                 sleepTimeConfig.Code = ConfigEnum.视觉相机沉睡;
                 sleepTimeConfig.Value = txtSleepTime.Text;
                 Configs.Add(sleepTimeConfig);
+
+                //订单顺序模式
+                var orderSeqConfig = new SystemConfigDto();
+                orderSeqConfig.Code = ConfigEnum.订单顺序模式;
+                orderSeqConfig.IsAction = ckOrderSeq.Checked;
+                Configs.Add(orderSeqConfig);
 
                 try
                 {
@@ -162,6 +172,10 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.调试模式)
                     {
                         txtSleepTime.Text = item.Value;
+                    }
+                    if (item.Code == ConfigEnum.订单顺序模式)
+                    {
+                        ckOrderSeq.Checked = item.IsAction;
                     }
                 }
             }
