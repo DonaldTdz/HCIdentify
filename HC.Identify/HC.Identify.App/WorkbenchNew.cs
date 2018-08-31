@@ -478,8 +478,6 @@ namespace HC.Identify.App
                 ClearOrderMatchResult();
                 if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
                 {
-                    //重新绑定订单匹配结果
-                    BindOrderMatchResult();
                     foreach (var item in OrderMatchResult)
                     {
                         item.MatchStatus = "";
@@ -487,6 +485,8 @@ namespace HC.Identify.App
                     }
                     gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.Black;
                     gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.White;
+                    //重新绑定订单匹配结果
+                    BindOrderMatchResult();
                 }
             }
             else
