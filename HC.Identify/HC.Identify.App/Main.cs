@@ -1,5 +1,7 @@
 ﻿using HC.Identify.Application;
 using HC.Identify.Application.Identify;
+using HC.Identify.Core.Identify;
+using HC.Identify.Dto.Identify;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +10,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,17 +27,18 @@ namespace HC.Identify.App
         //COMServer cOMServer;//串口通信测试
         //SocketServer socketServer;
         //SocketClient socketClient;
-        public Main()
+        public UserDto loginUser=new UserDto();
+        public Main(UserDto user)
         {
             InitializeComponent();
             userAppServer = new UserAppService();
             InitControles();
+            loginUser = user;
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
             InitData();
-
             // //串口测试
             // cOMServer = new COMServer("COM4", 9600, 8, StopBits.One, Parity.Even);
             // cOMServer.Open();
@@ -50,12 +54,26 @@ namespace HC.Identify.App
             //socketClient = new SocketClient("192.168.0.128", 89);
             //socketClient.Open();
             //socketClient.Send("socketClient");
+            IsManager();
+        }
+
+        public void IsManager()
+        {
+            if (loginUser.Role != RoleEnum.系统管理员)
+            {
+                系统管理ToolStripMenuItem.Visible = false;
+                //系统用户ToolStripMenuItem.Visible = false;
+            }
+            toolUserName.Text = loginUser.Account;
+            toolUserName.ForeColor = Color.SkyBlue;
         }
 
         //初始化控件
         public void InitControles()
         {
-            this.ShowForm("Workbench");
+            //this.ShowForm("Workbench");
+            this.ShowForm("WorkbenchNew");
+
         }
 
         public void InitData()
@@ -65,7 +83,7 @@ namespace HC.Identify.App
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private void 视觉配置ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -75,7 +93,8 @@ namespace HC.Identify.App
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            this.ShowForm("Workbench");
+            //this.ShowForm("Workbench");
+            this.ShowForm("WorkbenchNew");
         }
 
         private void ShowForm(string formName)
@@ -106,6 +125,18 @@ namespace HC.Identify.App
                         {
                             form = new SystemConfig(this);
                         }; break;
+                    case "UserInfo":
+                        {
+                            form = new UserInfo(this);
+                        }; break;
+                    case "AboutSystem":
+                        {
+                            form = new AboutSystem(this);
+                        }; break;
+                    case "WorkbenchNew":
+                        {
+                            form = new WorkbenchNew(this);
+                        }; break;
                     default:
                         break;
                 }
@@ -122,7 +153,7 @@ namespace HC.Identify.App
             this.FrameStatus = frameStatus;
             switch (frameStatus)
             {
-                case FrameStatusEnum.None:
+                case FrameStatusEnum.NoConnected:
                     {
                         this.toolFrameStatusVal.Text = "未连接";
                         this.toolFrameStatusVal.ForeColor = Color.Red;
@@ -189,7 +220,7 @@ namespace HC.Identify.App
 
         public enum FrameStatusEnum
         {
-            None = 0, //未连接
+            NoConnected = 0, //未连接
             Connected = 1, //已连接
             NotEnabled = 3,//未启用
         }
@@ -250,8 +281,8 @@ namespace HC.Identify.App
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Environment.Exit(0);
-            Dispose();
+           
+            //Dispose();
         }
 
         /// <summary>
@@ -263,7 +294,7 @@ namespace HC.Identify.App
             this.ZRStatus = frameStatusEnum;
             switch (frameStatusEnum)
             {
-                case FrameStatusEnum.None:
+                case FrameStatusEnum.NoConnected:
                     {
                         this.toolS_zr.Text = "未连接";
                         this.toolS_zr.ForeColor = Color.Red;
@@ -298,7 +329,7 @@ namespace HC.Identify.App
             this.ScannerStatus = frameStatusEnum;
             switch (frameStatusEnum)
             {
-                case FrameStatusEnum.None:
+                case FrameStatusEnum.NoConnected:
                     {
                         this.toolS_scan.Text = "未连接";
                         this.toolS_scan.ForeColor = Color.Red;
@@ -322,6 +353,23 @@ namespace HC.Identify.App
                 default:
                     break;
             }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Thread.Sleep(30);//当保存配置调用System.Windows.Forms.Application.Exit()关闭窗口需要等它执行一会儿Environment.Exit(0);执行才不会出错
+            Environment.Exit(0);
+        }
+
+        private void 系统用户ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ShowForm("UserInfo");
+        }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutSystem form = new AboutSystem();
+            form.ShowDialog();
         }
     }
 }

@@ -133,17 +133,16 @@ namespace HC.Identify.EntityFramework.Services.Identify
         }
 
         /// <summary>
-        /// 批量导入
+        /// 批量导入户数信息
         /// </summary>
-        /// <param name="orderSumMsDto"></param>
-        public int DowloadData(IList<OrderSumMsDto> orderSumMsDto)
+        public int DownloadData(IList<OrderSumMsDto> orderSumMsList)
         {
             using (IdentifyContext context = new IdentifyContext())
             {
                 var deSql = "delete from OrderSums";
                 context.Database.ExecuteSqlCommand(deSql);
                 var sql = new StringBuilder();
-                foreach (var item in orderSumMsDto)
+                foreach (var item in orderSumMsList)
                 {
                      sql.AppendFormat("insert into OrderSums (Id,UUID,AreaCode,AreaName,RetailerCode,RetailerName,Sequence,Num,PostData,RNum,RIndex) values(newid(),'{0}','{1}','{2}','{3}','{4}','{5}','{6}',GETDATE(),0,{7});", item.OI_UUID ,item.B_CODE , item.OI_DL_NAME , item.OI_RETAILER_CODE , item.OI_RETAILER_NAME ,item.OI_SEQUENCE , item.OI_ALL_NUM,item.RowIndex);
                 }
@@ -151,6 +150,7 @@ namespace HC.Identify.EntityFramework.Services.Identify
                 return result ;
             }
         }
+
         public IList<OrderSumForUpDoen> GetOrderSums(int code)
         {
             using (IdentifyContext context = new IdentifyContext())
@@ -184,6 +184,13 @@ namespace HC.Identify.EntityFramework.Services.Identify
 
             }
         }
-         
+
+        public string[] GetUUIDsByLineCode(int lineCode)
+        {
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                return context.OrderSums.Where(o => o.AreaCode == lineCode).Select(o => o.UUID).ToArray();
+            }
+        }
     }
 }

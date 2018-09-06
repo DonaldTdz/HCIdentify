@@ -15,7 +15,7 @@ using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
 {
-    public partial class SystemConfig : FormMainChildren
+    public partial class SystemConfig : FormMainChildren //Form
     {
         public SystemConfigAppService systemConfigAppService;
         public List<SystemConfigDto> configs;
@@ -46,7 +46,7 @@ namespace HC.Identify.App
                         txt_ZRPort.Text = item.AdditiValue;
                         check_isActionzr.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.条码)
+                    if (item.Code == ConfigEnum.读码)
                     {
                         txt_brandIP.Text = item.Value.ToString();
                         txt_brandPort.Text = item.AdditiValue.ToString();
@@ -55,6 +55,18 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.图像)
                     {
                         ck_photo.Checked = item.IsAction;
+                    }
+                    if(item.Code== ConfigEnum.调试模式)
+                    {
+                        check_debug.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.视觉相机沉睡)
+                    {
+                        txtSleepTime.Text = item.Value;
+                    }
+                    if (item.Code == ConfigEnum.订单顺序模式)
+                    {
+                        ckOrderSeq.Checked = item.IsAction;
                     }
                 }
             }
@@ -79,7 +91,7 @@ namespace HC.Identify.App
 
                 //条码
                 var brConfig = new SystemConfigDto();
-                brConfig.Code = ConfigEnum.条码;
+                brConfig.Code = ConfigEnum.读码;
                 brConfig.Value = txt_brandIP.Text;
                 brConfig.AdditiValue = txt_brandPort.Text;
                 brConfig.IsAction = check_isActionBr.Checked;
@@ -92,13 +104,33 @@ namespace HC.Identify.App
                 phConfig.Code = ConfigEnum.图像;
                 phConfig.IsAction = ck_photo.Checked;
                 Configs.Add(phConfig);
+
+                //调试模式
+                var debugConfig = new SystemConfigDto();
+                debugConfig.Code = ConfigEnum.调试模式;
+                debugConfig.IsAction = check_debug.Checked;
+                Configs.Add(debugConfig);
+
+                //视觉相机沉睡时间
+                var sleepTimeConfig = new SystemConfigDto();
+                sleepTimeConfig.Code = ConfigEnum.视觉相机沉睡;
+                sleepTimeConfig.Value = txtSleepTime.Text;
+                Configs.Add(sleepTimeConfig);
+
+                //订单顺序模式
+                var orderSeqConfig = new SystemConfigDto();
+                orderSeqConfig.Code = ConfigEnum.订单顺序模式;
+                orderSeqConfig.IsAction = ckOrderSeq.Checked;
+                Configs.Add(orderSeqConfig);
+
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
                     //configs = systemConfigAppService.GetAllConfig();
                     MessageBox.Show("保存成功");
-                    System.Windows.Forms.Application.Exit();
-                    //this.MainForm.Dispose();
+                    //this.MainForm.Close();
+                    //System.Windows.Forms.Application.Exit();
+                    Environment.Exit(0);
                 }
                 catch (Exception ex)
                 {
@@ -123,7 +155,7 @@ namespace HC.Identify.App
                         txt_ZRPort.Text = item.AdditiValue;
                         check_isActionzr.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.条码)
+                    if (item.Code == ConfigEnum.读码)
                     {
                         txt_brandIP.Text = item.Value;
                         txt_brandPort.Text = item.AdditiValue;
@@ -132,6 +164,18 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.图像)
                     {
                         ck_photo.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.调试模式)
+                    {
+                        check_debug.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.调试模式)
+                    {
+                        txtSleepTime.Text = item.Value;
+                    }
+                    if (item.Code == ConfigEnum.订单顺序模式)
+                    {
+                        ckOrderSeq.Checked = item.IsAction;
                     }
                 }
             }

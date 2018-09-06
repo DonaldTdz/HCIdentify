@@ -20,7 +20,7 @@ namespace HC.Identify.Application.VisionPro
         public ICogImage _icogColorImage;
         CogRecordDisplay _cogRecordDisplay;
         string _appPath;
-        List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
+        public List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
         CogImageFileTool _cogImageFile = new CogImageFileTool(); //图像处理工具
 
         public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay)
@@ -29,6 +29,13 @@ namespace HC.Identify.Application.VisionPro
             _icogColorImage = icogColorImage;
             _cogRecordDisplay = cogRecordDisplay;
             _appPath = System.Windows.Forms.Application.StartupPath;
+            var csvDataPath = _appPath + "\\Data\\Data.csv";
+            if (!File.Exists(csvDataPath))
+            {
+                MessageBox.Show("数据文件不存在或路径错误！");
+                return;
+            }
+            VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
             _csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
         }
 
@@ -38,61 +45,74 @@ namespace HC.Identify.Application.VisionPro
             return mFrameGrabbers;
         }
 
-        public CsvSpecification GetMatchSpecification()
+        public CsvSpecification GetMatchSpecification(out ArrayList cogResultArray)
         {
             var tbvals = GetToolBlockValues();
+            cogResultArray = tbvals;
+            if (tbvals == null)
+            {
+                return null;
+            }
             if (tbvals.Count == 0)
             {
                 CommHelper.WriteLog(_appPath, "GetMatchSpecification->GetToolBlockValues", "没有读取到值");
                 return null;
             }
-            int totalType = _csvSpecList.Count();//模板数据
-            //相关矩阵计算
-            double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
-                                                            //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
-            double dMaxScore = -9999;
-            CsvSpecification maxSpec = new CsvSpecification();
-            int i = 0;
-            foreach (var item in _csvSpecList)
+            try
             {
-                double dSumXY = 0;
-                double dSumX = 0;
-                double dSumY = 0;
-                double dSumXBy2 = 0;
-                double dSumYBy2 = 0;
-                int iPointsNum = item.Values.Length;
-                int k = 0;
-                foreach (var readVal in item.Values)
+                int totalType = _csvSpecList.Count();//模板数据
+                                                     //相关矩阵计算
+                double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
+                                                                //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
+                double dMaxScore = -9999;
+                CsvSpecification maxSpec = new CsvSpecification();
+                int i = 0;
+                foreach (var item in _csvSpecList)
                 {
-                    dSumXY += (double)tbvals[k] * readVal;
-                    dSumX += (double)tbvals[k];
-                    dSumY += readVal;
-                    dSumXBy2 += (double)tbvals[k] * (double)tbvals[k];
-                    dSumYBy2 += readVal * readVal;
-                    k++;
+                    double dSumXY = 0;
+                    double dSumX = 0;
+                    double dSumY = 0;
+                    double dSumXBy2 = 0;
+                    double dSumYBy2 = 0;
+                    int iPointsNum = item.Values.Length;
+                    int k = 0;
+                    foreach (var readVal in item.Values)
+                    {
+                        dSumXY += (double)tbvals[k] * readVal;
+                        dSumX += (double)tbvals[k];
+                        dSumY += readVal;
+                        dSumXBy2 += (double)tbvals[k] * (double)tbvals[k];
+                        dSumYBy2 += readVal * readVal;
+                        k++;
+                    }
+                    dMatchScore[i] = (iPointsNum * dSumXY - dSumX * dSumY) / (Math.Sqrt(iPointsNum * dSumXBy2 - dSumX * dSumX) * Math.Sqrt(iPointsNum * dSumYBy2 - dSumY * dSumY));
+                    // MessageBox.Show(dMatchScore[l].ToString()+"   "+ReadType[l]);
+                    if (dMatchScore[i] > dMaxScore)
+                    {
+                        dMaxScore = dMatchScore[i];
+                        maxSpec = item;
+                    }
+                    i++;
                 }
-                dMatchScore[i] = (iPointsNum * dSumXY - dSumX * dSumY) / (Math.Sqrt(iPointsNum * dSumXBy2 - dSumX * dSumX) * Math.Sqrt(iPointsNum * dSumYBy2 - dSumY * dSumY));
-                // MessageBox.Show(dMatchScore[l].ToString()+"   "+ReadType[l]);
-                if (dMatchScore[i] > dMaxScore)
+                if (true)//记录日志结果
                 {
-                    dMaxScore = dMatchScore[i];
-                    maxSpec = item;
+                    VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
                 }
-                i++;
+                //配置结果值
+                if (dMaxScore > 0.81)
+                {
+                    return maxSpec;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            if (true)//记录日志结果
-            {
-                VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
-            } 
-            //配置结果值
-            if (dMaxScore > 0.81)
-            {
-                return maxSpec;
-            }
-            else
+            catch(Exception)
             {
                 return null;
             }
+           
         }
 
         public ArrayList GetToolBlockValues()
@@ -106,13 +126,15 @@ namespace HC.Identify.Application.VisionPro
             _cogToolBlock.Run();
 
             ICogRecords subRecords = _cogToolBlock.CreateLastRunRecord().SubRecords;
-            _cogRecordDisplay.Record = subRecords["CogIPOneImageTool1.OutputImage"];
+            //_cogRecordDisplay.Record = subRecords["CogIPOneImageTool1.OutputImage"];//旧算法
+            _cogRecordDisplay.Record = subRecords["CogImageConvertTool1.OutputImage"];//启用新算法解开注释
             _cogRecordDisplay.Fit(true);
             //return (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
             var cogResultArray = (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
             if (cogResultArray.Count == 0)
             {
-                MessageBox.Show("ToolBlock结果为空！");
+                //MessageBox.Show("ToolBlock结果为空！");
+                _cogRecordDisplay.Image = _icogColorImage;
                 return null;
             }
             return cogResultArray;

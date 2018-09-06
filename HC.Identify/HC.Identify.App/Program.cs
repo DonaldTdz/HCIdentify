@@ -20,6 +20,7 @@ namespace HC.Identify.App
             System.Windows.Forms.Application.Run(new Login());
             //System.Windows.Forms.Application.Run(new Workbench());
             //System.Windows.Forms.Application.Run(new VisionProSetting());
+            //System.Windows.Forms.Application.Run(new WorkbenchNew());
 
         }
     }

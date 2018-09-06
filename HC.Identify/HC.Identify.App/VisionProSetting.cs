@@ -87,6 +87,10 @@ namespace HC.Identify.App
             {
                 return; //如果为空就返回
             }
+            if (fileInfos.Length == 0)
+            {
+                return;
+            }
             if (fileInfos[imgIndex].Extension == ".bmp" || fileInfos[imgIndex].Extension == ".BMP" || fileInfos[imgIndex].Extension == ".jpg" ||
               fileInfos[imgIndex].Extension == ".JPG" || fileInfos[imgIndex].Extension == ".tif" || fileInfos[imgIndex].Extension == ".TIF")
             {
@@ -273,11 +277,13 @@ namespace HC.Identify.App
 
             ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
             cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
+            //cogRecordDisplay.Record = SubRecords["CogImageConvertTool1.OutputImage"];//启用新算法时解开注释
             cogRecordDisplay.Fit(true);
             cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
             if (cogResultArray.Count == 0)
             {
-                MessageBox.Show("ToolBlock结果为空！");
+                //MessageBox.Show("ToolBlock结果为空！");
+                cogRecordDisplay.Image = icogColorImage;
                 return null;
             }
             if (!isCameraOnline)
@@ -352,7 +358,7 @@ namespace HC.Identify.App
             //计算
             //var spec = Calculation(cogResultArray);
             visionProAppService._icogColorImage = icogColorImage;
-            var spec = visionProAppService.GetMatchSpecification();//获取匹配结果
+            var spec = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
             if (spec != null)
             {
                 txtMatchSpec.Text = spec.Specification;
@@ -366,6 +372,7 @@ namespace HC.Identify.App
             }
             else
             {
+                txtMatchSpec.Text = "";
                 lblResultDesc.Text = "NG"; //匹配成功
                 lblResultDesc.ForeColor = Color.Red;
             }
@@ -373,7 +380,7 @@ namespace HC.Identify.App
             //计算用时
             DateTime aftertime = DateTime.Now;
             txtUseTime.Text = aftertime.Subtract(befortime).Milliseconds.ToString();//毫秒
-           
+
         }
 
         #endregion
@@ -396,6 +403,25 @@ namespace HC.Identify.App
         {
             if (!isShowTool)
             {
+                //关闭相机外部模式
+                if (chkCamTrigOn.Checked)
+                {
+                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    icogAcqFifo.Flush();
+                    icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                    chkCamTrigOn.Checked = false;//相机外部模式
+                }
+                //关闭连续取像
+                if (cogRecordDisplay.LiveDisplayRunning)
+                {
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    cogRecordDisplay.StopLiveDisplay();
+                    btnLiveDisplay.Text = "连续取像";
+                }
+
+                //开启工具设置
                 isShowTool = true;
                 btnToolSetting.Text = "关闭设置";
                 cogToolBlockEditV2.Visible = true;
@@ -442,6 +468,7 @@ namespace HC.Identify.App
             }
             else
             {
+                //相机外部模式关闭
                 icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
                 cogRecordDisplay.StaticGraphics.Clear();
                 cogRecordDisplay.Record = null;
@@ -519,8 +546,6 @@ namespace HC.Identify.App
 
         private void btnReRun_Click(object sender, EventArgs e)
         {
-            //ToolBlockRun(); //修改
-            //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
             visionProAppService._icogColorImage = icogColorImage;
             visionProAppService.GetToolBlockValues();
             SetCurrentInageInfo();
@@ -605,6 +630,19 @@ namespace HC.Identify.App
 
         private void btnReMatchRun_Click(object sender, EventArgs e)
         {
+            //更新模板数据（data）重新运行时可匹配新注册数据
+            var csvDataPath = currentrDirectory + "\\Data\\Data.csv";
+            if (!File.Exists(csvDataPath))
+            {
+                MessageBox.Show("数据文件不存在或路径错误！");
+                return;
+            }
+            VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
+            csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
+            visionProAppService._csvSpecList = csvSpecList;
+
+            //更新下拉框的数据;
+            BindRegisteredSpec();
             RunCalculation();
         }
 
@@ -616,9 +654,12 @@ namespace HC.Identify.App
         {
             if (isCameraOnline)
             {
-                int numReadyVal, numPendingVal;
-                int iNum = icogAcqFifo.StartAcquire();
-                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                if (icogAcqFifo != null)
+                {
+                    int numReadyVal, numPendingVal;
+                    int iNum = icogAcqFifo.StartAcquire();
+                    icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                }
             }
             else
             {
@@ -648,7 +689,7 @@ namespace HC.Identify.App
                 }
                 //visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
                 //visionProAppService._icogColorImage = icogColorImage;
-                
+
             }
 
             RunCalculation();
@@ -685,6 +726,14 @@ namespace HC.Identify.App
                 icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
 
+                //关闭连续取像
+                if (cogRecordDisplay.LiveDisplayRunning)
+                {
+                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    cogRecordDisplay.StopLiveDisplay();
+                    btnLiveDisplay.Text = "连续取像";
+                }
+
             }
             else
             {
@@ -713,17 +762,28 @@ namespace HC.Identify.App
             chkShowPic.Checked = cameraSettingShowDto.ShowPic;
             chkAutoSaveImage.Checked = cameraSettingShowDto.AutoSave;
         }
-
         public void GetCameraSetting()
         {
             var list = cameraSettingAppService.GetCameraSetting();
             cameraSettingShowDto = new CameraSettingShowDto();
+            var pathDto = new CameraSettingCreateDto();
             foreach (var item in list)
             {
-                if(item.Code == CameraEnum.图片位置)
+                if (item.Code == CameraEnum.图片位置)
                 {
-                    cameraSettingShowDto.PicPath = item.Value;
-                    txtImgPath.Text = item.Value;
+                    if (!string.IsNullOrEmpty(item.Value))
+                    {
+                        if (!Directory.Exists(item.Value))
+                        {
+                            item.Value = string.Empty;
+                            cameraSettingAppService.UpdateSingleSetting(item);
+                        }
+                        else
+                        {
+                            cameraSettingShowDto.PicPath = item.Value;
+                            txtImgPath.Text = item.Value;
+                        }
+                    }
                 }
                 if (item.Code == CameraEnum.相机外部模式)
                 {
@@ -751,19 +811,8 @@ namespace HC.Identify.App
                     cameraSettingShowDto.AutoSave = bool.Parse(item.Value);
                     chkAutoSaveImage.Checked = bool.Parse(item.Value);
                 }
-                //cameraSetting.PicPath = item.Code == CameraEnum.图片位置 ? item.Value : "";
-                //cameraSetting.CameraMode = item.Code == CameraEnum.相机外部模式 ? bool.Parse(item.Value) : false;
-                //cameraSetting.Simulation = item.Code == CameraEnum.仿真 ? bool.Parse(item.Value) : false;
-                //cameraSetting.SaveData = item.Code == CameraEnum.保存数据 ? bool.Parse(item.Value) : false;
-                //cameraSetting.ShowPic = item.Code == CameraEnum.显示图形 ? bool.Parse(item.Value) : false;
-                //cameraSetting.AutoSave = item.Code == CameraEnum.自动存图 ? bool.Parse(item.Value) : false;
             }
-            //txtImgPath.Text = cameraSetting.PicPath;
-            //chkCamTrigOn.Checked = cameraSetting.CameraMode;
-            //chkSimulation.Checked = cameraSetting.Simulation;
-            //chkAutoSaveData.Checked = cameraSetting.SaveData;
-            //chkShowPic.Checked = cameraSetting.ShowPic;
-            //chkAutoSaveImage.Checked = cameraSetting.AutoSave;
+
         }
         #endregion
 
@@ -810,7 +859,7 @@ namespace HC.Identify.App
             autoSave.Descs = CameraEnum.自动存图.ToString();
             autoSave.Value = chkAutoSaveImage.Checked.ToString();
             list.Add(autoSave);
-           var result= cameraSettingAppService.SaveCameraSetting(list);
+            var result = cameraSettingAppService.SaveCameraSetting(list);
             if (result)
             {
                 MessageBox.Show("保存成功");
@@ -828,6 +877,23 @@ namespace HC.Identify.App
             {
                 txtCurrentImgFileName.Text = fileInfos[imgIndex].Name.Substring(0, (fileInfos[imgIndex].Name.Length - 4));  //当前图像文件名
                 txtCurrentSpec.Text = fileInfos[imgIndex].Name.Substring(0, (fileInfos[imgIndex].Name.Length - 4));         //当前产品规格型号
+            }
+        }
+
+        /// <summary>
+        /// 窗体切换到另外的窗体时
+        /// </summary>
+        private void VisionProSetting_Leave(object sender, EventArgs e)
+        {
+            //关闭相机外部模式
+            if (chkCamTrigOn.Checked)
+            {
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                chkCamTrigOn.Checked = false;//相机外部模式
             }
         }
     }

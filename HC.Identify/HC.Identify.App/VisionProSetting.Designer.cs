@@ -85,7 +85,7 @@
             this.cogToolBlockEditV2.MinimumSize = new System.Drawing.Size(367, 0);
             this.cogToolBlockEditV2.Name = "cogToolBlockEditV2";
             this.cogToolBlockEditV2.ShowNodeToolTips = true;
-            this.cogToolBlockEditV2.Size = new System.Drawing.Size(542, 560);
+            this.cogToolBlockEditV2.Size = new System.Drawing.Size(676, 584);
             this.cogToolBlockEditV2.SuspendElectricRuns = false;
             this.cogToolBlockEditV2.TabIndex = 7;
             this.cogToolBlockEditV2.Visible = false;
@@ -105,14 +105,14 @@
             this.cogRecordDisplay.MouseWheelSensitivity = 1D;
             this.cogRecordDisplay.Name = "cogRecordDisplay";
             this.cogRecordDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay.OcxState")));
-            this.cogRecordDisplay.Size = new System.Drawing.Size(715, 588);
+            this.cogRecordDisplay.Size = new System.Drawing.Size(814, 608);
             this.cogRecordDisplay.TabIndex = 6;
             // 
             // btnToolSetting
             // 
-            this.btnToolSetting.Location = new System.Drawing.Point(723, 13);
+            this.btnToolSetting.Location = new System.Drawing.Point(869, 12);
             this.btnToolSetting.Name = "btnToolSetting";
-            this.btnToolSetting.Size = new System.Drawing.Size(80, 30);
+            this.btnToolSetting.Size = new System.Drawing.Size(99, 30);
             this.btnToolSetting.TabIndex = 8;
             this.btnToolSetting.Text = "工具设置";
             this.btnToolSetting.UseVisualStyleBackColor = true;
@@ -120,9 +120,9 @@
             // 
             // btnLiveDisplay
             // 
-            this.btnLiveDisplay.Location = new System.Drawing.Point(876, 12);
+            this.btnLiveDisplay.Location = new System.Drawing.Point(1178, 12);
             this.btnLiveDisplay.Name = "btnLiveDisplay";
-            this.btnLiveDisplay.Size = new System.Drawing.Size(80, 30);
+            this.btnLiveDisplay.Size = new System.Drawing.Size(99, 30);
             this.btnLiveDisplay.TabIndex = 9;
             this.btnLiveDisplay.Text = "连续取像";
             this.btnLiveDisplay.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(724, 64);
+            this.label1.Location = new System.Drawing.Point(875, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 12);
             this.label1.TabIndex = 10;
@@ -140,9 +140,9 @@
             // comboSpecBox
             // 
             this.comboSpecBox.FormattingEnabled = true;
-            this.comboSpecBox.Location = new System.Drawing.Point(813, 61);
+            this.comboSpecBox.Location = new System.Drawing.Point(1110, 58);
             this.comboSpecBox.Name = "comboSpecBox";
-            this.comboSpecBox.Size = new System.Drawing.Size(146, 20);
+            this.comboSpecBox.Size = new System.Drawing.Size(167, 20);
             this.comboSpecBox.TabIndex = 11;
             // 
             // groupImgSaveBox
@@ -153,18 +153,18 @@
             this.groupImgSaveBox.Controls.Add(this.txtImgFileName);
             this.groupImgSaveBox.Controls.Add(this.btnOpenImg);
             this.groupImgSaveBox.Controls.Add(this.txtImgPath);
-            this.groupImgSaveBox.Location = new System.Drawing.Point(723, 93);
+            this.groupImgSaveBox.Location = new System.Drawing.Point(869, 86);
             this.groupImgSaveBox.Name = "groupImgSaveBox";
-            this.groupImgSaveBox.Size = new System.Drawing.Size(249, 106);
+            this.groupImgSaveBox.Size = new System.Drawing.Size(408, 106);
             this.groupImgSaveBox.TabIndex = 12;
             this.groupImgSaveBox.TabStop = false;
             this.groupImgSaveBox.Text = "图像存储";
             // 
             // txtCurrentImgFileName
             // 
-            this.txtCurrentImgFileName.Location = new System.Drawing.Point(117, 78);
+            this.txtCurrentImgFileName.Location = new System.Drawing.Point(241, 79);
             this.txtCurrentImgFileName.Name = "txtCurrentImgFileName";
-            this.txtCurrentImgFileName.Size = new System.Drawing.Size(124, 21);
+            this.txtCurrentImgFileName.Size = new System.Drawing.Size(162, 21);
             this.txtCurrentImgFileName.TabIndex = 5;
             // 
             // label2
@@ -178,7 +178,7 @@
             // 
             // btnSaveImgFileName
             // 
-            this.btnSaveImgFileName.Location = new System.Drawing.Point(131, 49);
+            this.btnSaveImgFileName.Location = new System.Drawing.Point(241, 50);
             this.btnSaveImgFileName.Name = "btnSaveImgFileName";
             this.btnSaveImgFileName.Size = new System.Drawing.Size(110, 23);
             this.btnSaveImgFileName.TabIndex = 3;
@@ -190,12 +190,12 @@
             // 
             this.txtImgFileName.Location = new System.Drawing.Point(8, 49);
             this.txtImgFileName.Name = "txtImgFileName";
-            this.txtImgFileName.Size = new System.Drawing.Size(110, 21);
+            this.txtImgFileName.Size = new System.Drawing.Size(148, 21);
             this.txtImgFileName.TabIndex = 2;
             // 
             // btnOpenImg
             // 
-            this.btnOpenImg.Location = new System.Drawing.Point(130, 19);
+            this.btnOpenImg.Location = new System.Drawing.Point(241, 21);
             this.btnOpenImg.Name = "btnOpenImg";
             this.btnOpenImg.Size = new System.Drawing.Size(111, 23);
             this.btnOpenImg.TabIndex = 1;
@@ -207,7 +207,7 @@
             // 
             this.txtImgPath.Location = new System.Drawing.Point(7, 21);
             this.txtImgPath.Name = "txtImgPath";
-            this.txtImgPath.Size = new System.Drawing.Size(111, 21);
+            this.txtImgPath.Size = new System.Drawing.Size(149, 21);
             this.txtImgPath.TabIndex = 0;
             // 
             // groupSetBox
@@ -217,9 +217,9 @@
             this.groupSetBox.Controls.Add(this.chkAutoSaveImage);
             this.groupSetBox.Controls.Add(this.chkAutoSaveData);
             this.groupSetBox.Controls.Add(this.chkCamTrigOn);
-            this.groupSetBox.Location = new System.Drawing.Point(723, 206);
+            this.groupSetBox.Location = new System.Drawing.Point(869, 202);
             this.groupSetBox.Name = "groupSetBox";
-            this.groupSetBox.Size = new System.Drawing.Size(249, 92);
+            this.groupSetBox.Size = new System.Drawing.Size(408, 92);
             this.groupSetBox.TabIndex = 13;
             this.groupSetBox.TabStop = false;
             this.groupSetBox.Text = "参数设置";
@@ -227,7 +227,7 @@
             // chkShowPic
             // 
             this.chkShowPic.AutoSize = true;
-            this.chkShowPic.Location = new System.Drawing.Point(131, 45);
+            this.chkShowPic.Location = new System.Drawing.Point(241, 43);
             this.chkShowPic.Name = "chkShowPic";
             this.chkShowPic.Size = new System.Drawing.Size(72, 16);
             this.chkShowPic.TabIndex = 4;
@@ -237,7 +237,7 @@
             // chkSimulation
             // 
             this.chkSimulation.AutoSize = true;
-            this.chkSimulation.Location = new System.Drawing.Point(131, 21);
+            this.chkSimulation.Location = new System.Drawing.Point(241, 21);
             this.chkSimulation.Name = "chkSimulation";
             this.chkSimulation.Size = new System.Drawing.Size(48, 16);
             this.chkSimulation.TabIndex = 3;
@@ -284,9 +284,9 @@
             this.groupBox1.Controls.Add(this.btnReRun);
             this.groupBox1.Controls.Add(this.txtCurrentSpec);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(723, 313);
+            this.groupBox1.Location = new System.Drawing.Point(869, 309);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(249, 112);
+            this.groupBox1.Size = new System.Drawing.Size(408, 114);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "产品型号注册";
@@ -294,7 +294,7 @@
             // chkBack
             // 
             this.chkBack.AutoSize = true;
-            this.chkBack.Location = new System.Drawing.Point(170, 83);
+            this.chkBack.Location = new System.Drawing.Point(241, 86);
             this.chkBack.Name = "chkBack";
             this.chkBack.Size = new System.Drawing.Size(48, 16);
             this.chkBack.TabIndex = 5;
@@ -303,7 +303,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(15, 80);
+            this.btnNext.Location = new System.Drawing.Point(13, 79);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(118, 23);
             this.btnNext.TabIndex = 4;
@@ -313,7 +313,7 @@
             // 
             // btnRegisterSpec
             // 
-            this.btnRegisterSpec.Location = new System.Drawing.Point(144, 50);
+            this.btnRegisterSpec.Location = new System.Drawing.Point(241, 50);
             this.btnRegisterSpec.Name = "btnRegisterSpec";
             this.btnRegisterSpec.Size = new System.Drawing.Size(90, 23);
             this.btnRegisterSpec.TabIndex = 3;
@@ -323,7 +323,7 @@
             // 
             // btnReRun
             // 
-            this.btnReRun.Location = new System.Drawing.Point(15, 50);
+            this.btnReRun.Location = new System.Drawing.Point(13, 50);
             this.btnReRun.Name = "btnReRun";
             this.btnReRun.Size = new System.Drawing.Size(118, 23);
             this.btnReRun.TabIndex = 2;
@@ -333,7 +333,7 @@
             // 
             // txtCurrentSpec
             // 
-            this.txtCurrentSpec.Location = new System.Drawing.Point(103, 18);
+            this.txtCurrentSpec.Location = new System.Drawing.Point(241, 12);
             this.txtCurrentSpec.Name = "txtCurrentSpec";
             this.txtCurrentSpec.Size = new System.Drawing.Size(132, 21);
             this.txtCurrentSpec.TabIndex = 1;
@@ -357,9 +357,9 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.btnMatchRun);
             this.groupBox2.Controls.Add(this.btnReMatchRun);
-            this.groupBox2.Location = new System.Drawing.Point(723, 432);
+            this.groupBox2.Location = new System.Drawing.Point(869, 434);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(249, 118);
+            this.groupBox2.Size = new System.Drawing.Size(408, 136);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "型号匹配";
@@ -367,7 +367,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(210, 86);
+            this.label5.Location = new System.Drawing.Point(211, 111);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 8;
@@ -375,14 +375,14 @@
             // 
             // txtUseTime
             // 
-            this.txtUseTime.Location = new System.Drawing.Point(84, 83);
+            this.txtUseTime.Location = new System.Drawing.Point(86, 102);
             this.txtUseTime.Name = "txtUseTime";
             this.txtUseTime.Size = new System.Drawing.Size(119, 21);
             this.txtUseTime.TabIndex = 7;
             // 
             // txtMatchSpec
             // 
-            this.txtMatchSpec.Location = new System.Drawing.Point(83, 51);
+            this.txtMatchSpec.Location = new System.Drawing.Point(85, 62);
             this.txtMatchSpec.Name = "txtMatchSpec";
             this.txtMatchSpec.Size = new System.Drawing.Size(120, 21);
             this.txtMatchSpec.TabIndex = 6;
@@ -390,7 +390,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 86);
+            this.label7.Location = new System.Drawing.Point(10, 105);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(65, 12);
             this.label7.TabIndex = 5;
@@ -401,7 +401,7 @@
             this.lblResultDesc.AutoSize = true;
             this.lblResultDesc.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblResultDesc.ForeColor = System.Drawing.Color.Green;
-            this.lblResultDesc.Location = new System.Drawing.Point(207, 54);
+            this.lblResultDesc.Location = new System.Drawing.Point(209, 68);
             this.lblResultDesc.Name = "lblResultDesc";
             this.lblResultDesc.Size = new System.Drawing.Size(25, 15);
             this.lblResultDesc.TabIndex = 4;
@@ -410,7 +410,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 56);
+            this.label4.Location = new System.Drawing.Point(11, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 2;
@@ -418,7 +418,7 @@
             // 
             // btnMatchRun
             // 
-            this.btnMatchRun.Location = new System.Drawing.Point(134, 20);
+            this.btnMatchRun.Location = new System.Drawing.Point(241, 20);
             this.btnMatchRun.Name = "btnMatchRun";
             this.btnMatchRun.Size = new System.Drawing.Size(99, 23);
             this.btnMatchRun.TabIndex = 1;
@@ -428,7 +428,7 @@
             // 
             // btnReMatchRun
             // 
-            this.btnReMatchRun.Location = new System.Drawing.Point(17, 21);
+            this.btnReMatchRun.Location = new System.Drawing.Point(12, 20);
             this.btnReMatchRun.Name = "btnReMatchRun";
             this.btnReMatchRun.Size = new System.Drawing.Size(99, 23);
             this.btnReMatchRun.TabIndex = 0;
@@ -438,9 +438,9 @@
             // 
             // btn_Recover
             // 
-            this.btn_Recover.Location = new System.Drawing.Point(740, 557);
+            this.btn_Recover.Location = new System.Drawing.Point(869, 575);
             this.btn_Recover.Name = "btn_Recover";
-            this.btn_Recover.Size = new System.Drawing.Size(99, 23);
+            this.btn_Recover.Size = new System.Drawing.Size(99, 32);
             this.btn_Recover.TabIndex = 16;
             this.btn_Recover.Text = "恢复默认设置";
             this.btn_Recover.UseVisualStyleBackColor = true;
@@ -448,9 +448,9 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(857, 556);
+            this.btn_Save.Location = new System.Drawing.Point(1178, 575);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(99, 23);
+            this.btn_Save.Size = new System.Drawing.Size(99, 32);
             this.btn_Save.TabIndex = 17;
             this.btn_Save.Text = "保存当前设置";
             this.btn_Save.UseVisualStyleBackColor = true;
@@ -460,7 +460,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 591);
+            this.ClientSize = new System.Drawing.Size(1344, 611);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.btn_Recover);
             this.Controls.Add(this.groupBox2);
@@ -474,10 +474,12 @@
             this.Controls.Add(this.cogToolBlockEditV2);
             this.Controls.Add(this.cogRecordDisplay);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VisionProSetting";
             this.Text = "视觉配置";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VisionProSetting_FormClosing);
             this.Load += new System.EventHandler(this.VisionProSetting_Load);
+            this.Leave += new System.EventHandler(this.VisionProSetting_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).EndInit();
             this.groupImgSaveBox.ResumeLayout(false);

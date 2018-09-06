@@ -24,5 +24,18 @@ namespace HC.Identify.Application.Identify
         {
             return cameraSettingService.GetCameraSetting();
         }
+
+        public bool UpdateSingleSetting(CameraSettingCreateDto dto)
+        {
+            var result = cameraSettingService.UpdateSingleSetting(dto);
+            if (result > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

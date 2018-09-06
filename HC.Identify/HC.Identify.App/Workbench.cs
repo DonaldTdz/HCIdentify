@@ -28,7 +28,7 @@ using static HC.Identify.Core.Identify.IdentifyEnum;
 
 namespace HC.Identify.App
 {
-    public partial class Workbench : FormMainChildren
+    public partial class Workbench : FormMainChildren            //  Form    
     {
         //定义全局主窗口 刷新状态
         public Main MainForm;
@@ -38,13 +38,12 @@ namespace HC.Identify.App
         private OrderSumAppService orderSumAppService;
         private OrderInfoAppService orderInfoAppService;
         private VisionProAppService visionProAppService;
-        private IList<OrderInfoTableDto> orderInfos;//当前选项的详细订单信息
+        private IList<OrderInfoDto> orderInfos;//当前选项的详细订单信息
         private SystemConfigAppService systemConfigAppService;
         private SystemConfigDto config;
         public IList<SystemConfigDto> configs;
         public CsvSpecification imgData;
 
-        private bool IsStart = false; //是否开始
         //扫码器
         public Thread threadScanner = null;
         SocketClient scannerSocket = null;
@@ -57,11 +56,10 @@ namespace HC.Identify.App
         string currentrDirectory;//当前根文件夹
 
         COMServer cOMServer;//串口通信测试
-        SocketServer socketServer;
         SocketClient socketClient;
         public bool IsConnection = false;//中软通信是否连接
         public bool ScanIsAction = false;//扫码器是否启用
-
+        public bool isDebug = false;
         public Workbench()
         {
             InitializeComponent();
@@ -85,7 +83,11 @@ namespace HC.Identify.App
             systemConfigAppService = new SystemConfigAppService();
             configs = systemConfigAppService.GetAllConfig();
             config = configs.Where(s => s.Code == ConfigEnum.中软).FirstOrDefault();
-
+            var deConfig = configs.Where(s => s.Code == ConfigEnum.调试模式).FirstOrDefault();
+            if (deConfig != null)
+            {
+                isDebug = deConfig.IsAction;
+            }
             #region 测试代码
             //串口测试初始化
             //cOMServer = new COMServer("COM4", 9600, 7, StopBits.One, Parity.Even);
@@ -106,20 +108,20 @@ namespace HC.Identify.App
                 }
                 else if (socketClient.IsAction)
                 {
-                    this.MainForm.SetZRStatus(FrameStatusEnum.None);
+                    this.MainForm.SetZRStatus(FrameStatusEnum.NoConnected);
                 }
             }
             //else
             //{
             //    MessageBox.Show("请配置中软ip地址信息");
             //}
-            var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            var scanConfig = configs.Where(s => s.Code == ConfigEnum.读码).FirstOrDefault();
             if (scanConfig != null)
             {
                 ScanIsAction = scanConfig.IsAction;//用于判断读码或相机结果匹配方法的调用位置
                 if (scanConfig.IsAction)
                 {
-                    this.MainForm.SetScannerStatus(FrameStatusEnum.None);
+                    this.MainForm.SetScannerStatus(FrameStatusEnum.NoConnected);
                 }
             }
 
@@ -154,7 +156,7 @@ namespace HC.Identify.App
             }
             GV_orderInfo.Columns[6].DefaultCellStyle.ForeColor = Color.Red;
             GV_orderInfo.Columns[5].DefaultCellStyle.ForeColor = Color.LightGreen;
-
+            dataGrid_match.Sort(dataGrid_match.Columns[4], ListSortDirection.Descending);
         }
         #endregion
 
@@ -220,16 +222,16 @@ namespace HC.Identify.App
                 CogFrameGrabbers mFrameGrabbers = new CogFrameGrabbers();
                 if (mFrameGrabbers.Count == 0)
                 {
-                    this.MainForm.SetFrameStatus(FrameStatusEnum.None);
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.NoConnected);
                 }
                 else//相机模式运行
                 {
-                    //相机外部模式（后期需验证）
-                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                    icogAcqFifo.Flush();
-                    icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
-                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                    ////相机外部模式（后期需验证）
+                    //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                    //icogAcqFifo.Flush();
+                    //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                    //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
 
                     //获取第一个相机图片
                     icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
@@ -244,8 +246,10 @@ namespace HC.Identify.App
                     //显示图片
                     cogRecordDisplay.Image = icogColorImage;
                     cogRecordDisplay.Fit(false);
-                    this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
+                    currentrDirectory = Directory.GetCurrentDirectory();
+                    cogToolBlock = (CogToolBlock)CogSerializer.LoadObjectFromFile(currentrDirectory + "\\TB_Set.Vpp");
                     visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+                    this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
                 }
             }
             else
@@ -257,9 +261,13 @@ namespace HC.Identify.App
                 Scanner();
             }
         }
-
+        ArrayList cogResultArray = new ArrayList();
         private void CompleteAcquire(Object sender, CogCompleteEventArgs e)
         {
+            if (this.MainForm.FrameStatus != FrameStatusEnum.Connected)
+            {
+                return;
+            }
             if (InvokeRequired)
             {
                 Invoke(new CogCompleteEventHandler(CompleteAcquire), new object[] { sender, e });
@@ -282,14 +290,14 @@ namespace HC.Identify.App
                 }
                 visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
                 benginDate = DateTime.Now;
-                imgData = visionProAppService.GetMatchSpecification();//获取匹配结果
+                imgData = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
                 endDate = DateTime.Now;
                 #region 写日志
                 var photoRe = "";
                 if (imgData == null)
                 {
                     visionProAppService.SaveImage();//保存没有匹配到模板的图片
-                    photoRe = imgData.Specification.ToString() + "," + DateTime.Now;
+                    photoRe = "相机未匹配到模板" + "," + DateTime.Now;
                 }
                 else
                 {
@@ -309,76 +317,6 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("The following error has occured\n" + ce.Message);
             }
-
-            #region 原代码
-            //identifyTotal++;//识别总数+1
-            ////匹配计算
-            //var sepec = visionProAppService.GetMatchSpecification();//获取匹配结果
-            //if (sepec == null)//不匹配结果保存异常图片
-            //{
-            //    visionProAppService.SaveImage();
-            //    this.lblSpecText.Text = string.Empty;
-            //    this.lblSpecName.Text = string.Empty;
-            //    this.lblSpecResult.Text = "未匹配模板";
-            //    this.lblSpecResult.ForeColor = Color.Red;
-            //    //发送暂停指令
-            //    // .....
-
-            //    StopRun();
-            //    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-            //}
-            //else
-            //{
-            //    identifiedNum++; //已识别 + 1
-            //    this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}\r\n", DateTime.Now.ToString("HH:mm ss"), sepec.Specification));
-            //    this.lblSpecText.Text = sepec.Specification;
-            //    //如识别到 判断当前订单是否存在该商品
-            //    var goods = orderInfos.Where(o => o.Brand == sepec.Specification).FirstOrDefault();
-            //    if (goods != null)//匹配正常
-            //    {
-            //        if (goods.Num > goods.Matched)
-            //        {
-            //            this.lblSpecName.Text = goods.Specification;
-            //            this.lblSpecResult.Text = "匹配成功";
-            //            this.lblSpecResult.ForeColor = Color.Green;
-            //            goods.Matched++;
-            //            orderCheckNum++;//订单匹配总数+1
-            //                            //发送中软匹配成功
-            //                            // ......
-            //                            //更新订单信息的datagrid
-            //            orderInfos.Remove(goods);
-            //            goods.Matched = goods.Matched++;
-            //            orderInfos.Add(goods);
-            //            GV_orderInfo.DataSource = orderInfos;
-            //            GV_orderInfo.Refresh();
-            //        }
-            //        else
-            //        {
-            //            this.lblSpecName.Text = goods.Specification;
-            //            this.lblSpecResult.Text = "匹配已满";
-            //            this.lblSpecResult.ForeColor = Color.Red;
-            //            //发送暂停指令
-            //            // ......
-            //            StopRun();
-            //            this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-            //        }
-
-            //    }
-            //    else //当前订单不存在
-            //    {
-            //        this.lblSpecName.Text = string.Empty;
-            //        this.lblSpecResult.Text = "订单不存在";
-            //        this.lblSpecResult.ForeColor = Color.Red;
-            //        //发送暂停指令
-            //        // ......
-            //        StopRun();
-            //        this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-            //    }
-
-            //}
-
-            //RefreshRunData();
-            #endregion
         }
 
         /// <summary>
@@ -423,14 +361,13 @@ namespace HC.Identify.App
         /// </summary>
         private void btn_nexthouse_Click(object sender, EventArgs e)
         {
-            //var order = int.Parse(lab_areacode_hide.Text)+1;
-
             if (sequence < count)
             {
-                sequence = sequence + 1;
-                GetOrderSum(sequence);
-                imgIndex = 0;//测试
-                InitRunData();
+                SwitchHouse(SwitchEnum.下一户);
+                //sequence = sequence + 1;
+                //GetOrderSum(sequence);
+                //imgIndex = 0;//测试
+                //InitRunData();
             }
             else
             {
@@ -543,13 +480,13 @@ namespace HC.Identify.App
         /// </summary>
         private void btn_lasthouse_Click(object sender, EventArgs e)
         {
-            //var order = int.Parse(lab_areacode_hide.Text) + 1;
             if (sequence > 1)
             {
-                sequence = sequence - 1;
-                GetOrderSum(sequence);
-                imgIndex = 0;//测试
-                InitRunData();
+                SwitchHouse(SwitchEnum.上一户);
+                //sequence = sequence - 1;
+                //GetOrderSum(sequence);
+                //imgIndex = 0;//测试
+                //InitRunData();
             }
             else
             {
@@ -560,7 +497,7 @@ namespace HC.Identify.App
         private void btn_dowload_Click(object sender, EventArgs e)
         {
             btn_dowload.Visible = false;
-            var result = orderSumAppService.DowloadData();
+            var result = orderSumAppService.DowloadOrderSumData();
             ComboxGetValue();
             if (combo_area.SelectedValue != null)
             {
@@ -621,38 +558,42 @@ namespace HC.Identify.App
 
             if (this.MainForm.RunStatus == RunStatusEnum.Running)
             {
-                btnStart.Text = "开始";
-                this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                StopRun();
             }
             else
             {
-                btnStart.Text = "停止";
-                this.MainForm.SetRunStatus(RunStatusEnum.Running);
+                StartRun();
             }
         }
 
         private void StopRun()
         {
-            //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
-            //cogRecordDisplay.StopLiveDisplay();
             btnStart.Text = "开始";
             this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+            if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
+            {
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+            }
         }
 
         private void StartRun()
         {
-            ////相机模式需解开
-            //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
-            //cogRecordDisplay.StaticGraphics.Clear();
-            //cogRecordDisplay.Record = null;
-            //cogRecordDisplay.Image = icogColorImage;
-            //cogRecordDisplay.Fit(false);
-
-            //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
-            //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
-            //cogRecordDisplay.StartLiveDisplay(icogAcqFifo);
             btnStart.Text = "停止";
             this.MainForm.SetRunStatus(RunStatusEnum.Running);
+            if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
+            {
+                ////相机外部模式（后期需验证）
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                icogAcqFifo.Flush();
+                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
+            }
         }
 
         #endregion
@@ -672,20 +613,15 @@ namespace HC.Identify.App
         /// <param name="e"></param>
         private void btn_init_Click(object sender, EventArgs e)
         {
+            //初始化页面订信息
             foreach (var item in orderInfos)
             {
                 item.Matched = 0;
             }
             GV_orderInfo.DataSource = orderInfos;
-        }
-
-        public void GreateTable()
-        {
-            //显示table显示高度
-            //var maxHeight = 10 * GV_orderInfo.RowTemplate.Height + GV_orderInfo.ColumnHeadersHeight;
-            //var nowHeignt = GV_orderInfo.Rows.Count * GV_orderInfo.RowTemplate.Height + GV_orderInfo.ColumnHeadersHeight;
-            //GV_orderInfo.Height = nowHeignt > maxHeight ? maxHeight : nowHeignt;
-            //GV_orderInfo.AllowUserToAddRows = false;
+            GV_orderInfo.Refresh();
+            //初始化页面信息（已检量等数据初始化）
+            InitRunData();
         }
 
         #endregion
@@ -702,7 +638,9 @@ namespace HC.Identify.App
         }
 
         #endregion
-
+        /// <summary>
+        /// 相机视觉
+        /// </summary>
         private void PhotoMatch()
         {
             //identifyTotal++;//识别总数+1
@@ -712,6 +650,7 @@ namespace HC.Identify.App
             ////var sepVio = visionProAppService.GetMatchSpecification();//获取匹配结果
             ////var sepec = sepVio != null ? sepVio.Specification : null;
             MatchResult(sepec);
+            imgData = null;
         }
         #region 备份
         private void OrderMatchBackUP()
@@ -720,7 +659,7 @@ namespace HC.Identify.App
             //匹配计算
             visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
 
-            var sepec = visionProAppService.GetMatchSpecification();//获取匹配结果
+            var sepec = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
             if (sepec == null)//不匹配结果保存异常图片
             {
                 visionProAppService.SaveImage();
@@ -732,8 +671,10 @@ namespace HC.Identify.App
                 //ComSeverSend("NG");//串口通信
                 SocketSend("NG");//socket通信
                 // .....
-
-                StopRun();
+                if (!isDebug)
+                {
+                    StopRun();
+                }
                 this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
             }
             else
@@ -772,7 +713,10 @@ namespace HC.Identify.App
                         //ComSeverSend("NG");//串口通信
                         SocketSend("NG");//socket通信
                         // ......
-                        StopRun();
+                        if (!isDebug)
+                        {
+                            StopRun();
+                        }
                         this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
                     }
 
@@ -786,16 +730,22 @@ namespace HC.Identify.App
                     //ComSeverSend("NG");//串口通信
                     SocketSend("NG");//socket通信
                     // ......
-                    StopRun();
+                    if (!isDebug)
+                    {
+                        StopRun();
+                    }
                     this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
                 }
             }
             RefreshRunData();
         }
         #endregion
+        /// <summary>
+        /// 相机读码
+        /// </summary>
         public void Scanner()
         {
-            var scanConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            var scanConfig = configs.Where(s => s.Code == ConfigEnum.读码).FirstOrDefault();
             if (scanConfig != null)
             {
                 #region 原读码器通信
@@ -874,81 +824,6 @@ namespace HC.Identify.App
                 {
                     lblIdentifyTime.Text = (endDates - benginDate).Milliseconds.ToString() + "ms";
                     MatchResult(sepec);
-
-                    #region 旧改造扫码启用
-                    //if (sepec == null)//不匹配结果保存异常图片
-                    //{
-                    //    //visionProAppService.SaveImage();
-                    //    this.lblSpecText.Text = string.Empty;
-                    //    this.lblSpecName.Text = string.Empty;
-                    //    this.lblSpecResult.Text = "未匹配模板";
-                    //    this.lblSpecResult.ForeColor = Color.Red;
-                    //    //发送暂停指令
-                    //    //ComSeverSend("NG");//串口通信
-                    //    SocketSend("NG");//socket通信
-                    //                     // .....
-                    //    StopRun();
-                    //    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-                    //}
-                    //else
-                    //{
-                    //    identifiedNum++; //已识别 + 1
-                    //    this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}\r\n", DateTime.Now.ToString("HH:mm ss"), sepec));
-                    //    this.lblSpecText.Text = sepec;
-                    //    //如识别到 判断当前订单是否存在该商品
-                    //    var goods = orderInfos.Where(o => o.Brand == sepec).FirstOrDefault();
-                    //    var goName = goods != null ? goods.Specification + "," : "";
-                    //    var photoRe = sepec.ToString() + "," + goName + DateTime.Now;
-                    //    CommHelper.WriteLog(_appPath, "最终读取结果：", photoRe);
-                    //    if (goods != null)//匹配正常
-                    //    {
-                    //        if (goods.Num > goods.Matched)
-                    //        {
-                    //            this.lblSpecName.Text = goods.Specification;
-                    //            this.lblSpecResult.Text = "匹配成功";
-                    //            this.lblSpecResult.ForeColor = Color.Green;
-                    //            goods.Matched++;
-                    //            orderCheckNum++;//订单匹配总数+1
-                    //                            //发送中软匹配成功
-                    //                            //ComSeverSend(goods.Brand);//串口通信
-                    //            SocketSend(goods.Brand);//socket通信
-                    //                                    // ......
-                    //                                    //更新订单信息的datagrid
-                    //            orderInfos.Remove(goods);
-                    //            goods.Matched = goods.Matched++;
-                    //            orderInfos.Add(goods);
-                    //            GV_orderInfo.DataSource = orderInfos;
-                    //            GV_orderInfo.Refresh();
-                    //        }
-                    //        else
-                    //        {
-                    //            this.lblSpecName.Text = goods.Specification;
-                    //            this.lblSpecResult.Text = "匹配已满";
-                    //            this.lblSpecResult.ForeColor = Color.Red;
-                    //            //发送暂停指令
-                    //            //ComSeverSend("NG");//串口通信
-                    //            SocketSend("NG");//socket通信
-                    //                             // ......
-                    //            StopRun();
-                    //            this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-                    //        }
-
-                    //    }
-                    //    else //当前订单不存在
-                    //    {
-                    //        this.lblSpecName.Text = string.Empty;
-                    //        this.lblSpecResult.Text = "订单不存在";
-                    //        this.lblSpecResult.ForeColor = Color.Red;
-                    //        //发送暂停指令
-                    //        //ComSeverSend("NG");//串口通信
-                    //        SocketSend("NG");//socket通信
-                    //                         // ......
-                    //        StopRun();
-                    //        this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
-                    //    }
-                    //}
-                    //RefreshRunData();
-                    #endregion
                 }));
                 imgData = null;
                 sepScan = null;
@@ -988,6 +863,7 @@ namespace HC.Identify.App
             }
         }
 
+        public List<OrderInfoMatchRe> orderInfoMatchRes = new List<OrderInfoMatchRe>();
         public void MatchResult(string sepec)
         {
             if (this.MainForm.RunStatus == RunStatusEnum.Running)
@@ -1004,8 +880,10 @@ namespace HC.Identify.App
                     //ComSeverSend("NG");//串口通信
                     SocketSend("NG");//socket通信
                                      // .....
-                    StopRun();
-                    this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                    if (!isDebug)
+                    {
+                        StopRun();
+                    }
                 }
                 else
                 {
@@ -1025,17 +903,40 @@ namespace HC.Identify.App
                             this.lblSpecResult.Text = "匹配成功";
                             this.lblSpecResult.ForeColor = Color.Green;
                             goods.Matched++;
-                            orderCheckNum++;//订单匹配总数+1
-                                            //发送中软匹配成功
-                                            //ComSeverSend(goods.Brand);//串口通信
+                            //订单匹配总数+1
+                            orderCheckNum++;
+                            //发送中软匹配成功
+                            //ComSeverSend(goods.Brand);//串口通信
                             SocketSend(goods.Brand);//socket通信
-                                                    // ......
-                                                    //更新订单信息的datagrid
+                            // ......
+                            //更新订单信息的datagrid
                             orderInfos.Remove(goods);
                             goods.Matched = goods.Matched++;
                             orderInfos.Add(goods);
                             GV_orderInfo.DataSource = orderInfos;
                             GV_orderInfo.Refresh();
+
+                            //更新订单匹配状况
+                            var orderInfoMatchRe = new OrderInfoMatchRe();
+                            orderInfoMatchRe.Id = goods.Id;
+                            orderInfoMatchRe.Brand = goods.Brand;
+                            orderInfoMatchRe.Specification = goods.Specification;
+                            orderInfoMatchRe.MatchStatus = "OK";
+                            orderInfoMatchRe.MatchTime = DateTime.Now.ToString("yy-M-d HH:mm");
+                            orderInfoMatchRes.Add(orderInfoMatchRe);
+                            orderInfoMatchRes.OrderByDescending(o => o.MatchTime).ToList();
+                            if (dataGrid_match.DataSource != null)
+                            {
+                                List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
+                                dataGrid_match.DataSource = orderInfoMatchResnul;
+                            }
+                            else
+                            {
+                                dataGrid_match.Rows.Clear();
+                            }
+                            dataGrid_match.DataSource = orderInfoMatchRes;
+                            //dataGrid_match.Sort(dataGrid_match.Columns[4], ListSortDirection.Descending);
+                            dataGrid_match.Refresh();
                         }
                         else
                         {
@@ -1046,8 +947,10 @@ namespace HC.Identify.App
                             //ComSeverSend("NG");//串口通信
                             SocketSend("NG");//socket通信
                                              // ......
-                            StopRun();
-                            this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                            if (!isDebug)
+                            {
+                                StopRun();
+                            }
                         }
 
                     }
@@ -1060,8 +963,10 @@ namespace HC.Identify.App
                         //ComSeverSend("NG");//串口通信
                         SocketSend("NG");//socket通信
                                          // ......
-                        StopRun();
-                        this.MainForm.SetRunStatus(RunStatusEnum.Suspend);
+                        if (!isDebug)
+                        {
+                            StopRun();
+                        }
                     }
                 }
                 RefreshRunData();
@@ -1097,7 +1002,7 @@ namespace HC.Identify.App
 
         private void Workbench_FormClosed(object sender, FormClosedEventArgs e)
         {
-           
+
         }
 
         /// <summary>
@@ -1126,7 +1031,7 @@ namespace HC.Identify.App
             //}
             //条码
             //scannerSocket.Close();
-            var brConfig = configs.Where(s => s.Code == ConfigEnum.条码).FirstOrDefault();
+            var brConfig = configs.Where(s => s.Code == ConfigEnum.读码).FirstOrDefault();
             if (brConfig != null && brConfig.IsAction)
             {
                 Scanner();
@@ -1160,12 +1065,78 @@ namespace HC.Identify.App
             }
             else if (scannerSocket.IsAction)
             {
-                this.MainForm.SetScannerStatus(FrameStatusEnum.None);
+                this.MainForm.SetScannerStatus(FrameStatusEnum.NoConnected);
             }
             else
             {
                 this.MainForm.SetScannerStatus(FrameStatusEnum.NotEnabled);
             }
+        }
+
+        /// <summary>
+        /// 切换用户
+        /// </summary>
+        /// <param name="switchEnum"></param>
+        public void SwitchHouse(SwitchEnum switchEnum)
+        {
+            if (this.MainForm.RunStatus == RunStatusEnum.Running)
+            {
+                if (switchEnum == SwitchEnum.上一户)
+                {
+                    if (orderNum == orderCheckNum)
+                    {
+                        sequence = sequence - 1;
+                        GetOrderSum(sequence);
+                        imgIndex = 0;//测试
+                        InitRunData();
+                        //已识别界面数据清空...
+                        ClearDataGridMatch();
+                    }
+                    else
+                    {
+                        SocketSend("NG");//socket通信
+                        MessageBox.Show("当前用户订单未处理完！！！,无法切换");
+                    }
+                }
+                else if (switchEnum == SwitchEnum.下一户)
+                {
+                    if (orderNum == orderCheckNum)
+                    {
+                        sequence = sequence + 1;
+                        GetOrderSum(sequence);
+                        imgIndex = 0;//测试
+                        InitRunData();
+                        //已识别界面数据清空...
+                        ClearDataGridMatch();
+                    }
+                    else
+                    {
+                        SocketSend("NG");//socket通信
+                        MessageBox.Show("当前用户订单未处理完！！！,无法切换");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("请点击开始");
+            }
+
+        }
+
+        private void dataGrid_match_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            //添加匹配结果表序号
+            foreach (DataGridViewRow dr in dataGrid_match.Rows)
+            {
+                dr.Cells[0].Value = dr.Index + 1;
+            }
+        }
+
+        public void ClearDataGridMatch()
+        {
+            List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
+            dataGrid_match.DataSource = orderInfoMatchResnul;
+            orderInfoMatchRes.RemoveRange(0, orderInfoMatchRes.Count);
         }
     }
 }

@@ -35,6 +35,9 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolUserName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolFrameStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolFrameStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -48,11 +51,10 @@
             this.toolRunStatusVal = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.系统管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.系统配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.系统用户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.系统配置ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.视觉配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.切换用户ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.操作手册ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +74,7 @@
             this.toolStripButton4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(984, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(1344, 39);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -122,6 +124,9 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolUser,
+            this.toolUserName,
+            this.toolStripStatusLabel9,
             this.toolFrameStatus,
             this.toolFrameStatusVal,
             this.toolStripStatusLabel1,
@@ -134,12 +139,31 @@
             this.toolRunStatus,
             this.toolRunStatusVal,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 659);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 675);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
-            this.statusStrip1.Size = new System.Drawing.Size(984, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1344, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolUser
+            // 
+            this.toolUser.Name = "toolUser";
+            this.toolUser.Size = new System.Drawing.Size(68, 17);
+            this.toolUser.Text = "登录用户：";
+            // 
+            // toolUserName
+            // 
+            this.toolUserName.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.toolUserName.Name = "toolUserName";
+            this.toolUserName.Size = new System.Drawing.Size(15, 17);
+            this.toolUserName.Text = "1";
+            // 
+            // toolStripStatusLabel9
+            // 
+            this.toolStripStatusLabel9.Name = "toolStripStatusLabel9";
+            this.toolStripStatusLabel9.Size = new System.Drawing.Size(28, 17);
+            this.toolStripStatusLabel9.Text = "     ";
             // 
             // toolFrameStatus
             // 
@@ -220,18 +244,19 @@
             // 系统管理ToolStripMenuItem
             // 
             this.系统管理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.系统配置ToolStripMenuItem,
+            this.系统用户ToolStripMenuItem,
             this.系统配置ToolStripMenuItem1,
             this.视觉配置ToolStripMenuItem});
             this.系统管理ToolStripMenuItem.Name = "系统管理ToolStripMenuItem";
             this.系统管理ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.系统管理ToolStripMenuItem.Text = "系统";
             // 
-            // 系统配置ToolStripMenuItem
+            // 系统用户ToolStripMenuItem
             // 
-            this.系统配置ToolStripMenuItem.Name = "系统配置ToolStripMenuItem";
-            this.系统配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.系统配置ToolStripMenuItem.Text = "系统用户";
+            this.系统用户ToolStripMenuItem.Name = "系统用户ToolStripMenuItem";
+            this.系统用户ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.系统用户ToolStripMenuItem.Text = "系统用户";
+            this.系统用户ToolStripMenuItem.Click += new System.EventHandler(this.系统用户ToolStripMenuItem_Click);
             // 
             // 系统配置ToolStripMenuItem1
             // 
@@ -253,12 +278,6 @@
             this.数据查询ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.数据查询ToolStripMenuItem.Text = "数据查询";
             // 
-            // 切换用户ToolStripMenuItem
-            // 
-            this.切换用户ToolStripMenuItem.Name = "切换用户ToolStripMenuItem";
-            this.切换用户ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.切换用户ToolStripMenuItem.Text = "切换用户";
-            // 
             // 帮助ToolStripMenuItem
             // 
             this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -279,6 +298,7 @@
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
             this.关于ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.关于ToolStripMenuItem.Text = "关于本系统";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
@@ -292,12 +312,11 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.系统管理ToolStripMenuItem,
             this.数据查询ToolStripMenuItem,
-            this.切换用户ToolStripMenuItem,
             this.帮助ToolStripMenuItem,
             this.退出ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(984, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1344, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -305,7 +324,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 681);
+            this.ClientSize = new System.Drawing.Size(1344, 697);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
@@ -317,6 +336,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "视觉识别控制系统";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
             this.toolStrip1.ResumeLayout(false);
@@ -338,11 +358,10 @@
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripMenuItem 系统管理ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 系统配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 系统用户ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 系统配置ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 视觉配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 数据查询ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 切换用户ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 操作手册ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
@@ -360,6 +379,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.ToolStripStatusLabel toolS_zr;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel8;
+        private System.Windows.Forms.ToolStripStatusLabel toolUser;
+        private System.Windows.Forms.ToolStripStatusLabel toolUserName;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel9;
     }
 }
 

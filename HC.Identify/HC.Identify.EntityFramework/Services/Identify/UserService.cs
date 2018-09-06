@@ -76,5 +76,37 @@ namespace HC.Identify.EntityFramework.Services.Identify
             byte[] _cipherText = _sha256.ComputeHash(Encoding.Default.GetBytes(plainText));
             return Convert.ToBase64String(_cipherText);
         }
+
+        public IList<UserDto> GetAllUser()
+        {
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                var list = context.Users.Select(u => new UserDto()
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Account = u.Account,
+                    Role = u.Role
+                }).ToList() ;
+                return list;
+            }
+        }
+
+        public UserDto GetSigleUser(string name, string password)
+        {
+            var shaPassword = Sha256(password);
+            using (IdentifyContext context = new IdentifyContext())
+            {
+                var query = context.Users.Where(u => u.Account == name && u.Password == shaPassword).Select(u => new UserDto()
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Account = u.Account,
+                    Role = u.Role
+                });
+
+                return query.SingleOrDefault();
+            }
+        }
     }
 }
