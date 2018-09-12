@@ -6,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace HC.Identify.Dto.Identify
 {
-   //public class OrderInfoDto
-   // {
-   //     public Guid Id { get; set; }
+    //public class OrderInfoDto
+    // {
+    //     public Guid Id { get; set; }
 
-   //     public string UUID { get; set; }
+    //     public string UUID { get; set; }
 
-   //     public string Brand { get; set; }
+    //     public string Brand { get; set; }
 
-   //     public string Specification { get; set; }
+    //     public string Specification { get; set; }
 
-   //     public int? Num { get; set; }
+    //     public int? Num { get; set; }
 
-   //     public DateTime? PostDate { get; set; }
+    //     public DateTime? PostDate { get; set; }
 
-   //     /// <summary>
-   //     /// 已匹配数量
-   //     /// </summary>
-   //     public int? Matched { get; set; }
+    //     /// <summary>
+    //     /// 已匹配数量
+    //     /// </summary>
+    //     public int? Matched { get; set; }
 
-   //     /// <summary>
-   //     /// 未匹配数量
-   //     /// </summary>
-   //     public int? Unmatched { get; set; }
+    //     /// <summary>
+    //     /// 未匹配数量
+    //     /// </summary>
+    //     public int? Unmatched { get; set; }
 
-   // }
+    // }
     public class OrderInfoDto
     {
         public Guid Id { get; set; }
@@ -58,6 +58,18 @@ namespace HC.Identify.Dto.Identify
                 return Num - Matched;
             }
         }
+        public int? Sequence { get; set; }
+
+        /// <summary>
+        /// 开始序号
+        /// </summary>
+        public int? beginSeq { get; set; }
+
+        /// <summary>
+        /// 结束序号
+        /// </summary>
+        public int? endSeq { get; set; }
+
     }
 
     public class OrderInfoMatchResult
@@ -90,5 +102,24 @@ namespace HC.Identify.Dto.Identify
         public int Sequence { get; set; }
 
         public string UUID { get; set; }
+    }
+
+    public class OrderInfoSum
+    {
+        public OrderInfoSum()
+        {
+            OrderInfoList = new List<OrderInfoDto>();
+            OrderSum = new List<OrderSumDto>();
+        }
+
+        /// <summary>
+        /// 订单信息
+        /// </summary>
+        public List<OrderInfoDto> OrderInfoList { get; set; }
+
+        /// <summary>
+        /// 户数信息
+        /// </summary>
+        public List<OrderSumDto> OrderSum { get; set; }
     }
 }

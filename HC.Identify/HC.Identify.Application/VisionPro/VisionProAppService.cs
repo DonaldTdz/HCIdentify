@@ -45,10 +45,11 @@ namespace HC.Identify.Application.VisionPro
             return mFrameGrabbers;
         }
 
-        public CsvSpecification GetMatchSpecification(out ArrayList cogResultArray)
+        public CsvSpecification GetMatchSpecification(out ArrayList cogResultArray, out double dMaxScore)
         {
             var tbvals = GetToolBlockValues();
             cogResultArray = tbvals;
+            dMaxScore = -9999;
             if (tbvals == null)
             {
                 return null;
@@ -64,7 +65,7 @@ namespace HC.Identify.Application.VisionPro
                                                      //相关矩阵计算
                 double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
                                                                 //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
-                double dMaxScore = -9999;
+               
                 CsvSpecification maxSpec = new CsvSpecification();
                 int i = 0;
                 foreach (var item in _csvSpecList)
@@ -99,7 +100,7 @@ namespace HC.Identify.Application.VisionPro
                     VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
                 }
                 //配置结果值
-                if (dMaxScore > 0.81)
+                if (dMaxScore > 0.80)
                 {
                     return maxSpec;
                 }
@@ -142,7 +143,7 @@ namespace HC.Identify.Application.VisionPro
 
         public void SaveImage()
         {
-            string path = _appPath + "\\SaveImage\\";
+            string path = _appPath + "\\SaveImage\\"+ DateTime.Now.ToString("yyyyMMdd")+"\\";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

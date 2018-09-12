@@ -67,6 +67,8 @@
             this.btnReMatchRun = new System.Windows.Forms.Button();
             this.btn_Recover = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtPiPei = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
             this.groupImgSaveBox.SuspendLayout();
@@ -349,6 +351,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtPiPei);
+            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.txtUseTime);
             this.groupBox2.Controls.Add(this.txtMatchSpec);
@@ -456,6 +460,22 @@
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(236, 68);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "匹配值：";
+            // 
+            // txtPiPei
+            // 
+            this.txtPiPei.Location = new System.Drawing.Point(298, 62);
+            this.txtPiPei.Name = "txtPiPei";
+            this.txtPiPei.Size = new System.Drawing.Size(104, 21);
+            this.txtPiPei.TabIndex = 10;
+            // 
             // VisionProSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -534,5 +554,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btn_Recover;
         private System.Windows.Forms.Button btn_Save;
+        private System.Windows.Forms.TextBox txtPiPei;
+        private System.Windows.Forms.Label label6;
     }
 }

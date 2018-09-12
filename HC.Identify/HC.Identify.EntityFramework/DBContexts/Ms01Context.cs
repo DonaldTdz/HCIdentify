@@ -13,7 +13,7 @@ namespace HC.Identify.EntityFramework.DBContexts
         public Ms01Context() : base(Ms01DSN) { }
         static Ms01Context()
         {
-            Database.SetInitializer(new NeverCreateDatabase<IdentifyContext>());
+            Database.SetInitializer(new NeverCreateDatabase<Ms01Context>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

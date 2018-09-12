@@ -53,6 +53,11 @@ namespace HC.Identify.Dto.Identify
         /// </summary>
         public string NextNHouse { get; set; }
 
+        /// <summary>
+        /// 任务号（实时订单特有）
+        /// </summary>
+        public string JobNum { get; set; }
+
 
     }
 

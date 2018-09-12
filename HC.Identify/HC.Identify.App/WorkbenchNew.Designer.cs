@@ -58,6 +58,9 @@
             this.txtUUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtMatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtUnmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BeginSeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endSeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Seq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -97,10 +100,6 @@
             this.labNotCheckTitle = new System.Windows.Forms.Label();
             this.labNumTitle = new System.Windows.Forms.Label();
             this.gvMatchResult = new System.Windows.Forms.DataGridView();
-            this.labOrderNotCheck = new System.Windows.Forms.Label();
-            this.labOrderTotalNum = new System.Windows.Forms.Label();
-            this.groupMatchOrder = new System.Windows.Forms.GroupBox();
-            this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.SortNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BrandS = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,6 +108,12 @@
             this.Match = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Sequence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labOrderNotCheck = new System.Windows.Forms.Label();
+            this.labOrderTotalNum = new System.Windows.Forms.Label();
+            this.groupMatchOrder = new System.Windows.Forms.GroupBox();
+            this.labCheckRate = new System.Windows.Forms.Label();
+            this.proBarCheck = new System.Windows.Forms.ProgressBar();
+            this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrderInfo)).BeginInit();
@@ -150,7 +155,6 @@
             this.ddlAareaLine.Name = "ddlAareaLine";
             this.ddlAareaLine.Size = new System.Drawing.Size(205, 20);
             this.ddlAareaLine.TabIndex = 0;
-            this.ddlAareaLine.SelectedIndexChanged += new System.EventHandler(this.ddlAareaLine_SelectedIndexChanged);
             this.ddlAareaLine.SelectionChangeCommitted += new System.EventHandler(this.ddlAareaLine_SelectionChangeCommitted);
             // 
             // btnDownload
@@ -227,7 +231,10 @@
             this.Num,
             this.txtUUID,
             this.txtMatched,
-            this.txtUnmatched});
+            this.txtUnmatched,
+            this.BeginSeq,
+            this.endSeq,
+            this.Seq});
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -254,6 +261,7 @@
             // txtSpecification
             // 
             this.txtSpecification.DataPropertyName = "Specification";
+            this.txtSpecification.FillWeight = 122.3898F;
             this.txtSpecification.HeaderText = "规格";
             this.txtSpecification.Name = "txtSpecification";
             this.txtSpecification.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -261,6 +269,7 @@
             // Brand
             // 
             this.Brand.DataPropertyName = "Brand";
+            this.Brand.FillWeight = 119.9907F;
             this.Brand.HeaderText = "条码";
             this.Brand.Name = "Brand";
             this.Brand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -268,6 +277,7 @@
             // Num
             // 
             this.Num.DataPropertyName = "Num";
+            this.Num.FillWeight = 81.34964F;
             this.Num.HeaderText = "数量";
             this.Num.Name = "Num";
             this.Num.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -285,6 +295,7 @@
             this.txtMatched.DataPropertyName = "Matched";
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.LightGreen;
             this.txtMatched.DefaultCellStyle = dataGridViewCellStyle2;
+            this.txtMatched.FillWeight = 77.25452F;
             this.txtMatched.HeaderText = "已匹配";
             this.txtMatched.Name = "txtMatched";
             this.txtMatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -294,9 +305,31 @@
             this.txtUnmatched.DataPropertyName = "Unmatched";
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Red;
             this.txtUnmatched.DefaultCellStyle = dataGridViewCellStyle3;
+            this.txtUnmatched.FillWeight = 72.42555F;
             this.txtUnmatched.HeaderText = "未匹配";
             this.txtUnmatched.Name = "txtUnmatched";
             this.txtUnmatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // BeginSeq
+            // 
+            this.BeginSeq.DataPropertyName = "BeginSeq";
+            this.BeginSeq.FillWeight = 106.599F;
+            this.BeginSeq.HeaderText = "开始序号";
+            this.BeginSeq.Name = "BeginSeq";
+            // 
+            // endSeq
+            // 
+            this.endSeq.DataPropertyName = "endSeq";
+            this.endSeq.FillWeight = 119.9907F;
+            this.endSeq.HeaderText = "结束序号";
+            this.endSeq.Name = "endSeq";
+            // 
+            // Seq
+            // 
+            this.Seq.DataPropertyName = "Sequence";
+            this.Seq.HeaderText = "序号";
+            this.Seq.Name = "Seq";
+            this.Seq.Visible = false;
             // 
             // tabPage1
             // 
@@ -712,40 +745,11 @@
             this.gvMatchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.gvMatchResult.RowHeadersVisible = false;
             this.gvMatchResult.RowTemplate.Height = 23;
-            this.gvMatchResult.Size = new System.Drawing.Size(361, 577);
+            this.gvMatchResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gvMatchResult.Size = new System.Drawing.Size(361, 502);
             this.gvMatchResult.TabIndex = 0;
             this.gvMatchResult.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.gvMatchResult_RowPostPaint);
-            // 
-            // labOrderNotCheck
-            // 
-            this.labOrderNotCheck.AutoSize = true;
-            this.labOrderNotCheck.Location = new System.Drawing.Point(305, 589);
-            this.labOrderNotCheck.Name = "labOrderNotCheck";
-            this.labOrderNotCheck.Size = new System.Drawing.Size(0, 12);
-            this.labOrderNotCheck.TabIndex = 7;
-            // 
-            // labOrderTotalNum
-            // 
-            this.labOrderTotalNum.AutoSize = true;
-            this.labOrderTotalNum.Location = new System.Drawing.Point(69, 591);
-            this.labOrderTotalNum.Name = "labOrderTotalNum";
-            this.labOrderTotalNum.Size = new System.Drawing.Size(0, 12);
-            this.labOrderTotalNum.TabIndex = 3;
-            // 
-            // groupMatchOrder
-            // 
-            this.groupMatchOrder.Controls.Add(this.labOrderTotalNum);
-            this.groupMatchOrder.Controls.Add(this.labOrderNotCheck);
-            this.groupMatchOrder.Controls.Add(this.gvMatchResult);
-            this.groupMatchOrder.Controls.Add(this.labNumTitle);
-            this.groupMatchOrder.Controls.Add(this.labNotCheckTitle);
-            this.groupMatchOrder.Controls.Add(this.labOrderCheck);
-            this.groupMatchOrder.Controls.Add(this.lblChekedTitle);
-            this.groupMatchOrder.Location = new System.Drawing.Point(3, -1);
-            this.groupMatchOrder.Name = "groupMatchOrder";
-            this.groupMatchOrder.Size = new System.Drawing.Size(362, 612);
-            this.groupMatchOrder.TabIndex = 21;
-            this.groupMatchOrder.TabStop = false;
+            this.gvMatchResult.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gvMatchResult_RowPrePaint);
             // 
             // SortNum
             // 
@@ -808,6 +812,7 @@
             // 
             // UUID
             // 
+            this.UUID.DataPropertyName = "UUID";
             this.UUID.HeaderText = "UUID";
             this.UUID.Name = "UUID";
             this.UUID.Visible = false;
@@ -818,6 +823,57 @@
             this.Sequence.HeaderText = "落烟顺序";
             this.Sequence.Name = "Sequence";
             this.Sequence.Visible = false;
+            // 
+            // labOrderNotCheck
+            // 
+            this.labOrderNotCheck.AutoSize = true;
+            this.labOrderNotCheck.Location = new System.Drawing.Point(305, 589);
+            this.labOrderNotCheck.Name = "labOrderNotCheck";
+            this.labOrderNotCheck.Size = new System.Drawing.Size(0, 12);
+            this.labOrderNotCheck.TabIndex = 7;
+            // 
+            // labOrderTotalNum
+            // 
+            this.labOrderTotalNum.AutoSize = true;
+            this.labOrderTotalNum.Location = new System.Drawing.Point(69, 591);
+            this.labOrderTotalNum.Name = "labOrderTotalNum";
+            this.labOrderTotalNum.Size = new System.Drawing.Size(0, 12);
+            this.labOrderTotalNum.TabIndex = 3;
+            // 
+            // groupMatchOrder
+            // 
+            this.groupMatchOrder.Controls.Add(this.labCheckRate);
+            this.groupMatchOrder.Controls.Add(this.proBarCheck);
+            this.groupMatchOrder.Controls.Add(this.labOrderTotalNum);
+            this.groupMatchOrder.Controls.Add(this.labOrderNotCheck);
+            this.groupMatchOrder.Controls.Add(this.gvMatchResult);
+            this.groupMatchOrder.Controls.Add(this.labNumTitle);
+            this.groupMatchOrder.Controls.Add(this.labNotCheckTitle);
+            this.groupMatchOrder.Controls.Add(this.labOrderCheck);
+            this.groupMatchOrder.Controls.Add(this.lblChekedTitle);
+            this.groupMatchOrder.Location = new System.Drawing.Point(3, -1);
+            this.groupMatchOrder.Name = "groupMatchOrder";
+            this.groupMatchOrder.Size = new System.Drawing.Size(362, 612);
+            this.groupMatchOrder.TabIndex = 21;
+            this.groupMatchOrder.TabStop = false;
+            // 
+            // labCheckRate
+            // 
+            this.labCheckRate.AutoSize = true;
+            this.labCheckRate.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labCheckRate.ForeColor = System.Drawing.Color.LimeGreen;
+            this.labCheckRate.Location = new System.Drawing.Point(166, 520);
+            this.labCheckRate.Name = "labCheckRate";
+            this.labCheckRate.Size = new System.Drawing.Size(23, 14);
+            this.labCheckRate.TabIndex = 9;
+            this.labCheckRate.Text = "0%";
+            // 
+            // proBarCheck
+            // 
+            this.proBarCheck.Location = new System.Drawing.Point(28, 537);
+            this.proBarCheck.Name = "proBarCheck";
+            this.proBarCheck.Size = new System.Drawing.Size(304, 23);
+            this.proBarCheck.TabIndex = 8;
             // 
             // WorkbenchNew
             // 
@@ -921,6 +977,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn txtUUID;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtMatched;
         private System.Windows.Forms.DataGridViewTextBoxColumn txtUnmatched;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BeginSeq;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endSeq;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Seq;
         private System.Windows.Forms.DataGridViewTextBoxColumn SortNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn BrandS;
@@ -929,5 +988,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Match;
         private System.Windows.Forms.DataGridViewTextBoxColumn UUID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Sequence;
+        private System.Windows.Forms.Label labCheckRate;
+        private System.Windows.Forms.ProgressBar proBarCheck;
     }
 }

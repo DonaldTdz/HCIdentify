@@ -290,7 +290,8 @@ namespace HC.Identify.App
                 }
                 visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
                 benginDate = DateTime.Now;
-                imgData = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
+                double dMaxScore;
+                imgData = visionProAppService.GetMatchSpecification(out cogResultArray,out dMaxScore);//获取匹配结果
                 endDate = DateTime.Now;
                 #region 写日志
                 var photoRe = "";
@@ -658,8 +659,8 @@ namespace HC.Identify.App
             identifyTotal++;//识别总数+1
             //匹配计算
             visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
-
-            var sepec = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
+            double dMaxScore;
+            var sepec = visionProAppService.GetMatchSpecification(out cogResultArray,out dMaxScore);//获取匹配结果
             if (sepec == null)//不匹配结果保存异常图片
             {
                 visionProAppService.SaveImage();

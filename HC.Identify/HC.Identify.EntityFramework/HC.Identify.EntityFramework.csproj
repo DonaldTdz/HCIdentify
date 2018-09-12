@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBContexts\KsecpickContext.cs" />
     <Compile Include="DBContexts\Ms01Context.cs" />
     <Compile Include="QueryExtension.cs" />
     <Compile Include="DBContexts\IdentifyContext.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Services\Identify\OrderSumService.cs" />
     <Compile Include="Services\Identify\SystemConfigService.cs" />
     <Compile Include="Services\Identify\UserService.cs" />
+    <Compile Include="Services\Ksecpick\KsecOrderInfoServic.cs" />
     <Compile Include="Services\Ms01\OrderInfoMsService.cs" />
     <Compile Include="Services\Ms01\OrderSumMsService.cs" />
   </ItemGroup>

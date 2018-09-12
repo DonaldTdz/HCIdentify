@@ -169,7 +169,7 @@ namespace HC.Identify.App
                     {
                         check_debug.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.调试模式)
+                    if (item.Code == ConfigEnum.视觉相机沉睡)
                     {
                         txtSleepTime.Text = item.Value;
                     }

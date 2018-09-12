@@ -21,6 +21,7 @@ using Cognex.VisionPro.ToolBlock;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.FGGigE;
 using Cognex.VisionPro.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace HC.Identify.App
 {
@@ -358,7 +359,8 @@ namespace HC.Identify.App
             //计算
             //var spec = Calculation(cogResultArray);
             visionProAppService._icogColorImage = icogColorImage;
-            var spec = visionProAppService.GetMatchSpecification(out cogResultArray);//获取匹配结果
+            double dMaxScore;
+            var spec = visionProAppService.GetMatchSpecification(out cogResultArray,out dMaxScore);//获取匹配结果
             if (spec != null)
             {
                 txtMatchSpec.Text = spec.Specification;
@@ -376,6 +378,7 @@ namespace HC.Identify.App
                 lblResultDesc.Text = "NG"; //匹配成功
                 lblResultDesc.ForeColor = Color.Red;
             }
+            txtPiPei.Text = dMaxScore.ToString();
             SetCurrentInageInfo();
             //计算用时
             DateTime aftertime = DateTime.Now;
@@ -558,20 +561,26 @@ namespace HC.Identify.App
         private void btnRegisterSpec_Click(object sender, EventArgs e)
         {
             //同时加入Read Value
-            if (txtCurrentSpec.Text == "")
+            var spec = txtCurrentSpec.Text;
+            if (spec == "")
             {
                 MessageBox.Show("请先输入型号再保存数据");
                 return;
             }
+            if(!Regex.IsMatch(spec, @"^\d*$"))
+            {
+                MessageBox.Show("请先正确的型号再保存数据");
+                return;
+            }
 
-            string strRowWrite = txtCurrentSpec.Text + ",";
+            string strRowWrite = spec + ",";
             double[] newValues = new double[cogResultArray.Count];
             for (int i = 0; i < cogResultArray.Count; i++)
             {
                 strRowWrite += string.Format("{0:###.###}", cogResultArray[i]) + ",";
                 newValues[i] = (double)cogResultArray[i];
             }
-            csvSpecList.Add(new CsvSpecification() { Specification = txtCurrentSpec.Text, Values = newValues });    //添加到已注册产品型号
+            csvSpecList.Add(new CsvSpecification() { Specification = spec, Values = newValues });    //添加到已注册产品型号
             VisionProDataAppService.Instance.SaveToCsvRegistered(strRowWrite);  //保存到CSV文件
             BindRegisteredSpec();                               //重新绑定已注册产品
         }
