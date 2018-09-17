@@ -155,6 +155,7 @@
             this.ddlAareaLine.Name = "ddlAareaLine";
             this.ddlAareaLine.Size = new System.Drawing.Size(205, 20);
             this.ddlAareaLine.TabIndex = 0;
+            this.ddlAareaLine.Visible = false;
             this.ddlAareaLine.SelectionChangeCommitted += new System.EventHandler(this.ddlAareaLine_SelectionChangeCommitted);
             // 
             // btnDownload
@@ -165,6 +166,7 @@
             this.btnDownload.TabIndex = 1;
             this.btnDownload.Text = "下载数据";
             this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Visible = false;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // groupBox1

@@ -58,6 +58,8 @@ namespace HC.Identify.App
             InitZRSocketClient();   //初始化中软通讯
             InitFrame();
             InitReadCodeSocketClient(); //初始化读码通讯
+            DownLoadOrderFromKsec();//实时订单
+            Thread.Sleep(3000);//等待线程获取订单信息--实时订单
             InitAeareLine();        //初始化批次信息
             BindOrderMatchResult();
             RefreshIdentifyData();//初始化识别数据
@@ -187,19 +189,18 @@ namespace HC.Identify.App
 
         #region 批次信息
 
-        IList<OrderSumDto> OrderSumList { get; set; }
-        OrderInfoSum orderInfoSum { get; set; }//用于实时订单
+        IList<OrderSumDto> OrderSumList  { get; set; }
+        OrderInfoSum orderInfoSum = new OrderInfoSum();//用于实时订单
         int CurrentHouseNum = 1;//当前户数
         int CurrentOrderSumCount = 0;//当前线路总户数
         //long CurrentJobNum = 2018090500001; //long.Parse(DateTime.Now.ToString("yyyyMMdd") + "00001");//实时订单
         int CurrentJobNum = 1;
-
+        Thread threadDownLoad = null;
         /// <summary>
         /// 线路初始化
         /// </summary>
         private void InitAeareLine()
         {
-            DownLoadOrderFromKsec();//实时订单
             //BindAareaLineData();//固定订单
             GetHoseListByLine();
             ShowCurrentAareaLine();
@@ -239,15 +240,38 @@ namespace HC.Identify.App
         /// </summary>
         public void DownLoadOrderFromKsec()
         {
-            //threadReadCode = new Thread(ReceiveReadCode);
-            //threadReadCode.IsBackground = true;
-            ////启动处理读码结果线程
-            //threadReadCode.Start();
-            //while(orderInfoSum.OrderSum.Count- CurrentJobNum < 10)
-            //{
-                orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(CurrentJobNum, SystemConfig[ConfigEnum.分拣线路].Value);
-            //}
-            //OrderSumList = result.OrderSum;
+            threadDownLoad = new Thread(DownLoadOrderInfoThread);
+            threadDownLoad.IsBackground = true;
+            //启动获取订单信息的线程
+            threadDownLoad.Start();
+        }
+        /// <summary>
+        /// 循环获取订单信息
+        /// </summary>
+        public void DownLoadOrderInfoThread()
+        {
+            orderInfoSum = new OrderInfoSum();
+            LineOrderList=new List<OrderInfoDto>();
+            OrderSumList = new List<OrderSumDto>();
+            while (true)
+            {
+                if(OrderSumList.Count - CurrentJobNum < 10)
+                {
+                    orderInfoSum.OrderInfoList.Clear();
+                    orderInfoSum.OrderSum.Clear();
+                    orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(OrderSumList.Count, SystemConfig[ConfigEnum.分拣线路].Value, 10);
+                    //线路下的订单信息
+                    foreach (var item in orderInfoSum.OrderInfoList)
+                    {
+                        LineOrderList.Add(item);
+                    }
+                    foreach (OrderSumDto item in orderInfoSum.OrderSum)
+                    {
+                        OrderSumList.Add(item);
+                    }
+                    Thread.Sleep(100);
+                }
+            }
         }
 
         /// <summary>
@@ -267,8 +291,6 @@ namespace HC.Identify.App
             #endregion
 
             #region 实时订单
-
-            OrderSumList = orderInfoSum.OrderSum;
             CurrentOrderSumCount = OrderSumList != null ? orderInfoSum.OrderSum.Count : 0;
             #endregion
         }
@@ -304,9 +326,10 @@ namespace HC.Identify.App
                 #endregion
 
                 #region 实时订单
-                labAareaLineName.Text = OrderSumList[0].AreaName; //线路
-                labRetaName.Text = OrderSumList[0].RetailerName;  //客户
-                OrderTotalNum = OrderSumList[0].Num.Value;
+                var orderSum = OrderSumList.Where(o => o.RIndex == CurrentJobNum).First();
+                labAareaLineName.Text = orderSum.AreaName; //线路
+                labRetaName.Text = orderSum.RetailerName;  //客户
+                OrderTotalNum = orderSum.Num.Value;
                 labOrderTotalNum.Text = OrderTotalNum.ToString(); //订单总量
                 labHouseNum.Text = CurrentJobNum.ToString(); //户数
                 proBarCheck.Maximum = OrderTotalNum;//已检量进度条总数
@@ -380,10 +403,6 @@ namespace HC.Identify.App
                         // CurrentHouseNum++;//固定订单
                         CurrentJobNum++;//实时订单
                     }
-                    //昆船下载数据
-                    DownLoadOrderFromKsec();
-                    if (orderInfoSum.OrderInfoList != null && orderInfoSum.OrderInfoList.Count > 0)//实时订单
-                    {
                         //刷新批次信息--实时订单
                         GetHoseListByLine();
                         //刷新当前户数信息
@@ -401,11 +420,6 @@ namespace HC.Identify.App
                         //}
                         //初始化订单检测数据
                         InitOrderSummary();
-                    }
-                    else
-                    {
-                        MessageBox.Show("该用户不存在订单信息");
-                    }
                 }
                 else
                 {
@@ -530,9 +544,10 @@ namespace HC.Identify.App
             #endregion
 
             #region 实时订单
-            if (orderInfoSum.OrderInfoList != null)
+            if (LineOrderList.Count >0)
             {
-                CurrentOrderList = orderInfoSum.OrderInfoList.OrderBy(o => o.Sequence).ToList();
+                var orderSum = OrderSumList.Where(o => o.RIndex == CurrentJobNum).FirstOrDefault();
+                CurrentOrderList = LineOrderList.Where(o=>o.UUID== orderSum.UUID).OrderBy(o => o.Sequence).ToList();
                 int beginSeq = 1;
                 if (CurrentOrderList.Count > 0)
                 {
@@ -542,6 +557,10 @@ namespace HC.Identify.App
                         item.endSeq = beginSeq + item.Num - 1;
                         beginSeq += item.Num.Value;
                     }
+                }
+                else
+                {
+                    MessageBox.Show("改用户不存在订单信息！！");
                 }
                 gvOrderInfo.DataSource = CurrentOrderList;
             }
@@ -559,6 +578,7 @@ namespace HC.Identify.App
                 {
                     item.Matched = 0;
                 }
+                proBarCheck.Value = 0;//初始化进度条
                 OrderCheckedNum = 0;
                 gvOrderInfo.Refresh();
                 //RefreshOrderSummary();
@@ -566,18 +586,18 @@ namespace HC.Identify.App
                 InitOrderSummary();
                 //清空匹配结果
                 ClearOrderMatchResult();
-                if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
-                {
-                    foreach (var item in OrderMatchResult)
-                    {
-                        item.MatchStatus = "";
-                        item.MatchTime = "";
-                    }
-                    gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.Black;
-                    gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.White;
-                    //重新绑定订单匹配结果
-                    BindOrderMatchResult();
-                }
+                //if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
+                //{
+                //    foreach (var item in OrderMatchResult)
+                //    {
+                //        item.MatchStatus = "";
+                //        item.MatchTime = "";
+                //    }
+                //    gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.Black;
+                //    gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.White;
+                //    //重新绑定订单匹配结果
+                //    BindOrderMatchResult();
+                //}
             }
             else
             {
@@ -703,8 +723,8 @@ namespace HC.Identify.App
             //    orderSquence = 0;
             //}
             orderSquence = 1;
-            List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
-            gvMatchResult.DataSource = orderInfoMatchResnul;
+            List<OrderInfoMatchRe> orderInfoMatchResult = new List<OrderInfoMatchRe>();
+            gvMatchResult.DataSource = orderInfoMatchResult;
             OrderMatchResult.RemoveRange(0, OrderMatchResult.Count);
         }
 
@@ -715,23 +735,23 @@ namespace HC.Identify.App
         {
             #region 实时订单
             var result = false;
-            if (gvMatchResult.DataSource != null)
-            {
+            //if (gvMatchResult.Rows.Count>0)
+            //{
                 List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
                 gvMatchResult.DataSource = orderInfoMatchResnul;
-            }
-            else
-            {
-                gvMatchResult.Rows.Clear();
-            }
+            //}
+            //else
+            //{
+            //    gvMatchResult.Rows.Clear();
+            //}
             var ngOrderInfo = OrderMatchResult.Find(o => o.MatchStatus == "NG");//清除前面NG的数据
             OrderMatchResult.Remove(ngOrderInfo);
-            //按订单顺序是否存在改烟
+            //按订单顺序是否存在错烟
             var currentOrderInfo = CurrentOrderList.Where(o => o.beginSeq <= orderSquence && o.endSeq >= orderSquence).FirstOrDefault();
             var matchOrderInfo = new OrderInfoMatchRe();
             matchOrderInfo.Id = orderInfo.Id;
             matchOrderInfo.Brand = orderInfo.Brand;
-            matchOrderInfo.MatchStatus = "OK";
+            //matchOrderInfo.MatchStatus = "OK";
             matchOrderInfo.Specification = orderInfo.Specification;
             matchOrderInfo.MatchTime = DateTime.Now.ToString("HH:mm ss");
             if (currentOrderInfo.Brand == orderInfo.Brand)

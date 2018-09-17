@@ -55,6 +55,9 @@ namespace HC.Identify.Dto.Ksecpick
         /// </summary>
         public string MAKEBATCH { get; set; }
 
-
+        /// <summary>
+        /// 订单顺序
+        /// </summary>
+        public long IndexNum { get; set; }
     }
 }
