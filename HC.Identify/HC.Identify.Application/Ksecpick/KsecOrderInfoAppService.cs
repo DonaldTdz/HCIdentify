@@ -20,21 +20,13 @@ namespace HC.Identify.Application.Ksecpick
         /// <summary>
         /// 获取订单、户数信息
         /// </summary>
-        public OrderInfoSum GetOrderInfoSum(string jobNum)
+        public OrderInfoSum GetOrderInfoSum(int jobNum,string sortLine)
         {
             var OrderInfoSum = new OrderInfoSum();
-            var result = ksecOrderInfoServic.GetOrderInfo(jobNum);
+            var result = ksecOrderInfoServic.GetOrderInfo(jobNum, sortLine);
+            //var jobNUM = "";
             if (result != null && result.Count > 0)
             {
-
-                //var orderSum = new OrderSumDto();
-                //orderSum.Id = Guid.NewGuid();
-                //orderSum.AreaName = result[0].SORTLINE;
-                //orderSum.RetailerCode = result[0].CUSTOMCODE;
-                //orderSum.RetailerName = result[0].CUSTOMNAME;
-                //orderSum.Num = (int)Math.Round(result[0].orderqty, 0);
-                //orderSum.PostData = Convert.ToDateTime(result[0].MAKEBATCH);
-                //orderSum.JobNum = result[0].SJOBNUM;
                 OrderInfoSum.OrderSum.Add(new OrderSumDto
                 {
                     Id = Guid.NewGuid(),
@@ -45,9 +37,23 @@ namespace HC.Identify.Application.Ksecpick
                     PostData = Convert.ToDateTime(result[0].MAKEBATCH),
                     JobNum = result[0].SJOBNUM
                 });
-
+                //jobNUM = result[0].SJOBNUM;
                 foreach (var item in result)
                 {
+                    //if(item.SJOBNUM!= jobNUM)
+                    //{
+                    //    OrderInfoSum.OrderSum.Add(new OrderSumDto
+                    //    {
+                    //        Id = Guid.NewGuid(),
+                    //        AreaName = item.SORTLINE,
+                    //        RetailerCode = item.CUSTOMCODE,
+                    //        RetailerName = item.CUSTOMNAME,
+                    //        Num = (int)Math.Round(result.Where(o=>o.SJOBNUM== item.SJOBNUM).Sum(o => o.orderqty), 0),
+                    //        PostData = Convert.ToDateTime(item.MAKEBATCH),
+                    //        JobNum = result[0].SJOBNUM
+                    //    });
+                    //    jobNUM = item.SJOBNUM;
+                    //}
                     var orderInfo = new OrderInfoDto();
                     orderInfo.Id = Guid.NewGuid();
                     orderInfo.UUID = item.uuid;

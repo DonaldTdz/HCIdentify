@@ -191,7 +191,9 @@ namespace HC.Identify.App
         OrderInfoSum orderInfoSum { get; set; }//用于实时订单
         int CurrentHouseNum = 1;//当前户数
         int CurrentOrderSumCount = 0;//当前线路总户数
-        long CurrentJobNum = 2018090500001; //long.Parse(DateTime.Now.ToString("yyyyMMdd") + "00001");//实时订单
+        //long CurrentJobNum = 2018090500001; //long.Parse(DateTime.Now.ToString("yyyyMMdd") + "00001");//实时订单
+        int CurrentJobNum = 1;
+
         /// <summary>
         /// 线路初始化
         /// </summary>
@@ -237,7 +239,14 @@ namespace HC.Identify.App
         /// </summary>
         public void DownLoadOrderFromKsec()
         {
-            orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(CurrentJobNum.ToString());
+            //threadReadCode = new Thread(ReceiveReadCode);
+            //threadReadCode.IsBackground = true;
+            ////启动处理读码结果线程
+            //threadReadCode.Start();
+            //while(orderInfoSum.OrderSum.Count- CurrentJobNum < 10)
+            //{
+                orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(CurrentJobNum, SystemConfig[ConfigEnum.分拣线路].Value);
+            //}
             //OrderSumList = result.OrderSum;
         }
 
@@ -355,9 +364,9 @@ namespace HC.Identify.App
         /// <summary>
         /// 切换用户
         /// </summary>
-        private void SwitchHouse(SwitchEnum switchEnum)
+        private void SwitchHouse(SwitchEnum switchEnum, BurstModeEnum burstModeEnum)
         {
-            if (this.MainForm.RunStatus != RunStatusEnum.Running)
+            if (this.MainForm.RunStatus != RunStatusEnum.Running || (this.MainForm.RunStatus == RunStatusEnum.Running && burstModeEnum == BurstModeEnum.自动))
             {
                 if (OrderTotalNum == OrderCheckedNum || OrderCheckedNum == 0)
                 {
@@ -427,9 +436,9 @@ namespace HC.Identify.App
             #endregion
 
             #region 实时订单
-            if (CurrentJobNum == long.Parse(DateTime.Now.ToString("yyyyMMdd") + "00001"))
+            if (CurrentJobNum != 1)
             {
-                SwitchHouse(SwitchEnum.上一户);
+                SwitchHouse(SwitchEnum.上一户, BurstModeEnum.手动);
             }
             else
             {
@@ -456,7 +465,7 @@ namespace HC.Identify.App
             #endregion
 
             #region 实时订单
-            SwitchHouse(SwitchEnum.下一户);
+            SwitchHouse(SwitchEnum.下一户, BurstModeEnum.手动);
             #endregion
         }
 
@@ -862,6 +871,7 @@ namespace HC.Identify.App
             if (this.MainForm.RunStatus == RunStatusEnum.Running)
             {
                 IdentifyTotal++; //识别总数+1
+                OrderCheckedNum++;//订单测试
                 if (string.IsNullOrEmpty(brand))//不匹配结果保存异常图片
                 {
                     RefreshMatchResult(string.Empty, string.Empty, "未匹配模板", Color.Red);
@@ -884,7 +894,7 @@ namespace HC.Identify.App
                             if (matchRe)
                             {
                                 result.OrderInfo.Matched++;
-                                OrderCheckedNum++;
+                                //OrderCheckedNum++;//正式时解开
                                 RefreshMatchResult(brand, result.OrderInfo.Specification, "匹配成功", Color.Green);
                                 ZRSocketSend(brand);
                                 RefreshOrderSummary();
@@ -921,6 +931,11 @@ namespace HC.Identify.App
                     {
                         RefreshMatchResult(brand, string.Empty, "订单不存在", Color.Red);
                         MatchStopDebugControl();
+                    }
+
+                    if (OrderTotalNum == OrderCheckedNum)
+                    {
+                        SwitchHouse(SwitchEnum.下一户, BurstModeEnum.自动);
                     }
                 }
                 //刷新识别数据
@@ -998,12 +1013,12 @@ namespace HC.Identify.App
                         break;
                 }
 
+                var scanRe = readCode.ToString() + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (DateTime.Now - benginDate).Milliseconds.ToString() + "ms";
+                CommHelper.WriteLog(_appPath, "读码器读取条码：", scanRe);
                 if (readCode.ToString().Length == 13)//如果读取的是13位条码信息
                 {
                     t = "I";
                     brand = readCode;
-                    var scanRe = readCode.ToString() + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (DateTime.Now - benginDate).Milliseconds.ToString() + "ms";
-                    //CommHelper.WriteLog(_appPath, "读码器读取条码：", scanRe);
                 }
                 else //否则取图像结果
                 {
@@ -1022,8 +1037,8 @@ namespace HC.Identify.App
                     }
                 }
                 endDates = DateTime.Now;
-                var endScanRe = brand + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + endDates.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (endDates - benginDate).Milliseconds.ToString() + "ms";
-                //CommHelper.WriteLog(_appPath, "最终读取结果：", endScanRe);
+                var endScanRe = t + "," + brand + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + endDates.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (endDates - benginDate).Milliseconds.ToString() + "ms";
+                CommHelper.WriteLog(_appPath, "最终读取结果：", endScanRe);
                 Invoke(new MethodInvoker(delegate ()//线程安全
                 {
                     lblIdentifyTime.Text = (endDates - benginDate).Milliseconds.ToString() + "ms";
@@ -1114,7 +1129,7 @@ namespace HC.Identify.App
                 visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
                 benginDate = DateTime.Now;
                 double dMaxScore;
-                var csvSpec = visionProAppService.GetMatchSpecification(out cogResultArray,out dMaxScore);//获取匹配结果
+                var csvSpec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore);//获取匹配结果
                 endDate = DateTime.Now;
                 var photoRe = "";
                 if (csvSpec == null)

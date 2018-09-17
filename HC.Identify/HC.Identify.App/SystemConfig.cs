@@ -68,6 +68,10 @@ namespace HC.Identify.App
                     {
                         ckOrderSeq.Checked = item.IsAction;
                     }
+                    if (item.Code == ConfigEnum.分拣线路)
+                    {
+                        txtBoxSortLine.Text = item.Value;
+                    }
                 }
             }
         }
@@ -123,6 +127,11 @@ namespace HC.Identify.App
                 orderSeqConfig.IsAction = ckOrderSeq.Checked;
                 Configs.Add(orderSeqConfig);
 
+                //分拣线路
+                var sortLineConfig = new SystemConfigDto();
+                sortLineConfig.Code = ConfigEnum.订单顺序模式;
+                sortLineConfig.Value = txtBoxSortLine.Text;
+                Configs.Add(sortLineConfig);
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
@@ -176,6 +185,10 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.订单顺序模式)
                     {
                         ckOrderSeq.Checked = item.IsAction;
+                    }
+                    if (item.Code == ConfigEnum.分拣线路)
+                    {
+                        txtBoxSortLine.Text = item.Value;
                     }
                 }
             }

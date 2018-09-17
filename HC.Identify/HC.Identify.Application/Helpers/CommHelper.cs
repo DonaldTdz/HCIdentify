@@ -23,14 +23,14 @@ namespace HC.Identify.Application.Helpers
 
                 }
                 path = path + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-                if (!File.Exists(path))
-                {
-                    //FileStream fs = File.Create(fileName);  //创建文件
-                    //fs.Close();
-                    //FileStream fs = new FileStream(path, FileMode.CreateNew);
-                    FileStream fs = new FileStream(path, FileMode.CreateNew);
-                    fs.Close();
-                }
+                //if (!File.Exists(path))
+                //{
+                //    //FileStream fs = File.Create(fileName);  //创建文件
+                //    //fs.Close();
+                //    //FileStream fs = new FileStream(path, FileMode.CreateNew);
+                //    FileStream fs = new FileStream(path, FileMode.CreateNew);
+                //    fs.Close();
+                //}
                 StreamWriter writer = null;
                 try
                 {

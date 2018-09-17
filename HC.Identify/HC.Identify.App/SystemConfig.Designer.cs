@@ -48,6 +48,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.ckOrderSeq = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtBoxSortLine = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -226,11 +228,29 @@
             this.ckOrderSeq.Text = "是否启用";
             this.ckOrderSeq.UseVisualStyleBackColor = true;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(294, 341);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 12);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "分拣线路：";
+            // 
+            // txtBoxSortLine
+            // 
+            this.txtBoxSortLine.Location = new System.Drawing.Point(421, 332);
+            this.txtBoxSortLine.Name = "txtBoxSortLine";
+            this.txtBoxSortLine.Size = new System.Drawing.Size(100, 21);
+            this.txtBoxSortLine.TabIndex = 21;
+            // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 611);
+            this.Controls.Add(this.txtBoxSortLine);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.ckOrderSeq);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -280,5 +300,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox ckOrderSeq;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtBoxSortLine;
     }
 }

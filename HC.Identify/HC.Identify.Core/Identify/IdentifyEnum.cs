@@ -26,11 +26,20 @@ namespace HC.Identify.Core.Identify
             调试模式 = 4,
             视觉相机沉睡=5,
             订单顺序模式=6,
+            分拣线路 = 7,
         }
         public enum SwitchEnum
         {
             上一户 = 0,
             下一户 = 1
+        }
+        /// <summary>
+        /// 触发模式
+        /// </summary>
+        public enum BurstModeEnum
+        {
+            手动 = 1,
+            自动 = 2
         }
     }
 }
