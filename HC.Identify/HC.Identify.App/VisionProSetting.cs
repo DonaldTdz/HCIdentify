@@ -137,6 +137,7 @@ namespace HC.Identify.App
                 //显示图片
                 cogRecordDisplay.Image = icogColorImage;
                 cogRecordDisplay.Fit(false);
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
             }
             //ConnectionCamera();
             currentrDirectory = Directory.GetCurrentDirectory();
@@ -279,6 +280,7 @@ namespace HC.Identify.App
             ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
             cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
             //cogRecordDisplay.Record = SubRecords["CogImageConvertTool1.OutputImage"];//启用新算法时解开注释
+            //cogRecordDisplay.Record = SubRecords["CogFixtureTool3.OutputImage"];//启用新算法时解开注释
             cogRecordDisplay.Fit(true);
             cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
             if (cogResultArray.Count == 0)
@@ -410,7 +412,7 @@ namespace HC.Identify.App
                 if (chkCamTrigOn.Checked)
                 {
                     icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    icogAcqFifo.OwnedExposureParams.Exposure = 1;
                     icogAcqFifo.Flush();
                     icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
                     icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
@@ -419,7 +421,7 @@ namespace HC.Identify.App
                 //关闭连续取像
                 if (cogRecordDisplay.LiveDisplayRunning)
                 {
-                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    icogAcqFifo.OwnedExposureParams.Exposure = 1;
                     cogRecordDisplay.StopLiveDisplay();
                     btnLiveDisplay.Text = "连续取像";
                 }
@@ -465,14 +467,14 @@ namespace HC.Identify.App
         {
             if (cogRecordDisplay.LiveDisplayRunning)
             {
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 cogRecordDisplay.StopLiveDisplay();
                 btnLiveDisplay.Text = "连续取像";
             }
             else
             {
                 //相机外部模式关闭
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 cogRecordDisplay.StaticGraphics.Clear();
                 cogRecordDisplay.Record = null;
                 cogRecordDisplay.Image = icogColorImage;
@@ -732,13 +734,13 @@ namespace HC.Identify.App
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
 
                 //关闭连续取像
                 if (cogRecordDisplay.LiveDisplayRunning)
                 {
-                    icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                    icogAcqFifo.OwnedExposureParams.Exposure = 1;
                     cogRecordDisplay.StopLiveDisplay();
                     btnLiveDisplay.Text = "连续取像";
                 }
@@ -747,7 +749,7 @@ namespace HC.Identify.App
             else
             {
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
@@ -898,7 +900,7 @@ namespace HC.Identify.App
             if (chkCamTrigOn.Checked)
             {
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;

@@ -822,7 +822,7 @@ namespace HC.Identify.App
             if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
             {
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
@@ -842,7 +842,7 @@ namespace HC.Identify.App
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
+                icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
 
             }
@@ -938,7 +938,6 @@ namespace HC.Identify.App
                             ////刷新订单检测量
                             //RefreshOrderSummary();
                             #endregion
-
                         }
                         else
                         {
@@ -952,11 +951,10 @@ namespace HC.Identify.App
                         RefreshMatchResult(brand, string.Empty, "订单不存在", Color.Red);
                         MatchStopDebugControl();
                     }
-
-                    if (OrderTotalNum == OrderCheckedNum)
-                    {
-                        SwitchHouse(SwitchEnum.下一户, BurstModeEnum.自动);
-                    }
+                }
+                if (OrderTotalNum == OrderCheckedNum)
+                {
+                    SwitchHouse(SwitchEnum.下一户, BurstModeEnum.自动);
                 }
                 //刷新识别数据
                 RefreshIdentifyData();

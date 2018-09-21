@@ -76,6 +76,7 @@ namespace HC.Identify.Application.VisionPro
                     double dSumXBy2 = 0;
                     double dSumYBy2 = 0;
                     int iPointsNum = item.Values.Length;
+                    if (iPointsNum < Convert.ToInt32(_cogToolBlock.Inputs["iRow"].Value) * Convert.ToInt32(_cogToolBlock.Inputs["iCol"].Value)) continue;   //区域数量少则退出运行
                     int k = 0;
                     foreach (var readVal in item.Values)
                     {
@@ -128,7 +129,9 @@ namespace HC.Identify.Application.VisionPro
 
             ICogRecords subRecords = _cogToolBlock.CreateLastRunRecord().SubRecords;
             //_cogRecordDisplay.Record = subRecords["CogIPOneImageTool1.OutputImage"];//旧算法
-            _cogRecordDisplay.Record = subRecords["CogImageConvertTool1.OutputImage"];//启用新算法解开注释
+            //_cogRecordDisplay.Record = subRecords["CogImageConvertTool1.OutputImage"];//启用新算法解开注释
+            _cogRecordDisplay.Record = subRecords["CogFixtureTool3.OutputImage"];//启用新算法解开注释
+
             _cogRecordDisplay.Fit(true);
             //return (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
             var cogResultArray = (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
