@@ -880,7 +880,7 @@ namespace HC.Identify.App
             this.lblIdentifyTotal.Text = IdentifyTotal.ToString();//识别总数
             this.lblIdentifiedNum.Text = IdentifyNum.ToString();
             this.lblNoIdentifiedNum.Text = (IdentifyTotal - IdentifyNum).ToString();
-            this.lblIdentifiedRate.Text = (IdentifyTotal == 0 ? string.Empty : (Math.Round((double)IdentifyNum / IdentifyTotal, 2) * 100).ToString() + "%");
+            this.lblIdentifiedRate.Text = (IdentifyTotal == 0 ? string.Empty : (Math.Round((double)IdentifyNum / IdentifyTotal, 4) * 100).ToString() + "%");
         }
 
         /// <summary>

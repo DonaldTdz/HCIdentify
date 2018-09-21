@@ -411,11 +411,14 @@ namespace HC.Identify.App
                 //关闭相机外部模式
                 if (chkCamTrigOn.Checked)
                 {
-                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                    icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                    icogAcqFifo.Flush();
-                    icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
-                    icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+
+                    CreamOff();
+
+                    //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                    //icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                    //icogAcqFifo.Flush();
+                    //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                    //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
                     chkCamTrigOn.Checked = false;//相机外部模式
                 }
                 //关闭连续取像
@@ -731,12 +734,6 @@ namespace HC.Identify.App
             bool bTrig = chkCamTrigOn.Checked;
             if (bTrig)
             {
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.Flush();
-                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
-
                 //关闭连续取像
                 if (cogRecordDisplay.LiveDisplayRunning)
                 {
@@ -744,16 +741,23 @@ namespace HC.Identify.App
                     cogRecordDisplay.StopLiveDisplay();
                     btnLiveDisplay.Text = "连续取像";
                 }
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                //icogAcqFifo.Flush();
+                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                CreamOn();
+                
 
             }
             else
             {
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                icogAcqFifo.Flush();
-                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
-
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                //icogAcqFifo.Flush();
+                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                CreamOff();
             }
         }
 
@@ -899,13 +903,31 @@ namespace HC.Identify.App
             //关闭相机外部模式
             if (chkCamTrigOn.Checked)
             {
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                icogAcqFifo.Flush();
-                icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
-                icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                //icogAcqFifo.Flush();
+                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+                CreamOff();
                 chkCamTrigOn.Checked = false;//相机外部模式
             }
+        }
+
+        public void CreamOn()
+        {
+            icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+            icogAcqFifo.Flush();
+            icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
+            icogAcqFifo.OwnedExposureParams.Exposure = 1;
+            icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+        }
+        public void CreamOff()
+        {
+            icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
+            icogAcqFifo.OwnedExposureParams.Exposure = 1;
+            icogAcqFifo.Flush();
+            icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
+            icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
         }
     }
 }

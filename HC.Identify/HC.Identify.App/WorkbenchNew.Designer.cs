@@ -388,7 +388,7 @@
             // lblIdentifyTime
             // 
             this.lblIdentifyTime.AutoSize = true;
-            this.lblIdentifyTime.Location = new System.Drawing.Point(577, 79);
+            this.lblIdentifyTime.Location = new System.Drawing.Point(606, 79);
             this.lblIdentifyTime.Name = "lblIdentifyTime";
             this.lblIdentifyTime.Size = new System.Drawing.Size(0, 12);
             this.lblIdentifyTime.TabIndex = 9;
@@ -396,7 +396,7 @@
             // spendTime
             // 
             this.spendTime.AutoSize = true;
-            this.spendTime.Location = new System.Drawing.Point(506, 79);
+            this.spendTime.Location = new System.Drawing.Point(535, 79);
             this.spendTime.Name = "spendTime";
             this.spendTime.Size = new System.Drawing.Size(65, 12);
             this.spendTime.TabIndex = 8;
@@ -423,7 +423,7 @@
             // labReadRateTitle
             // 
             this.labReadRateTitle.AutoSize = true;
-            this.labReadRateTitle.Location = new System.Drawing.Point(386, 79);
+            this.labReadRateTitle.Location = new System.Drawing.Point(390, 79);
             this.labReadRateTitle.Name = "labReadRateTitle";
             this.labReadRateTitle.Size = new System.Drawing.Size(77, 12);
             this.labReadRateTitle.TabIndex = 6;
