@@ -129,8 +129,8 @@ namespace HC.Identify.Application.VisionPro
 
             ICogRecords subRecords = _cogToolBlock.CreateLastRunRecord().SubRecords;
             //_cogRecordDisplay.Record = subRecords["CogIPOneImageTool1.OutputImage"];//旧算法
-            //_cogRecordDisplay.Record = subRecords["CogImageConvertTool1.OutputImage"];//启用新算法解开注释
-            _cogRecordDisplay.Record = subRecords["CogFixtureTool3.OutputImage"];//启用新算法解开注释
+            //_cogRecordDisplay.Record = subRecords["CogImageConvertTool1.OutputImage"];//启用新算法解开注释第一次
+            _cogRecordDisplay.Record = subRecords["CogFixtureTool3.OutputImage"];//启用新算法解开注释第二次
 
             _cogRecordDisplay.Fit(true);
             //return (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;

@@ -59,7 +59,7 @@ namespace HC.Identify.App
             InitFrame();
             InitReadCodeSocketClient(); //初始化读码通讯
             DownLoadOrderFromKsec();//实时订单
-            Thread.Sleep(3000);//等待线程获取订单信息--实时订单
+            Thread.Sleep(4000);//等待线程获取订单信息--实时订单
             InitAeareLine();        //初始化批次信息
             BindOrderMatchResult();
             RefreshIdentifyData();//初始化识别数据
@@ -615,7 +615,7 @@ namespace HC.Identify.App
             this.labOrderCheck.Text = OrderCheckedNum.ToString();                 //已检数
             this.labOrderNotCheck.Text = (OrderTotalNum - OrderCheckedNum).ToString(); //未检数
             proBarCheck.Value = OrderCheckedNum;//进度条
-            labCheckRate.Text = (Math.Round((double)OrderCheckedNum / OrderTotalNum, 2) * 100).ToString() + "%";//订单检测数据比例
+            labCheckRate.Text = OrderTotalNum==0? "0%" : (Math.Round((double)OrderCheckedNum / OrderTotalNum, 2) * 100).ToString() + "%";//订单检测数据比例
         }
 
 
@@ -628,7 +628,7 @@ namespace HC.Identify.App
 
             this.labOrderCheck.Text = OrderCheckedNum.ToString();                 //已检数
             this.labOrderNotCheck.Text = (OrderTotalNum - OrderCheckedNum).ToString();//未检数
-            labCheckRate.Text = (Math.Round((double)OrderCheckedNum / OrderTotalNum, 2) * 100).ToString() + "%";//订单检测数据比例
+            labCheckRate.Text = OrderTotalNum == 0 ? "0%" : (Math.Round((double)OrderCheckedNum / OrderTotalNum, 2) * 100).ToString() + "%";//订单检测数据比例
         }
 
 
@@ -1059,6 +1059,7 @@ namespace HC.Identify.App
                 CommHelper.WriteLog(_appPath, "最终读取结果：", endScanRe);
                 Invoke(new MethodInvoker(delegate ()//线程安全
                 {
+                    //brand = "";
                     lblIdentifyTime.Text = (endDates - benginDate).Milliseconds.ToString() + "ms";
                     MatchResult(brand, t);
                 }));

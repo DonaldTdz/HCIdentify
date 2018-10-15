@@ -278,9 +278,9 @@ namespace HC.Identify.App
             cogToolBlock.Run();
 
             ICogRecords SubRecords = cogToolBlock.CreateLastRunRecord().SubRecords;
-            cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
-            //cogRecordDisplay.Record = SubRecords["CogImageConvertTool1.OutputImage"];//启用新算法时解开注释
-            //cogRecordDisplay.Record = SubRecords["CogFixtureTool3.OutputImage"];//启用新算法时解开注释
+            //cogRecordDisplay.Record = SubRecords["CogIPOneImageTool1.OutputImage"];
+            //cogRecordDisplay.Record = SubRecords["CogImageConvertTool1.OutputImage"];//启用新算法解开注释第一次
+            cogRecordDisplay.Record = SubRecords["CogFixtureTool3.OutputImage"];//启用新算法解开注释第二次
             cogRecordDisplay.Fit(true);
             cogResultArray = (ArrayList)cogToolBlock.Outputs["SubRectValues"].Value;
             if (cogResultArray.Count == 0)
@@ -361,30 +361,38 @@ namespace HC.Identify.App
             //计算
             //var spec = Calculation(cogResultArray);
             visionProAppService._icogColorImage = icogColorImage;
-            double dMaxScore;
-            var spec = visionProAppService.GetMatchSpecification(out cogResultArray,out dMaxScore);//获取匹配结果
-            if (spec != null)
+            if (icogColorImage != null)
             {
-                txtMatchSpec.Text = spec.Specification;
-                mMaxScore = spec.dMaxScore;
-                lblResultDesc.Text = "OK";  //匹配成功
-                lblResultDesc.ForeColor = Color.Green;
-                if (chkAutoSaveData.Checked)
+                double dMaxScore;
+                var spec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore);//获取匹配结果
+                if (spec != null)
                 {
-                    SaveData(spec.Specification);
+                    txtMatchSpec.Text = spec.Specification;
+                    mMaxScore = spec.dMaxScore;
+                    lblResultDesc.Text = "OK";  //匹配成功
+                    lblResultDesc.ForeColor = Color.Green;
+                    if (chkAutoSaveData.Checked)
+                    {
+                        SaveData(spec.Specification);
+                    }
                 }
+                else
+                {
+                    txtMatchSpec.Text = "";
+                    lblResultDesc.Text = "NG"; //匹配成功
+                    lblResultDesc.ForeColor = Color.Red;
+                }
+                txtPiPei.Text = dMaxScore.ToString();
+                SetCurrentInageInfo();
+                //计算用时
+                DateTime aftertime = DateTime.Now;
+                txtUseTime.Text = aftertime.Subtract(befortime).Milliseconds.ToString();//毫秒
             }
             else
             {
-                txtMatchSpec.Text = "";
-                lblResultDesc.Text = "NG"; //匹配成功
-                lblResultDesc.ForeColor = Color.Red;
+                MessageBox.Show("请选择图片！！！");
             }
-            txtPiPei.Text = dMaxScore.ToString();
-            SetCurrentInageInfo();
-            //计算用时
-            DateTime aftertime = DateTime.Now;
-            txtUseTime.Text = aftertime.Subtract(befortime).Milliseconds.ToString();//毫秒
+           
 
         }
 
@@ -555,8 +563,16 @@ namespace HC.Identify.App
         private void btnReRun_Click(object sender, EventArgs e)
         {
             visionProAppService._icogColorImage = icogColorImage;
-            visionProAppService.GetToolBlockValues();
-            SetCurrentInageInfo();
+            if (icogColorImage != null)
+            {
+                visionProAppService.GetToolBlockValues();
+                SetCurrentInageInfo();
+            }
+            else
+            {
+                MessageBox.Show("请选择图片！！！");
+            }
+           
         }
 
         #endregion
@@ -747,8 +763,6 @@ namespace HC.Identify.App
                 //icogAcqFifo.OwnedExposureParams.Exposure = 1;
                 //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
                 CreamOn();
-                
-
             }
             else
             {
