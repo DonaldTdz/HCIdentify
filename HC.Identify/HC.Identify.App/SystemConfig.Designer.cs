@@ -50,6 +50,10 @@
             this.ckOrderSeq = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtBoxSortLine = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textMatchVal = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtExposure = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -138,7 +142,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(550, 446);
+            this.btn_Save.Location = new System.Drawing.Point(559, 478);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(86, 39);
             this.btn_Save.TabIndex = 10;
@@ -168,7 +172,7 @@
             // lab_debug
             // 
             this.lab_debug.AutoSize = true;
-            this.lab_debug.Location = new System.Drawing.Point(292, 291);
+            this.lab_debug.Location = new System.Drawing.Point(649, 345);
             this.lab_debug.Name = "lab_debug";
             this.lab_debug.Size = new System.Drawing.Size(65, 12);
             this.lab_debug.TabIndex = 13;
@@ -177,7 +181,7 @@
             // check_debug
             // 
             this.check_debug.AutoSize = true;
-            this.check_debug.Location = new System.Drawing.Point(421, 290);
+            this.check_debug.Location = new System.Drawing.Point(826, 341);
             this.check_debug.Name = "check_debug";
             this.check_debug.Size = new System.Drawing.Size(72, 16);
             this.check_debug.TabIndex = 14;
@@ -239,16 +243,54 @@
             // 
             // txtBoxSortLine
             // 
-            this.txtBoxSortLine.Location = new System.Drawing.Point(421, 332);
+            this.txtBoxSortLine.Location = new System.Drawing.Point(421, 338);
             this.txtBoxSortLine.Name = "txtBoxSortLine";
             this.txtBoxSortLine.Size = new System.Drawing.Size(100, 21);
             this.txtBoxSortLine.TabIndex = 21;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(294, 394);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 12);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "匹配值：";
+            // 
+            // textMatchVal
+            // 
+            this.textMatchVal.Location = new System.Drawing.Point(421, 391);
+            this.textMatchVal.Name = "textMatchVal";
+            this.textMatchVal.Size = new System.Drawing.Size(100, 21);
+            this.textMatchVal.TabIndex = 23;
+            this.textMatchVal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textMatchVal_KeyPress);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(294, 291);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(77, 12);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "相机曝光度：";
+            // 
+            // txtExposure
+            // 
+            this.txtExposure.Location = new System.Drawing.Point(421, 286);
+            this.txtExposure.Name = "txtExposure";
+            this.txtExposure.Size = new System.Drawing.Size(100, 21);
+            this.txtExposure.TabIndex = 25;
+            this.txtExposure.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtExposure_KeyPress);
             // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 611);
+            this.Controls.Add(this.txtExposure);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textMatchVal);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.txtBoxSortLine);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.ckOrderSeq);
@@ -302,5 +344,9 @@
         private System.Windows.Forms.CheckBox ckOrderSeq;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtBoxSortLine;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textMatchVal;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtExposure;
     }
 }

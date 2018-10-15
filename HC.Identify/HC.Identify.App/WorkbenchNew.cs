@@ -822,7 +822,7 @@ namespace HC.Identify.App
             if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
             {
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                icogAcqFifo.OwnedExposureParams.Exposure =double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
@@ -842,7 +842,7 @@ namespace HC.Identify.App
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
                 icogAcqFifo.Flush();
                 icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
                 icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
 
             }
@@ -1106,7 +1106,7 @@ namespace HC.Identify.App
                     cogRecordDisplay.Image = icogColorImage;
                     cogRecordDisplay.Fit(false);
                     cogToolBlock = (CogToolBlock)CogSerializer.LoadObjectFromFile(VppPath);
-                    visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+                    visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,double.Parse(SystemConfig[ConfigEnum.匹配值].Value));
                     this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
                 }
             }

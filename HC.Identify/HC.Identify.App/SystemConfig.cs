@@ -72,6 +72,14 @@ namespace HC.Identify.App
                     {
                         txtBoxSortLine.Text = item.Value;
                     }
+                    if (item.Code == ConfigEnum.相机曝光度)
+                    {
+                        txtExposure.Text = item.Value;
+                    }
+                    if (item.Code == ConfigEnum.匹配值)
+                    {
+                        textMatchVal.Text = item.Value;
+                    }
                 }
             }
         }
@@ -132,6 +140,19 @@ namespace HC.Identify.App
                 sortLineConfig.Code = ConfigEnum.订单顺序模式;
                 sortLineConfig.Value = txtBoxSortLine.Text;
                 Configs.Add(sortLineConfig);
+                
+                //相机曝光度
+                var exposureConfig = new SystemConfigDto();
+                exposureConfig.Code = ConfigEnum.相机曝光度;
+                exposureConfig.Value = txtExposure.Text;
+                Configs.Add(exposureConfig);
+
+                //匹配值
+                var matchValueConfig = new SystemConfigDto();
+                matchValueConfig.Code = ConfigEnum.匹配值;
+                matchValueConfig.Value = textMatchVal.Text;
+                Configs.Add(matchValueConfig);
+
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
@@ -190,6 +211,14 @@ namespace HC.Identify.App
                     {
                         txtBoxSortLine.Text = item.Value;
                     }
+                    if (item.Code == ConfigEnum.相机曝光度)
+                    {
+                        txtExposure.Text = item.Value;
+                    }
+                    if (item.Code == ConfigEnum.匹配值)
+                    {
+                        textMatchVal.Text = item.Value;
+                    }
                 }
             }
         }
@@ -218,6 +247,61 @@ namespace HC.Identify.App
                 workbench.configs = systemConfigAppService.GetAllConfig();
                 workbench.ScanIsAction = brIsCheck;
                 workbench.Scanner();
+            }
+        }
+        /// <summary>
+        /// 限制曝光度只能输入浮点数据
+        /// </summary>
+        private void txtExposure_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            int kc = (int)e.KeyChar;
+            if (kc == 46)
+            {
+                if (txtExposure.Text.Length <= 0)
+                    e.Handled = true;           //小数点不能在第一位
+                else
+                {
+                    float f;
+                    float oldf;
+                    bool b1 = false, b2 = false;
+                    b1 = float.TryParse(txtExposure.Text, out oldf);
+                    b2 = float.TryParse(txtExposure.Text + e.KeyChar.ToString(), out f);
+                    if (b2 == false)
+                    {
+                        if (b1 == true)
+                            e.Handled = true;
+                        else
+                            e.Handled = false;
+                    }
+                }
+            }
+          
+        }
+        /// <summary>
+        /// 限制匹配值只能输入浮点数据
+        /// </summary>
+        private void textMatchVal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            int kc = (int)e.KeyChar;
+            if (kc == 46)
+            {
+                if (textMatchVal.Text.Length <= 0)
+                    e.Handled = true;           //小数点不能在第一位
+                else
+                {
+                    float f;
+                    float oldf;
+                    bool b1 = false, b2 = false;
+                    b1 = float.TryParse(textMatchVal.Text, out oldf);
+                    b2 = float.TryParse(textMatchVal.Text + e.KeyChar.ToString(), out f);
+                    if (b2 == false)
+                    {
+                        if (b1 == true)
+                            e.Handled = true;
+                        else
+                            e.Handled = false;
+                    }
+                }
             }
         }
     }

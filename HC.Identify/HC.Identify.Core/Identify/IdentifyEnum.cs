@@ -27,6 +27,8 @@ namespace HC.Identify.Core.Identify
             视觉相机沉睡=5,
             订单顺序模式=6,
             分拣线路 = 7,
+            匹配值=8,
+            相机曝光度=9,
         }
         public enum SwitchEnum
         {

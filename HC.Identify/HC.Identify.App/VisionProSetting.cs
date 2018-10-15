@@ -53,6 +53,7 @@ namespace HC.Identify.App
         public Main MainForm;
         private CameraSettingAppService cameraSettingAppService;
         private CameraSettingShowDto cameraSettingShowDto;
+        private SystemConfigAppService systemConfigAppService;
         public VisionProSetting()
         {
             InitializeComponent();
@@ -60,6 +61,7 @@ namespace HC.Identify.App
             GetCameraSetting();
             //cameraSettingShowDto = new CameraSettingShowDto();
             InitImage();
+            
         }
 
         public VisionProSetting(Main mainForm)
@@ -70,6 +72,13 @@ namespace HC.Identify.App
             GetCameraSetting();
             //cameraSettingShowDto = new CameraSettingShowDto();
             InitImage();
+            systemConfigAppService = new SystemConfigAppService();
+            GetSystemConfig();
+        }
+        Dictionary<ConfigEnum, SystemConfigDto> SystemConfig { get; set; }
+        private void GetSystemConfig()
+        {
+            SystemConfig = systemConfigAppService.GetAllConfig().ToDictionary(k => k.Code, v => v);
         }
         /// <summary>
         /// 初始化图片模板集
@@ -116,13 +125,6 @@ namespace HC.Identify.App
             }
             else//相机模式运行
             {
-                ////相机外部模式（后期需验证）
-                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                //icogAcqFifo.Flush();
-                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                //icogAcqFifo.OwnedExposureParams.Exposure = 0.5;
-                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
-
                 isCameraOnline = true;
                 //获取第一个相机图片
                 icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
@@ -137,7 +139,9 @@ namespace HC.Identify.App
                 //显示图片
                 cogRecordDisplay.Image = icogColorImage;
                 cogRecordDisplay.Fit(false);
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
+
             }
             //ConnectionCamera();
             currentrDirectory = Directory.GetCurrentDirectory();
@@ -151,7 +155,7 @@ namespace HC.Identify.App
             VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
             csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
             BindRegisteredSpec();
-            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay);
+            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,double.Parse( SystemConfig[ConfigEnum.相机曝光度].Value));
 
         }
 
@@ -421,18 +425,12 @@ namespace HC.Identify.App
                 {
 
                     CreamOff();
-
-                    //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                    //icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                    //icogAcqFifo.Flush();
-                    //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
-                    //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
                     chkCamTrigOn.Checked = false;//相机外部模式
                 }
                 //关闭连续取像
                 if (cogRecordDisplay.LiveDisplayRunning)
                 {
-                    icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                    icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
                     cogRecordDisplay.StopLiveDisplay();
                     btnLiveDisplay.Text = "连续取像";
                 }
@@ -478,14 +476,14 @@ namespace HC.Identify.App
         {
             if (cogRecordDisplay.LiveDisplayRunning)
             {
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);//相机曝光度
                 cogRecordDisplay.StopLiveDisplay();
                 btnLiveDisplay.Text = "连续取像";
             }
             else
             {
                 //相机外部模式关闭
-                icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
                 cogRecordDisplay.StaticGraphics.Clear();
                 cogRecordDisplay.Record = null;
                 cogRecordDisplay.Image = icogColorImage;
@@ -753,24 +751,15 @@ namespace HC.Identify.App
                 //关闭连续取像
                 if (cogRecordDisplay.LiveDisplayRunning)
                 {
-                    icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                    icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
                     cogRecordDisplay.StopLiveDisplay();
                     btnLiveDisplay.Text = "连续取像";
                 }
-                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                //icogAcqFifo.Flush();
-                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
+               
                 CreamOn();
             }
             else
             {
-                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
-                //icogAcqFifo.Flush();
-                //icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
-                //icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
                 CreamOff();
             }
         }
@@ -932,13 +921,13 @@ namespace HC.Identify.App
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
             icogAcqFifo.Flush();
             icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Auto;
-            icogAcqFifo.OwnedExposureParams.Exposure = 1;
+            icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
         }
         public void CreamOff()
         {
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
-            icogAcqFifo.OwnedExposureParams.Exposure = 1;
+            icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
             icogAcqFifo.Flush();
             icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;

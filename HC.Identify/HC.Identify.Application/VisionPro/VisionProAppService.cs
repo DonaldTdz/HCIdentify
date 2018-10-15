@@ -22,13 +22,14 @@ namespace HC.Identify.Application.VisionPro
         string _appPath;
         public List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
         CogImageFileTool _cogImageFile = new CogImageFileTool(); //图像处理工具
-
-        public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay)
+        double _matchValue;
+        public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay,double MatchValue)
         {
             _cogToolBlock = cogToolBlock;
             _icogColorImage = icogColorImage;
             _cogRecordDisplay = cogRecordDisplay;
             _appPath = System.Windows.Forms.Application.StartupPath;
+            _matchValue = MatchValue;
             var csvDataPath = _appPath + "\\Data\\Data.csv";
             if (!File.Exists(csvDataPath))
             {
@@ -101,7 +102,7 @@ namespace HC.Identify.Application.VisionPro
                     VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
                 }
                 //配置结果值
-                if (dMaxScore > 0.80)
+                if (dMaxScore > _matchValue)//0.80
                 {
                     return maxSpec;
                 }
