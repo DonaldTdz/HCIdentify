@@ -368,7 +368,7 @@ namespace HC.Identify.App
             if (icogColorImage != null)
             {
                 double dMaxScore;
-                var spec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore);//获取匹配结果
+                var spec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore,null);//获取匹配结果
                 if (spec != null)
                 {
                     txtMatchSpec.Text = spec.Specification;

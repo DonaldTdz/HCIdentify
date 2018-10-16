@@ -1148,7 +1148,8 @@ namespace HC.Identify.App
                 visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
                 benginDate = DateTime.Now;
                 double dMaxScore;
-                var csvSpec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore);//获取匹配结果
+                var currentBrands = CurrentOrderList.Where(o => o.beginSeq <= orderSquence && o.endSeq >= orderSquence).Select(o=>o.Brand).ToList();//获取当前订单信息
+                var csvSpec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore, currentBrands);//获取匹配结果
                 endDate = DateTime.Now;
                 var photoRe = "";
                 if (csvSpec == null)

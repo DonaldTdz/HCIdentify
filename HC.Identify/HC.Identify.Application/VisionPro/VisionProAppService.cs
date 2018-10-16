@@ -46,8 +46,9 @@ namespace HC.Identify.Application.VisionPro
             return mFrameGrabbers;
         }
 
-        public CsvSpecification GetMatchSpecification(out ArrayList cogResultArray, out double dMaxScore)
+        public CsvSpecification GetMatchSpecification(out ArrayList cogResultArray, out double dMaxScore,List<string> specs)
         {
+             _csvSpecList = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();//筛选出对当前订单的规格匹配数据
             var tbvals = GetToolBlockValues();
             cogResultArray = tbvals;
             dMaxScore = -9999;
