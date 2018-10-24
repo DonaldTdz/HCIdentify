@@ -25,6 +25,8 @@ namespace HC.Identify.App
             labIndex.Text = retailer.IndexNum.ToString();
             labNum.Text = retailer.orderqty.ToString();
             labOrderNum.Text = retailer.uuid;
+            labLine.Text = retailer.SORTLINE;
+            labBatch.Text = retailer.batch;
         }
         private void button1_Click(object sender, EventArgs e)
         {

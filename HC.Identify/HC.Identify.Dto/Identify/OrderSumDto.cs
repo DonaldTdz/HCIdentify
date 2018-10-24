@@ -58,7 +58,10 @@ namespace HC.Identify.Dto.Identify
         /// </summary>
         public string JobNum { get; set; }
 
-
+        /// <summary>
+        /// 批次
+        /// </summary>
+        public string Batch { get; set; }
     }
 
     public class AreaInfo

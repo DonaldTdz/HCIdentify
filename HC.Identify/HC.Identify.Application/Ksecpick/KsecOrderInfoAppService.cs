@@ -20,29 +20,30 @@ namespace HC.Identify.Application.Ksecpick
         /// <summary>
         /// 获取订单、户数信息
         /// </summary>
-        public OrderInfoSum GetOrderInfoSum(int orderStartNum,string sortLine,int orderSum)
+        public OrderInfoSum GetOrderInfoSum(int orderStartNum, string sortLine, int orderSum)
         {
             var OrderInfoSum = new OrderInfoSum();
-            var result = ksecOrderInfoServic.GetOrderInfo(orderStartNum, sortLine, orderSum).OrderBy(o=>o.SJOBNUM).ToList();
+            var result = ksecOrderInfoServic.GetOrderInfo(orderStartNum, sortLine, orderSum).OrderBy(o => o.SJOBNUM).ToList();
             var jobNUM = "";
             if (result != null && result.Count > 0)
             {
-                OrderInfoSum.OrderSum.Add(new OrderSumDto
-                {
-                    Id = Guid.NewGuid(),
-                    UUID = result[0].uuid,
-                    AreaName = result[0].SORTLINE,
-                    RetailerCode = result[0].CUSTOMCODE,
-                    RetailerName = result[0].CUSTOMNAME,
-                    Num = (int)Math.Round(result.Where(o=>o.SJOBNUM== result[0].SJOBNUM).Sum(o=>o.orderqty), 0),
-                    PostData = Convert.ToDateTime(result[0].MAKEBATCH),
-                    JobNum = result[0].SJOBNUM,
-                    RIndex= result[0].IndexNum
-                });
-                jobNUM = result[0].SJOBNUM;
+                //OrderInfoSum.OrderSum.Add(new OrderSumDto
+                //{
+                //    Id = Guid.NewGuid(),
+                //    UUID = result[0].uuid,
+                //    AreaName = result[0].SORTLINE,
+                //    RetailerCode = result[0].CUSTOMCODE,
+                //    RetailerName = result[0].CUSTOMNAME,
+                //    Num = (int)Math.Round(result.Where(o => o.SJOBNUM == result[0].SJOBNUM).Sum(o => o.orderqty), 0),
+                //    PostData = Convert.ToDateTime(result[0].MAKEBATCH),
+                //    JobNum = result[0].SJOBNUM,
+                //    RIndex = result[0].IndexNum,
+
+                //});
+                //jobNUM = result[0].SJOBNUM;
                 foreach (var item in result)
                 {
-                    if (item.SJOBNUM != jobNUM)
+                    if (item.SJOBNUM != jobNUM || string.IsNullOrEmpty(jobNUM))
                     {
                         OrderInfoSum.OrderSum.Add(new OrderSumDto
                         {
@@ -54,7 +55,8 @@ namespace HC.Identify.Application.Ksecpick
                             Num = (int)Math.Round(result.Where(o => o.SJOBNUM == item.SJOBNUM).Sum(o => o.orderqty), 0),
                             PostData = Convert.ToDateTime(item.MAKEBATCH),
                             JobNum = item.SJOBNUM,
-                            RIndex=item.IndexNum
+                            RIndex = item.IndexNum,
+                            Batch = item.batch
                         });
                         jobNUM = item.SJOBNUM;
                     }

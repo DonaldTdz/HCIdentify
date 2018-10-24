@@ -360,6 +360,8 @@ namespace HC.Identify.App
                 OrderTotalNum = orderSum.Num.Value;
                 labOrderTotalNum.Text = OrderTotalNum.ToString(); //订单总量
                 labHouseNum.Text = CurrentJobNum.ToString(); //户数
+                labReCode.Text = orderSum.RetailerCode;//客户编码
+                labBatch.Text = orderSum.Batch;//批次
                 proBarCheck.Maximum = OrderTotalNum;//已检量进度条总数
                 proBarCheck.Value = 0;
                 #endregion
@@ -1341,10 +1343,9 @@ namespace HC.Identify.App
         }
 
 
-        #endregion
 
         #endregion
 
-
+        #endregion
     }
 }
