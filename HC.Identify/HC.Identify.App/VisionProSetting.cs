@@ -155,8 +155,7 @@ namespace HC.Identify.App
             VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
             csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
             BindRegisteredSpec();
-            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,double.Parse( SystemConfig[ConfigEnum.相机曝光度].Value));
-
+            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,double.Parse( SystemConfig[ConfigEnum.匹配值].Value));
         }
 
         private void VisionProSetting_FormClosing(object sender, FormClosingEventArgs e)
@@ -916,6 +915,9 @@ namespace HC.Identify.App
             }
         }
 
+        /// <summary>
+        /// 打开相机外部模式
+        /// </summary>
         public void CreamOn()
         {
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;
@@ -924,6 +926,9 @@ namespace HC.Identify.App
             icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
         }
+        /// <summary>
+        /// 关闭相机外部模式
+        /// </summary>
         public void CreamOff()
         {
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = false;

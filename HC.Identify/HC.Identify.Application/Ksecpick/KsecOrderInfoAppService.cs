@@ -71,5 +71,11 @@ namespace HC.Identify.Application.Ksecpick
             }
             return OrderInfoSum;
         }
+
+        public IList<VTaskOrderInfoDto> GetSingleRetailerOrderInfo(string jobNum, string sortLine)
+        {
+            var result = ksecOrderInfoServic.GetSingleRetailerOrderInfo(jobNum, sortLine);
+            return result;
+        }
     }
 }

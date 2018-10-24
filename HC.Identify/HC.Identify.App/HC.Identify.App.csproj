@@ -133,6 +133,12 @@
     <Compile Include="UserInfo.Designer.cs">
       <DependentUpon>UserInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserOfPositioning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserOfPositioning.Designer.cs">
+      <DependentUpon>UserOfPositioning.cs</DependentUpon>
+    </Compile>
     <Compile Include="VisionProSetting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserInfo.resx">
       <DependentUpon>UserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserOfPositioning.resx">
+      <DependentUpon>UserOfPositioning.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VisionProSetting.resx">
       <DependentUpon>VisionProSetting.cs</DependentUpon>
