@@ -15,6 +15,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,6 +65,7 @@ namespace HC.Identify.App
             InitAeareLine();        //初始化批次信息
             BindOrderMatchResult();
             RefreshIdentifyData();//初始化识别数据
+            //ReadCodeCountConnect();//测试读码次数
         }
 
         #region 页面事件
@@ -73,11 +76,9 @@ namespace HC.Identify.App
 
         }
 
-        //关闭
-        private void WorkbenchNew_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
         private void WorkbenchNew_FormClosed(object sender, FormClosedEventArgs e)
         {
             //断开图像相机连接
@@ -193,7 +194,6 @@ namespace HC.Identify.App
         OrderInfoSum orderInfoSum = new OrderInfoSum();//用于实时订单
         int CurrentHouseNum = 1;//当前户数
         int CurrentOrderSumCount = 0;//当前线路总户数
-        //long CurrentJobNum = 2018090500001; //long.Parse(DateTime.Now.ToString("yyyyMMdd") + "00001");//实时订单
         int CurrentJobNum = 1;
         int minIndex = 1;
         int maxIndex = 1;
@@ -203,38 +203,12 @@ namespace HC.Identify.App
         /// </summary>
         private void InitAeareLine()
         {
-            //BindAareaLineData();//固定订单
-            GetHoseListByLine();
             ShowCurrentAareaLine();
             //ShowHouseInfo();//固定订单
-            //获取第一个线路的订单列表
-            //GetOrderListByLineCode();//固定订单
             //绑定默认一户的订单信息
             BindOrderList();
             //初始化订单检测数据
             InitOrderSummary();
-        }
-
-        /// <summary>
-        /// 下载批次数据
-        /// </summary>
-        private void btnDownload_Click(object sender, EventArgs e)
-        {
-            //CurrentHouseNum = 1;
-            //this.btnDownload.Enabled = false;
-            ////还没处理下载是否成功的结果
-            //var resultSum = orderSumAppService.DowloadOrderSumData();//下载线路户数信息
-            //if (resultSum == 0)
-            //{
-            //    MessageBox.Show("没有需要下载的数据哟");
-            //}
-            //else
-            //{
-            //    var resultInfo = orderInfoAppService.DownloadOrderInfoData();//下载线路户数下的订单信息
-            //    //初始化
-            //    InitAeareLine();
-            //}
-            //this.btnDownload.Enabled = true;
         }
 
         /// <summary>
@@ -259,24 +233,9 @@ namespace HC.Identify.App
             {
                 if (maxIndex - CurrentJobNum <= 10)
                 {
-                    ////orderInfoSum.OrderInfoList.Clear();
-                    ////orderInfoSum.OrderSum.Clear();
-                    //orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(OrderSumList.Count, SystemConfig[ConfigEnum.分拣线路].Value, 10);
-                    ////线路下的订单信息
-                    //foreach (var item in orderInfoSum.OrderInfoList)
-                    //{
-                    //    LineOrderList.Add(item);
-                    //}
-                    //foreach (OrderSumDto item in orderInfoSum.OrderSum)
-                    //{
-                    //    OrderSumList.Add(item);
-                    //}
-
                     //线路下的订单信息
                     var startNum = OrderSumList.Count > 0 ? (int)OrderSumList.Max(o => o.RIndex) : 0;
                     GetOrderInfo(startNum, 10);
-
-
                     Thread.Sleep(100);
                 }
             }
@@ -298,44 +257,11 @@ namespace HC.Identify.App
             {
                 OrderSumList.Add(item);
             }
-            minIndex = (int)OrderSumList.Min(o => o.RIndex);
-            maxIndex = (int)OrderSumList.Max(o => o.RIndex);
-        }
-
-        /// <summary>
-        /// 根据当前选择线路获取它的户数信息
-        /// </summary>
-        private void GetHoseListByLine()
-        {
-            #region 固定订单
-            //if (ddlAareaLine.SelectedValue != null)
-            //{
-            //    //int areaCode =int.Parse(ddlAareaLine.SelectedValue.ToString());
-            //    var item = ddlAareaLine.SelectedValue.ToString();
-            //    var areaCode = int.Parse(item);
-            //    OrderSumList = orderSumAppService.GetOrderSumByAreaCode(areaCode);
-            //    CurrentOrderSumCount = OrderSumList.Count();
-            //}
-            #endregion
-
-            #region 实时订单
+            minIndex = OrderSumList.Count > 0 ? (int)OrderSumList.Min(o => o.RIndex):1;
+            maxIndex = OrderSumList.Count > 0 ? (int)OrderSumList.Max(o => o.RIndex):1;
             CurrentOrderSumCount = OrderSumList != null ? OrderSumList.Count : 0;
-            #endregion
         }
 
-        /// <summary>
-        /// 绑定批次信息
-        /// </summary>
-        private void BindAareaLineData()
-        {
-            //var datas = orderSumAppService.GetAreaList();
-            //if (datas.Count > 0)
-            //{
-            //    ddlAareaLine.DataSource = datas;
-            //    ddlAareaLine.DisplayMember = "name";
-            //    ddlAareaLine.ValueMember = "value";
-            //}
-        }
 
         /// <summary>
         /// 设置当前批次信息
@@ -344,15 +270,6 @@ namespace HC.Identify.App
         {
             if (CurrentOrderSumCount > 0)
             {
-                #region 固定订单
-                //var orderSum = OrderSumList.Where(o => o.RIndex == CurrentHouseNum).First();//原有订单方式
-                //labAareaLineName.Text = orderSum.AreaName; //线路
-                //labRetaName.Text = orderSum.RetailerName;  //客户
-                //OrderTotalNum = orderSum.Num.Value;
-                //labOrderTotalNum.Text = OrderTotalNum.ToString(); //订单总量
-                //labHouseNum.Text = "第" + CurrentHouseNum + "户/" + "共" + CurrentOrderSumCount + "户"; //户数
-                #endregion
-
                 #region 实时订单
                 var orderSum = OrderSumList.Where(o => o.RIndex == CurrentJobNum).First();
                 labAareaLineName.Text = orderSum.AreaName; //线路
@@ -421,10 +338,9 @@ namespace HC.Identify.App
         {
             if (this.MainForm.RunStatus != RunStatusEnum.Running || (this.MainForm.RunStatus == RunStatusEnum.Running && burstModeEnum == BurstModeEnum.自动))
             {
+                //定位情况的切户
                 if (isPosition)
                 {
-                    //刷新批次信息--实时订单
-                    GetHoseListByLine();
                     //刷新当前户数信息
                     ShowCurrentAareaLine();
                     //刷新户数信息--固定订单
@@ -442,13 +358,10 @@ namespace HC.Identify.App
                     {
                         if (switchEnum == SwitchEnum.上一户)
                         {
-                            //CurrentHouseNum--;//固定订单
                             CurrentJobNum--;//实时订单
                         }
                         else
                         {
-
-                            // CurrentHouseNum++;//固定订单
                             CurrentJobNum++;//实时订单
                             //当处理的订单数大于10时删除已处理的订单10条
                             if (CurrentJobNum - minIndex > 10)
@@ -469,8 +382,6 @@ namespace HC.Identify.App
                             maxIndex = (int)OrderSumList.Max(o => o.RIndex);
 
                         }
-                        //刷新批次信息--实时订单
-                        GetHoseListByLine();
                         //刷新当前户数信息
                         ShowCurrentAareaLine();
                         //刷新户数信息--固定订单
@@ -479,11 +390,6 @@ namespace HC.Identify.App
                         BindOrderList();
                         //清理订单匹配结果
                         ClearOrderMatchResult();
-                        //if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
-                        //{
-                        //    //重新绑定订单匹配结果
-                        //    BindOrderMatchResult();
-                        //}
                         //初始化订单检测数据
                         InitOrderSummary();
                     }
@@ -505,17 +411,6 @@ namespace HC.Identify.App
         /// </summary>
         private void btnPreviousHouse_Click(object sender, EventArgs e)
         {
-            #region 固定订单
-            //if (CurrentHouseNum > 1)
-            //{
-            //    SwitchHouse(SwitchEnum.上一户);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("没有上一户了哦");
-            //}
-            #endregion
-
             #region 实时订单
             if (CurrentJobNum - 1 >= minIndex)
             {
@@ -528,7 +423,6 @@ namespace HC.Identify.App
             else
             {
                 MessageBox.Show("没有上一户了哦，可尝试使用户定位");
-
             }
 
             #endregion
@@ -539,16 +433,6 @@ namespace HC.Identify.App
         /// </summary>
         private void btnNextHouse_Click(object sender, EventArgs e)
         {
-            #region 固定订单
-            //if (CurrentHouseNum < CurrentOrderSumCount)
-            //{
-            //    SwitchHouse(SwitchEnum.下一户);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("没有下一户了哦");
-            //}
-            #endregion
 
             #region 实时订单
             if (CurrentJobNum + 1 <= maxIndex)
@@ -562,22 +446,6 @@ namespace HC.Identify.App
             #endregion
         }
 
-        /// <summary>
-        /// 选择线路
-        /// </summary>
-        private void ddlAareaLine_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            CurrentHouseNum = 1;
-            GetHoseListByLine();
-            ShowCurrentAareaLine();
-            ShowHouseInfo();
-            //重新获取该线路下的订单信息
-            GetOrderListByLineCode();
-            //重新绑定订单信息
-            BindOrderList();
-            //初始化订单监测数据
-            InitOrderSummary();
-        }
 
         #endregion
 
@@ -595,48 +463,18 @@ namespace HC.Identify.App
                 form.ShowDialog();
                 if (form.DialogResult == DialogResult.OK)
                 {
-                    ////orderInfoSum.OrderInfoList.Clear();
-                    ////orderInfoSum.OrderSum.Clear();
-                    //if (index > maxIndex)
-                    //{
-                    //    GetOrderInfo(index, (int)(index + 10 - OrderSumList.Count));
-                    //    orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(OrderSumList.Count, SystemConfig[ConfigEnum.分拣线路].Value, (int)(index + 10 - OrderSumList.Count));
-                    //    //线路下的订单信息
-                    //    foreach (var item in orderInfoSum.OrderInfoList)
-                    //    {
-                    //        LineOrderList.Add(item);
-                    //    }
-                    //    foreach (OrderSumDto item in orderInfoSum.OrderSum)
-                    //    {
-                    //        OrderSumList.Add(item);
-                    //    }
-                    //}
-                    //else if (index < maxIndex && OrderSumList.Count - index <= 10)
-                    //{
-                    //    orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(OrderSumList.Count, SystemConfig[ConfigEnum.分拣线路].Value, 10);
-                    //    //线路下的订单信息
-                    //    foreach (var item in orderInfoSum.OrderInfoList)
-                    //    {
-                    //        LineOrderList.Add(item);
-                    //    }
-                    //    foreach (OrderSumDto item in orderInfoSum.OrderSum)
-                    //    {
-                    //        OrderSumList.Add(item);
-                    //    }
-                    //}
-
                     if (index < minIndex || index > maxIndex || maxIndex - index <= 10)
                     {
                         LineOrderList.Clear();
                         OrderSumList.Clear();
                         GetOrderInfo(index - 1, 10);
-
                     }
-                    CurrentJobNum = (int)index;
+                    CurrentJobNum = (int)index;//户号
                     SwitchHouse(SwitchEnum.下一户, BurstModeEnum.手动, true);//第一个参数任何值都可（此时无作用）
                     if (!string.IsNullOrEmpty(form.serialNum))
                     {
                         orderSquence = int.Parse(form.serialNum);
+                        //根据定位的烟序来更新此户的订单列表的已匹配值
                         if (CurrentOrderList.Count > 0)
                         {
                             foreach (var item in CurrentOrderList)
@@ -678,32 +516,12 @@ namespace HC.Identify.App
         int OrderCheckedNum = 0; //订单已检数量
         int OrderTotalNum = 0;   //订单总量
 
-        /// <summary>
-        /// 根据线路获取订单列表
-        /// </summary>
-        private void GetOrderListByLineCode()
-        {
-            //if (ddlAareaLine.SelectedValue != null)
-            //{
-            //    int areaCode = (int)ddlAareaLine.SelectedValue;
-            //    LineOrderList = orderInfoAppService.GetOrderInfoByLineCode(areaCode);
-            //}
-        }
 
         /// <summary>
         /// 绑定订单数据
         /// </summary>
         private void BindOrderList()
         {
-            #region 固定订单
-            //var orderSum = OrderSumList.Where(o => o.RIndex == CurrentHouseNum).FirstOrDefault();
-            //if (orderSum != null)
-            //{
-            //    CurrentOrderList = LineOrderList.Where(o => o.UUID == orderSum.UUID).ToList();
-            //    gvOrderInfo.DataSource = CurrentOrderList;
-            //}
-            #endregion
-
             #region 实时订单
             if (LineOrderList.Count > 0)
             {
@@ -724,6 +542,7 @@ namespace HC.Identify.App
                     MessageBox.Show("改用户不存在订单信息！！");
                 }
                 gvOrderInfo.DataSource = CurrentOrderList;
+                labJobNum.Text = orderSum.JobNum;
             }
             #endregion
         }
@@ -742,23 +561,10 @@ namespace HC.Identify.App
                 proBarCheck.Value = 0;//初始化进度条
                 OrderCheckedNum = 0;
                 gvOrderInfo.Refresh();
-                //RefreshOrderSummary();
                 //初始化订单检测数据
                 InitOrderSummary();
                 //清空匹配结果
                 ClearOrderMatchResult();
-                //if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
-                //{
-                //    foreach (var item in OrderMatchResult)
-                //    {
-                //        item.MatchStatus = "";
-                //        item.MatchTime = "";
-                //    }
-                //    gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.Black;
-                //    gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.White;
-                //    //重新绑定订单匹配结果
-                //    BindOrderMatchResult();
-                //}
             }
             else
             {
@@ -804,14 +610,6 @@ namespace HC.Identify.App
             {
                 result.IsExists = true;
             }
-            #region 订单
-            //result.OrderInfo = CurrentOrderList.Where(o => o.beginSeq <= orderSquence && o.endSeq >= orderSquence).FirstOrDefault();
-            //if (result.OrderInfo != null && result.OrderInfo.Brand == brand)
-            //{
-            //    result.IsExists = true;
-            //}
-            #endregion
-
             return result;
         }
         /// <summary>
@@ -836,14 +634,6 @@ namespace HC.Identify.App
         /// </summary>
         private void BindOrderMatchResult()
         {
-            //if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
-            //{
-            //    var orderSum = OrderSumList.Where(o => o.RIndex == CurrentHouseNum).FirstOrDefault();
-            //    if (orderSum != null)
-            //    {
-            //        OrderMatchResult = orderSmokeSeqAppService.GetAllOrderSmokeSeq().Where(o => o.UUID == orderSum.UUID).OrderBy(o => o.Sequence).ToList();
-            //    }
-            //}
             this.gvMatchResult.DataSource = OrderMatchResult;
         }
 
@@ -879,10 +669,6 @@ namespace HC.Identify.App
         /// </summary>
         private void ClearOrderMatchResult()
         {
-            //if (SystemConfig[ConfigEnum.订单顺序模式].IsAction)
-            //{
-            //    orderSquence = 0;
-            //}
             orderSquence = 1;
             List<OrderInfoMatchRe> orderInfoMatchResult = new List<OrderInfoMatchRe>();
             gvMatchResult.DataSource = orderInfoMatchResult;
@@ -895,70 +681,58 @@ namespace HC.Identify.App
         private bool UpdateMatchOrderList(OrderInfoDto orderInfo)
         {
             #region 实时订单
+            //测试-漏烟
+            if (orderInfo == null)
+            {
+                List<OrderInfoMatchRe> orderInfoMatchResnul2 = new List<OrderInfoMatchRe>();
+                gvMatchResult.DataSource = orderInfoMatchResnul2;
+                var matchOrderInfo2 = new OrderInfoMatchRe();
+                matchOrderInfo2.Id = Guid.Empty;
+                matchOrderInfo2.Brand = "未识别";
+                matchOrderInfo2.MatchStatus = "NG";
+                matchOrderInfo2.Specification = "未识别";
+                matchOrderInfo2.MatchTime = DateTime.Now.ToString("HH:mm ss");
+                OrderMatchResult.Add(matchOrderInfo2);
+                gvMatchResult.DataSource = OrderMatchResult;
+                orderSquence++;
+                return false;
+            }
+
             var result = false;
-            //if (gvMatchResult.Rows.Count>0)
-            //{
             List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
             gvMatchResult.DataSource = orderInfoMatchResnul;
-            //}
-            //else
-            //{
-            //    gvMatchResult.Rows.Clear();
-            //}
-            var ngOrderInfo = OrderMatchResult.Find(o => o.MatchStatus == "NG");//清除前面NG的数据
-            OrderMatchResult.Remove(ngOrderInfo);
+            //正式解开
+            //var ngOrderInfo = OrderMatchResult.Find(o => o.MatchStatus == "NG");//清除前面NG的数据
+            //OrderMatchResult.Remove(ngOrderInfo);
+
             //按订单顺序是否存在错烟
             var currentOrderInfo = CurrentOrderList.Where(o => o.beginSeq <= orderSquence && o.endSeq >= orderSquence).FirstOrDefault();
             var matchOrderInfo = new OrderInfoMatchRe();
             matchOrderInfo.Id = orderInfo.Id;
             matchOrderInfo.Brand = orderInfo.Brand;
-            //matchOrderInfo.MatchStatus = "OK";
             matchOrderInfo.Specification = orderInfo.Specification;
             matchOrderInfo.MatchTime = DateTime.Now.ToString("HH:mm ss");
             if (currentOrderInfo.Brand == orderInfo.Brand)
             {
                 matchOrderInfo.MatchStatus = "OK";
+                result = true;
+                //orderSquence++;//正式解开 
             }
-            if (currentOrderInfo.Brand != orderInfo.Brand && SystemConfig[ConfigEnum.调试模式].IsAction)
+            else /*if(SystemConfig[ConfigEnum.调试模式].IsAction)*/
             {
                 matchOrderInfo.MatchStatus = "NG";
             }
             OrderMatchResult.Add(matchOrderInfo);
             gvMatchResult.DataSource = OrderMatchResult;
-            //gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.White;
-            //gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.Green;
             //注意：需要验证刷新可行性(不清除刷新无效<针对增加数据源的数据，只是修改数据源的数据有效>)
             this.gvMatchResult.Refresh();
-            if (currentOrderInfo.Brand == orderInfo.Brand)
-            {
-                orderSquence++;
-                result = true;
-            }
+            //测试使用
+            orderSquence++;
+            //if (currentOrderInfo.Brand == orderInfo.Brand)
+            //{
+            //orderSquence++;//正式解开 
+            //}
             return result;
-            #endregion
-
-            #region 固定订单
-            //OrderMatchResult.Add(new OrderInfoMatchRe()
-            //{
-            //    Id = orderInfo.Id,
-            //    Brand = orderInfo.Brand,
-            //    MatchStatus = "OK",
-            //    Specification = orderInfo.Specification,
-            //    MatchTime = DateTime.Now.ToString("HH:mm ss")
-            //});
-            //if (gvMatchResult.DataSource != null)
-            //{
-            //    List<OrderInfoMatchRe> orderInfoMatchResnul = new List<OrderInfoMatchRe>();
-            //    gvMatchResult.DataSource = orderInfoMatchResnul;
-            //}
-            //else
-            //{
-            //    gvMatchResult.Rows.Clear();
-            //}
-            //gvMatchResult.DataSource = OrderMatchResult;
-            //gvMatchResult.Columns[5].DefaultCellStyle.ForeColor = Color.White;
-            //gvMatchResult.Columns[5].DefaultCellStyle.BackColor = Color.Green;
-            ////注意：需要验证刷新可行性(不清除刷新无效<针对增加数据源的数据，只是修改数据源的数据有效>)
             #endregion
         }
 
@@ -1044,6 +818,7 @@ namespace HC.Identify.App
             this.lblIdentifiedRate.Text = (IdentifyTotal == 0 ? string.Empty : (Math.Round((double)IdentifyNum / IdentifyTotal, 4) * 100).ToString() + "%");
         }
 
+        bool isStop = false;//测试
         /// <summary>
         /// 订单匹配结果
         /// </summary>
@@ -1052,10 +827,11 @@ namespace HC.Identify.App
             if (this.MainForm.RunStatus == RunStatusEnum.Running)
             {
                 IdentifyTotal++; //识别总数+1
-                OrderCheckedNum++;//订单测试
+                OrderCheckedNum++;//订单已检量（测试专用）
                 if (string.IsNullOrEmpty(brand))//不匹配结果保存异常图片
                 {
-                    RefreshMatchResult(string.Empty, string.Empty, "未匹配模板", Color.Red);
+                    UpdateMatchOrderList(null);
+                    RefreshMatchResult(string.Empty, string.Empty, "未匹配", Color.Red);
                     MatchStopDebugControl();
                 }
                 else
@@ -1063,55 +839,50 @@ namespace HC.Identify.App
                     IdentifyNum++; //已识别 + 1
                     //显示识别结果
                     this.txtSpecHistry.AppendText(string.Format("[{0}]:{1}[{2}]\r\n", DateTime.Now.ToString("HH:mm ss"), brand, t));
-                    //如识别到 判断当前订单是否存在该商品
-                    //CommHelper.WriteLog(_appPath, "最终读取结果：", photoRe);
                     var result = MatchOrderBrand(brand);
                     if (result.IsExists)//匹配正常
                     {
-                        if (result.OrderInfo.Num > result.OrderInfo.Matched)//订单总数 > 订单匹配数
+                        #region 实时订单
+                        var matchRe = UpdateMatchOrderList(result.OrderInfo);
+                        if (matchRe)
                         {
-                            #region 实时订单
-                            var matchRe = UpdateMatchOrderList(result.OrderInfo);
-                            if (matchRe)
-                            {
-                                result.OrderInfo.Matched++;
-                                //OrderCheckedNum++;//正式时解开
-                                RefreshMatchResult(brand, result.OrderInfo.Specification, "匹配成功", Color.Green);
-                                ZRSocketSend(brand);
-                                RefreshOrderSummary();
-                            }
-                            else
-                            {
-                                RefreshMatchResult(brand, result.OrderInfo.Specification, "烟顺序错误", Color.Red);
-                                MatchStopDebugControl();
-                                //ZRSocketSend("NG");
-                            }
-                            #endregion
-
-                            #region 固定订单
-                            //result.OrderInfo.Matched++;
-                            //OrderCheckedNum++;
-                            //RefreshMatchResult(brand, result.OrderInfo.Specification, "匹配成功", Color.Green);
-                            ////发送中软匹配成功
-                            //ZRSocketSend(brand);
-                            ////更新匹配结果
-                            //UpdateMatchOrderList(result.OrderInfo);
-                            ////刷新订单检测量
-                            //RefreshOrderSummary();
-                            #endregion
+                            result.OrderInfo.Matched++;
+                            //OrderCheckedNum++;//正式时解开
+                            RefreshMatchResult(brand, result.OrderInfo.Specification, "匹配成功", Color.Green);
+                            ZRSocketSend(brand);
+                            RefreshOrderSummary();
                         }
                         else
                         {
-                            UpdateMatchOrderList(result.OrderInfo);
-                            RefreshMatchResult(brand, result.OrderInfo.Specification, "匹配已满", Color.Red);
+                            RefreshMatchResult(brand, result.OrderInfo.Specification, "烟序错误", Color.Red);
                             MatchStopDebugControl();
+                            //isStop = true;
                         }
+                        //测试-漏烟
+                        if (isStop)
+                        {
+                            var config = SystemConfig[ConfigEnum.图像];
+                            if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
+                            {
+                                visionProAppService.SaveDebugImage();//保存开始出现错误的图片
+                            }
+                        }
+                        #endregion
                     }
                     else //当前订单不存在
                     {
                         RefreshMatchResult(brand, string.Empty, "订单不存在", Color.Red);
                         MatchStopDebugControl();
                     }
+                }
+                //测试-漏烟
+                if (OrderTotalNum == OrderCheckedNum && isStop)
+                {
+                    //isStop = false;//
+                    //StopRun();
+                    //RefreshOrderSummary();
+                    //RefreshIdentifyData();
+                    //return;
                 }
                 if (OrderTotalNum == OrderCheckedNum)
                 {
@@ -1139,7 +910,7 @@ namespace HC.Identify.App
                 if (readCodeSocketClient.IsConnection)
                 {
                     threadReadCode = new Thread(ReceiveReadCode);
-                    threadReadCode.IsBackground = true;
+                    threadReadCode.IsBackground = true;//后台线程
                     //启动处理读码结果线程
                     threadReadCode.Start();
                     this.MainForm.SetScannerStatus(FrameStatusEnum.Connected);
@@ -1188,7 +959,6 @@ namespace HC.Identify.App
                         readCodeSocketClient.Close();
                         break;
                     case "Chat":
-                        //BeginInvoke(New EventHandler(AddressOf tmAddInfo), tokens(1));  //Invoke保证线程安全
                         break;
                 }
 
@@ -1276,7 +1046,7 @@ namespace HC.Identify.App
                 this.MainForm.SetFrameStatus(FrameStatusEnum.NotEnabled);
             }
         }
-
+        int tiggerNum = 0;
         /// <summary>
         /// 相机外部模式触发
         /// </summary>
@@ -1297,6 +1067,9 @@ namespace HC.Identify.App
             CogAcqInfo info = new CogAcqInfo();
             DateTime benginDate;
             DateTime endDate;
+            benginDate = DateTime.Now;
+            //tiggerNum++;//触发次数
+            //labTrigger.Text = tiggerNum.ToString();
             try
             {
                 icogAcqFifo.GetFifoState(out numPendingVal, out numReadyVal, out busyVal);
@@ -1307,7 +1080,6 @@ namespace HC.Identify.App
                     cogRecordDisplay.Fit(false);
                 }
                 visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
-                benginDate = DateTime.Now;
                 double dMaxScore;
                 var currentBrands = CurrentOrderList.Where(o => o.beginSeq <= orderSquence && o.endSeq >= orderSquence).Select(o => o.Brand).ToList();//获取当前订单信息
                 var csvSpec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore, currentBrands);//获取匹配结果
@@ -1334,7 +1106,7 @@ namespace HC.Identify.App
                         lblIdentifyTime.Text = (endDate - benginDate).Milliseconds.ToString() + "ms";
                     }
                 }
-                CommHelper.WriteLog(_appPath, "视觉读取结果：", photoRe);
+                //CommHelper.WriteLog(_appPath, "视觉读取结果：", photoRe);
             }
             catch (CogException ce)
             {
@@ -1342,10 +1114,58 @@ namespace HC.Identify.App
             }
         }
 
-
-
         #endregion
 
         #endregion
+
+        #region 读码触发次数测试
+        public Socket clientSocketC;
+        public void ReadCodeCountConnect()
+        {
+            try
+            {
+                //设定服务器IP地址  
+                IPAddress ip = IPAddress.Parse("192.168.0.100");//10.88.164.212
+                clientSocketC = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                IPEndPoint endPoint = new IPEndPoint(ip, 5656); // 用指定的ip和端口号初始化IPEndPoint实例 //23
+                clientSocketC.Connect(endPoint);
+                var threadReadCodeC = new Thread(ReadCodeCount);
+                threadReadCodeC.IsBackground = true;//后台线程
+                //启动处理读码结果线程
+                threadReadCodeC.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("连接失败,错误信息：" + ex.Message);
+            }
+
+        }
+        int codeCount = 0;
+        //计算读码触发次数
+        public void ReadCodeCount()
+        {
+            while (true)
+            {
+                byte[] receive = new byte[1024];
+                var data = clientSocketC.Receive(receive);
+                var readCode = Encoding.UTF8.GetString(receive, 0, data);
+                if (this.MainForm.RunStatus == RunStatusEnum.Running)
+                {
+                    if (readCode.Length == 13)
+                    {
+                        codeCount++;
+                    }
+                    //线程安全
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        labReadCode.Text = codeCount.ToString();
+                    }));
+                }
+            }
+        }
+
+        #endregion
+
+
     }
 }

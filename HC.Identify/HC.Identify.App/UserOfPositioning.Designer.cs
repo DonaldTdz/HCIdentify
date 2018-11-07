@@ -162,6 +162,7 @@
             this.txtSerNum.Name = "txtSerNum";
             this.txtSerNum.Size = new System.Drawing.Size(100, 21);
             this.txtSerNum.TabIndex = 13;
+            this.txtSerNum.Text = "1";
             this.txtSerNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // label7

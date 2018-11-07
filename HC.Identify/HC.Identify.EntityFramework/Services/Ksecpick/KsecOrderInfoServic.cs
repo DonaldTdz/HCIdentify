@@ -33,7 +33,7 @@ namespace HC.Identify.EntityFramework.Services.Ksecpick
             using (KsecpickContext context = new KsecpickContext())
             {
                 sortLine = string.IsNullOrEmpty(sortLine) ? "L0204P-S09" : sortLine;
-                var sql = String.Format(@"select * from( select DENSE_RANK() over(order by SJOBNUM) IndexNum, * from[pick].[v_task] where SORTLINE = '{0}' ) temp where uuid='{1}' or IndexNum='{1}' order by IndexNum,unitno", sortLine, uuidIn);
+                var sql = String.Format(@"select * from( select DENSE_RANK() over(order by SJOBNUM) IndexNum, * from[pick].[v_task] where SORTLINE = '{0}' ) temp where uuid='{1}' or SJOBNUM='{1}' order by IndexNum,unitno", sortLine, uuidIn);
                 var result = context.Database.SqlQuery<VTaskOrderInfoDto>(sql).ToList();
                 return result;
             }

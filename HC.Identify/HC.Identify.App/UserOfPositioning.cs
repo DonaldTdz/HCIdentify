@@ -24,7 +24,7 @@ namespace HC.Identify.App
             labCode.Text = retailer.CUSTOMCODE;
             labIndex.Text = retailer.IndexNum.ToString();
             labNum.Text = retailer.orderqty.ToString();
-            labOrderNum.Text = retailer.uuid;
+            labOrderNum.Text = retailer.SJOBNUM;
             labLine.Text = retailer.SORTLINE;
             labBatch.Text = retailer.batch;
         }

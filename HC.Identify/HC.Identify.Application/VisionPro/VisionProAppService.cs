@@ -22,8 +22,8 @@ namespace HC.Identify.Application.VisionPro
         string _appPath;
         public List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
         CogImageFileTool _cogImageFile = new CogImageFileTool(); //图像处理工具
-        double _matchValue;
-        public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay,double MatchValue)
+        double _matchValue = 0.8;
+        public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay, double MatchValue)
         {
             _cogToolBlock = cogToolBlock;
             _icogColorImage = icogColorImage;
@@ -48,7 +48,19 @@ namespace HC.Identify.Application.VisionPro
 
         public CsvSpecification GetMatchSpecification(out ArrayList cogResultArray, out double dMaxScore,List<string> specs)
         {
-             _csvSpecList = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();//筛选出对当前订单的规格匹配数据
+
+            List<CsvSpecification> _csvSpecListveWhe = new List<CsvSpecification>();
+            ////排除黑白格调相互识别错误的情况
+            //_csvSpecListveWhe = _csvSpecList;
+            //if (specs != null)
+            //{
+            //    if (specs[0] == "6901028084772" || specs[0] == "6901028085762")
+            //    {
+            //        _csvSpecListveWhe = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();//筛选出对当前订单的规格匹配数据
+            //    }
+            //}
+            _csvSpecListveWhe = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();
+            //_csvSpecList = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();//筛选出对当前订单的规格匹配数据
             var tbvals = GetToolBlockValues();
             cogResultArray = tbvals;
             dMaxScore = -9999;
@@ -58,19 +70,19 @@ namespace HC.Identify.Application.VisionPro
             }
             if (tbvals.Count == 0)
             {
-                CommHelper.WriteLog(_appPath, "GetMatchSpecification->GetToolBlockValues", "没有读取到值");
+                //CommHelper.WriteLog(_appPath, "GetMatchSpecification->GetToolBlockValues", "没有读取到值");
                 return null;
             }
             try
             {
-                int totalType = _csvSpecList.Count();//模板数据
+                int totalType = _csvSpecListveWhe.Count();//模板数据
                                                      //相关矩阵计算
                 double[] dMatchScore = new double[totalType];   //50种型号的匹配分数
                                                                 //  int iPointsNum = this.Inputs.iRow * this.Inputs.iCol;
                
                 CsvSpecification maxSpec = new CsvSpecification();
                 int i = 0;
-                foreach (var item in _csvSpecList)
+                foreach (var item in _csvSpecListveWhe)
                 {
                     double dSumXY = 0;
                     double dSumX = 0;
@@ -98,10 +110,10 @@ namespace HC.Identify.Application.VisionPro
                     }
                     i++;
                 }
-                if (true)//记录日志结果
-                {
-                    VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
-                }
+                //if (true)//记录日志结果
+                //{
+                //    VisionProDataAppService.Instance.SaveResultLog(_appPath + "\\ResultLog", maxSpec.Specification, dMaxScore);
+                //}
                 //配置结果值
                 if (dMaxScore > _matchValue)//0.80
                 {
@@ -158,6 +170,19 @@ namespace HC.Identify.Application.VisionPro
             //{
             //    Directory.CreateDirectory(path);
             //}
+            _cogImageFile.Operator.Open(path, CogImageFileModeConstants.Write);
+            _cogImageFile.InputImage = _icogColorImage;
+            _cogImageFile.Run();
+        }
+
+        public void SaveDebugImage()
+        {
+            string path = _appPath + "\\SaveDebugImage\\" + DateTime.Now.ToString("yyyyMMdd") + "\\";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            path = path + DateTime.Now.ToString("yyyyMMdd_HHmmssfff") + ".BMP";
             _cogImageFile.Operator.Open(path, CogImageFileModeConstants.Write);
             _cogImageFile.InputImage = _icogColorImage;
             _cogImageFile.Run();

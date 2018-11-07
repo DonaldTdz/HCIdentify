@@ -147,7 +147,10 @@ namespace HC.Identify.App
                 form.Show();
             }
         }
-
+        /// <summary>
+        /// 设置视觉连接状态
+        /// </summary>
+        /// <param name="frameStatus"></param>
         public void SetFrameStatus(FrameStatusEnum frameStatus)
         {
             this.FrameStatus = frameStatus;
@@ -186,6 +189,10 @@ namespace HC.Identify.App
         {
             this.ShowForm("BatchAdjustment");
         }
+        /// <summary>
+        /// 设置主界面的运行状态
+        /// </summary>
+        /// <param name="runStatusEnum"></param>
         public void SetRunStatus(RunStatusEnum runStatusEnum)
         {
             this.RunStatus = runStatusEnum;
