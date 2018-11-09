@@ -13,6 +13,7 @@ using System.IO;
 using System.Windows.Forms;
 using HC.Identify.Dto.Common;
 using System.Threading;
+using HC.Identify.Application.Common;
 
 namespace HC.Identify.Application.VisionPro
 {
@@ -25,7 +26,7 @@ namespace HC.Identify.Application.VisionPro
         public List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
         CogImageFileTool _cogImageFile = new CogImageFileTool(); //图像处理工具
         double _matchValue = 0.8;
-        CommHelper helper = new CommHelper(System.Windows.Forms.Application.StartupPath, @"MatchErrorLog\",true);//日志
+        AboutLog helper = new AboutLog(System.Windows.Forms.Application.StartupPath, @"MatchErrorLog\",true);//日志
         public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay, double MatchValue)
         {
             _cogToolBlock = cogToolBlock;

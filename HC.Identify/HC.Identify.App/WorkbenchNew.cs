@@ -2,6 +2,7 @@
 using Cognex.VisionPro.Exceptions;
 using Cognex.VisionPro.ToolBlock;
 using HC.Identify.Application;
+using HC.Identify.Application.Common;
 using HC.Identify.Application.Helpers;
 using HC.Identify.Application.Identify;
 using HC.Identify.Application.Ksecpick;
@@ -36,7 +37,7 @@ namespace HC.Identify.App
         private VisionProAppService visionProAppService;
         private OrderSmokeSeqAppService orderSmokeSeqAppService;
         private KsecOrderInfoAppService ksecOrderInfoAppService;
-        CommHelper helper = new CommHelper(System.Windows.Forms.Application.StartupPath, "",false);//日志
+        AboutLog aboutLog = new AboutLog(System.Windows.Forms.Application.StartupPath, "", false);//日志
         /// <summary>
         /// 算法配置路径
         /// </summary>
@@ -134,7 +135,7 @@ namespace HC.Identify.App
             systemConfigAppService = new SystemConfigAppService();
             orderSmokeSeqAppService = new OrderSmokeSeqAppService();
             ksecOrderInfoAppService = new KsecOrderInfoAppService();//从昆船获取数据
-            
+
         }
 
         #endregion
@@ -260,8 +261,8 @@ namespace HC.Identify.App
             {
                 OrderSumList.Add(item);
             }
-            minIndex = OrderSumList.Count > 0 ? (int)OrderSumList.Min(o => o.RIndex):1;
-            maxIndex = OrderSumList.Count > 0 ? (int)OrderSumList.Max(o => o.RIndex):1;
+            minIndex = OrderSumList.Count > 0 ? (int)OrderSumList.Min(o => o.RIndex) : 1;
+            maxIndex = OrderSumList.Count > 0 ? (int)OrderSumList.Max(o => o.RIndex) : 1;
             CurrentOrderSumCount = OrderSumList != null ? OrderSumList.Count : 0;
         }
 
@@ -861,7 +862,7 @@ namespace HC.Identify.App
                             MatchStopDebugControl();
                             //isStop = true;
                         }
-                       
+
                         #endregion
                     }
                     else //当前订单不存在
@@ -975,7 +976,7 @@ namespace HC.Identify.App
                 var scanRe = readCode.ToString() + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (DateTime.Now - benginDate).Milliseconds.ToString() + "ms";
 
                 #region 日志
-                helper.AddLogs(new Logs
+                aboutLog.AddLogs(new Logs
                 {
                     Title = "读码器读取条码：",
                     Msg = scanRe,
@@ -1007,7 +1008,7 @@ namespace HC.Identify.App
                 endDates = DateTime.Now;
                 var endScanRe = t + "," + brand + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + endDates.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (endDates - benginDate).Milliseconds.ToString() + "ms";
                 #region 日志
-                helper.AddLogs(new Logs
+                aboutLog.AddLogs(new Logs
                 {
                     Title = "最终读取结果：",
                     Msg = endScanRe,
@@ -1134,7 +1135,7 @@ namespace HC.Identify.App
                     }
                 }
                 #region 日志
-                helper.AddLogs(new Logs
+                aboutLog.AddLogs(new Logs
                 {
                     Title = "视觉读取结果：",
                     Msg = photoRe,
