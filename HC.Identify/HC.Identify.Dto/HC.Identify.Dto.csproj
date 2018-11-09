@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Logs.cs" />
     <Compile Include="Identify\CameraSettingDto.cs" />
     <Compile Include="Identify\OrderInfoDto.cs" />
     <Compile Include="Identify\OrderSumDto.cs" />

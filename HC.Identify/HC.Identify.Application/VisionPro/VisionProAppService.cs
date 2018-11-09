@@ -11,6 +11,8 @@ using HC.Identify.Application.Helpers;
 using HC.Identify.Dto.VisionPro;
 using System.IO;
 using System.Windows.Forms;
+using HC.Identify.Dto.Common;
+using System.Threading;
 
 namespace HC.Identify.Application.VisionPro
 {
@@ -23,6 +25,7 @@ namespace HC.Identify.Application.VisionPro
         public List<CsvSpecification> _csvSpecList = new List<CsvSpecification>();
         CogImageFileTool _cogImageFile = new CogImageFileTool(); //图像处理工具
         double _matchValue = 0.8;
+        CommHelper helper = new CommHelper(System.Windows.Forms.Application.StartupPath, @"MatchErrorLog\",true);//日志
         public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay, double MatchValue)
         {
             _cogToolBlock = cogToolBlock;
@@ -60,7 +63,6 @@ namespace HC.Identify.Application.VisionPro
             //    }
             //}
             _csvSpecListveWhe = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();
-            //_csvSpecList = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();//筛选出对当前订单的规格匹配数据
             var tbvals = GetToolBlockValues();
             cogResultArray = tbvals;
             dMaxScore = -9999;
@@ -124,8 +126,14 @@ namespace HC.Identify.Application.VisionPro
                     return null;
                 }
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                //写日志
+                helper.AddLogs(new Logs() {
+                    Title = "匹配异常：",
+                    Msg = ex.InnerException.Message,
+                    DateStr = DateTime.Now.ToString("yyyy-MM-dd:HH:mm:ss:ffff")
+                });
                 return null;
             }
            

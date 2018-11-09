@@ -6,6 +6,7 @@ using HC.Identify.Application.Helpers;
 using HC.Identify.Application.Identify;
 using HC.Identify.Application.Ksecpick;
 using HC.Identify.Application.VisionPro;
+using HC.Identify.Dto.Common;
 using HC.Identify.Dto.Identify;
 using System;
 using System.Collections;
@@ -35,6 +36,7 @@ namespace HC.Identify.App
         private VisionProAppService visionProAppService;
         private OrderSmokeSeqAppService orderSmokeSeqAppService;
         private KsecOrderInfoAppService ksecOrderInfoAppService;
+        CommHelper helper = new CommHelper(System.Windows.Forms.Application.StartupPath, "",false);//日志
         /// <summary>
         /// 算法配置路径
         /// </summary>
@@ -132,6 +134,7 @@ namespace HC.Identify.App
             systemConfigAppService = new SystemConfigAppService();
             orderSmokeSeqAppService = new OrderSmokeSeqAppService();
             ksecOrderInfoAppService = new KsecOrderInfoAppService();//从昆船获取数据
+            
         }
 
         #endregion
@@ -858,31 +861,38 @@ namespace HC.Identify.App
                             MatchStopDebugControl();
                             //isStop = true;
                         }
-                        //测试-漏烟
-                        if (isStop)
-                        {
-                            var config = SystemConfig[ConfigEnum.图像];
-                            if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
-                            {
-                                visionProAppService.SaveDebugImage();//保存开始出现错误的图片
-                            }
-                        }
+                       
                         #endregion
                     }
                     else //当前订单不存在
                     {
+                        #region 测试
+                        OrderInfoDto order = new OrderInfoDto();
+                        order.Brand = brand;
+                        order.Specification = "订单不存在";
+                        UpdateMatchOrderList(order);
+                        #endregion
                         RefreshMatchResult(brand, string.Empty, "订单不存在", Color.Red);
                         MatchStopDebugControl();
+                    }
+                    //测试-漏烟
+                    if (isStop)
+                    {
+                        var config = SystemConfig[ConfigEnum.图像];
+                        if (this.MainForm.FrameStatus == FrameStatusEnum.Connected)
+                        {
+                            visionProAppService.SaveDebugImage();//保存开始出现错误的图片
+                        }
                     }
                 }
                 //测试-漏烟
                 if (OrderTotalNum == OrderCheckedNum && isStop)
                 {
-                    //isStop = false;//
-                    //StopRun();
-                    //RefreshOrderSummary();
-                    //RefreshIdentifyData();
-                    //return;
+                    isStop = false;//
+                    StopRun();
+                    RefreshOrderSummary();
+                    RefreshIdentifyData();
+                    return;
                 }
                 if (OrderTotalNum == OrderCheckedNum)
                 {
@@ -963,7 +973,16 @@ namespace HC.Identify.App
                 }
 
                 var scanRe = readCode.ToString() + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (DateTime.Now - benginDate).Milliseconds.ToString() + "ms";
-                CommHelper.WriteLog(_appPath, "读码器读取条码：", scanRe);
+
+                #region 日志
+                helper.AddLogs(new Logs
+                {
+                    Title = "读码器读取条码：",
+                    Msg = scanRe,
+                    DateStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff")
+                });
+                #endregion
+                //CommHelper.WriteLog(_appPath, "读码器读取条码：", scanRe);
                 if (readCode.ToString().Length == 13)//如果读取的是13位条码信息
                 {
                     t = "I";
@@ -987,7 +1006,15 @@ namespace HC.Identify.App
                 }
                 endDates = DateTime.Now;
                 var endScanRe = t + "," + brand + ",开始时间：" + benginDate.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",结束时间：" + endDates.ToString("yyyy-MM-dd HH:mm:ss:ffff") + ",用时：" + (endDates - benginDate).Milliseconds.ToString() + "ms";
-                CommHelper.WriteLog(_appPath, "最终读取结果：", endScanRe);
+                #region 日志
+                helper.AddLogs(new Logs
+                {
+                    Title = "最终读取结果：",
+                    Msg = endScanRe,
+                    DateStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff")
+                });
+                #endregion
+                //CommHelper.WriteLog(_appPath, "最终读取结果：", endScanRe);
                 Invoke(new MethodInvoker(delegate ()//线程安全
                 {
                     //brand = "";
@@ -1106,6 +1133,14 @@ namespace HC.Identify.App
                         lblIdentifyTime.Text = (endDate - benginDate).Milliseconds.ToString() + "ms";
                     }
                 }
+                #region 日志
+                helper.AddLogs(new Logs
+                {
+                    Title = "视觉读取结果：",
+                    Msg = photoRe,
+                    DateStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff")
+                });
+                #endregion
                 //CommHelper.WriteLog(_appPath, "视觉读取结果：", photoRe);
             }
             catch (CogException ce)
@@ -1164,6 +1199,35 @@ namespace HC.Identify.App
             }
         }
 
+        #endregion
+
+        #region 写日志
+        //List<Logs> logs = new List<Logs>();
+        ///// <summary>
+        ///// 日志线程
+        ///// </summary>
+        //public void LogThread()
+        //{
+        //    var threadLog = new Thread(WriteLog);
+        //    //后台线程
+        //    threadLog.IsBackground = true;
+        //    //启动处理读码结果线程
+        //    threadLog.Start();
+        //}
+
+        ///// <summary>
+        ///// 写日志
+        ///// </summary>
+        //public  void WriteLog()
+        //{
+        //    while (true)
+        //    {
+        //        var LogsWr = logs;
+        //        logs.RemoveRange(0, LogsWr.Count);
+        //        CommHelper.WriteLogByThread(_appPath, LogsWr,"");
+        //        Thread.Sleep(200);
+        //    }
+        //}
         #endregion
 
 
