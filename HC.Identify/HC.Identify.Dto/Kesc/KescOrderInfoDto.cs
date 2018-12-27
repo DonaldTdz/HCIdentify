@@ -46,7 +46,7 @@ namespace HC.Identify.Dto.Kesc
         /// <summary>
         /// 条码
         /// </summary>
-        public string BARCODE { get; set; }//未定
+        public string BARCODE { get; set; }
 
         /// <summary>
         /// 品规
@@ -77,7 +77,7 @@ namespace HC.Identify.Dto.Kesc
         /// <summary>
         /// 批次
         /// </summary>
-        public string BATCHCODE { get; set; }//未定
+        public string BATCHCODE { get; set; }
 
     }
 

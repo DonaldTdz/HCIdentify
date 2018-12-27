@@ -205,26 +205,46 @@ namespace HC.Identify.App
             var config = SystemConfig[ConfigEnum.Com口];
             if (config.IsAction)
             {
-                cOMDto.COMName = string.IsNullOrEmpty(config.Value) ? "COM8" : config.Value;
-                string[] arry = { };
-                if (config.AdditiValue.Length > 0)
+                if (config.AdditiValue != null)
                 {
-                    arry = config.AdditiValue.Split(',');
-                    cOMDto.COMRate = arry.Length > 0 ? int.Parse(arry[0]) : 9600;
-                    cOMDto.COMParity = arry.Length > 1 ? int.Parse(arry[1]) : 0;
-                    cOMDto.ComData = arry.Length > 2 ? int.Parse(arry[2]) : 8;
-                    cOMDto.ComStop = arry.Length > 3 ? int.Parse(arry[3]) : 1;
+                    cOMDto.COMName = string.IsNullOrEmpty(config.Value) ? "COM8" : config.Value;
+                    string[] arry = { };
+                    if (config.AdditiValue.Length > 0)
+                    {
+                        arry = config.AdditiValue.Split(',');
+                        cOMDto.COMRate = (arry.Length > 0 && arry[0] != "") ? int.Parse(arry[0]) : 9600;
+                        cOMDto.COMParity = (arry.Length > 1 && arry[1] != "") ? int.Parse(arry[1]) : 0;
+                        cOMDto.ComData = (arry.Length > 2 && arry[2] != "") ? int.Parse(arry[2]) : 8;
+                        cOMDto.ComStop = (arry.Length > 3 && arry[3] != "") ? int.Parse(arry[3]) : 1;
+                    }
+                    cOMServer = new COMServer(cOMDto.COMName, cOMDto.COMRate, cOMDto.ComData, (StopBits)cOMDto.ComStop, (Parity)cOMDto.COMParity, config.IsAction);
+                    cOMServer.Open();
+                    //设置主界面下昆船连接状态
+                    if (cOMServer.IsConnection)
+                    {
+                        this.MainForm.SetKunCLineStatus(FrameStatusEnum.Connected);
+                    }
+                    else
+                    {
+                        this.MainForm.SetKunCLineStatus(FrameStatusEnum.NoConnected);
+                    }
+                    if (cOMServer.IsConnection)
+                    {
+                        threadCom = new Thread(AutoSwitchUser);
+                        //后台线程
+                        threadCom.IsBackground = true;
+                        //启动接收切户信号线程
+                        threadCom.Start();
+                    }
                 }
-                cOMServer = new COMServer(cOMDto.COMName, cOMDto.COMRate, cOMDto.ComData, (StopBits)cOMDto.ComStop, (Parity)cOMDto.COMParity, config.IsAction);
-                cOMServer.Open();
-                if (cOMServer.IsConnection)
+                else
                 {
-                    threadCom = new Thread(AutoSwitchUser);
-                    threadCom.IsBackground = true;//后台线程
-                    //启动处理读码结果线程
-                    threadCom.Start();
-                    //this.MainForm.SetScannerStatus(FrameStatusEnum.Connected);
+                    this.MainForm.SetKunCLineStatus(FrameStatusEnum.NoConnected);
                 }
+            }
+            else
+            {
+                this.MainForm.SetKunCLineStatus(FrameStatusEnum.NotEnabled);
             }
         }
         public void AutoSwitchUser()
@@ -259,6 +279,9 @@ namespace HC.Identify.App
 
         #region 批次信息
 
+        /// <summary>
+        /// 线路下的客户信息
+        /// </summary>
         IList<OrderSumDto> OrderSumList { get; set; }
         OrderInfoSum orderInfoSum = new OrderInfoSum();//用于实时订单
         int CurrentHouseNum = 1;//当前户数
@@ -313,11 +336,11 @@ namespace HC.Identify.App
         /// <summary>
         /// 获取线路下的订单信息
         /// </summary>
-        /// <param name="startNum">获取订单的其实位置</param>
+        /// <param name="startNum">获取订单的起始位置</param>
         /// <param name="getNum">获取订单数量</param>
         public void GetOrderInfo(int startNum, int getNum)
         {
-            orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(startNum, SystemConfig[ConfigEnum.分拣线路].Value, getNum, "2");//系统设置中添加分拣支线配置
+            orderInfoSum = ksecOrderInfoAppService.GetOrderInfoSum(startNum, SystemConfig[ConfigEnum.分拣线路].Value, getNum, SystemConfig[ConfigEnum.分拣线路].AdditiValue);//系统设置中添加分拣支线配置
 
             //线路下的订单信息
             foreach (var item in orderInfoSum.OrderInfoList)
@@ -525,7 +548,8 @@ namespace HC.Identify.App
         private void btnSearch_Click(object sender, EventArgs e)
         {
             var search = txtJobNum.Text;
-            var orderInfo = ksecOrderInfoAppService.GetSingleRetailerOrderInfo(search, SystemConfig[ConfigEnum.分拣线路].Value, "2");
+            //获取定位户的订等信息
+            var orderInfo = ksecOrderInfoAppService.GetSingleRetailerOrderInfo(search, SystemConfig[ConfigEnum.分拣线路].Value, SystemConfig[ConfigEnum.分拣线路].AdditiValue );//"2"
             if (orderInfo.Count > 0)
             {
                 var retailer = orderInfo.FirstOrDefault();
@@ -537,7 +561,9 @@ namespace HC.Identify.App
                 {
                     if (index < minIndex || index > maxIndex || maxIndex - index <= 10)
                     {
+                        //清除线路下之前的订单信息
                         LineOrderList.Clear();
+                        //清除下路的客户信息
                         OrderSumList.Clear();
                         GetOrderInfo(index - 1, 10);
                     }
@@ -545,6 +571,7 @@ namespace HC.Identify.App
                     SwitchHouse(SwitchEnum.下一户, BurstModeEnum.手动, true);//第一个参数任何值都可（此时无作用）
                     if (!string.IsNullOrEmpty(form.serialNum))
                     {
+                        //烟序
                         orderSquence = int.Parse(form.serialNum);
                         //根据定位的烟序来更新此户的订单列表的已匹配值
                         if (CurrentOrderList.Count > 0)
@@ -576,7 +603,7 @@ namespace HC.Identify.App
         #region 订单信息
 
         /// <summary>
-        /// 每条线路的订单数据
+        /// 线路的订单数据
         /// </summary>
         IList<OrderInfoDto> LineOrderList { get; set; }
 
@@ -811,7 +838,7 @@ namespace HC.Identify.App
         #region 相机识别
 
         ICogAcqFifo icogAcqFifo;  //获取数据
-                                  //图像识别结果
+        //图像识别结果                        
         string ImgBrand;
         int IdentifyTotal = 0;//识别总数
         int IdentifyNum = 0;  //已识别
@@ -871,7 +898,7 @@ namespace HC.Identify.App
         {
             if (!SystemConfig[ConfigEnum.调试模式].IsAction)
             {
-                //发送暂停指令
+                //发送暂停指令（后期替换成停皮带的指令）
                 ZRSocketSend("NG");
                 StopRun();
             }
@@ -1134,10 +1161,11 @@ namespace HC.Identify.App
                         MessageBox.Show("连接相机失败，请重试");
                     }
 
-                    icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+                    //icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
                     //currentrDirectory = Directory.GetCurrentDirectory();
                     //cogAcq = (CogAcqFifoTool)CogSerializer.LoadObjectFromFile(currentrDirectory + "\\CogAcqFifoTool.Vpp");
                     //icogAcqFifo = cogAcq.Operator;
+
                     // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
                     //添加获取完成处理事件
                     icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
@@ -1191,7 +1219,7 @@ namespace HC.Identify.App
                 if (numReadyVal > 0)
                 {
                     icogColorImage = icogAcqFifo.CompleteAcquireEx(info);
-                    //cogRecordDisplay.Image = icogColorImage;
+                    //cogRecordDisplay.Image = icogColorImage; //相机初次拍照时不需要赋图像，此处注释（在图像抓边后再赋图像）
                     //cogRecordDisplay.Fit(false);
                 }
                 visionProAppService._icogColorImage = icogColorImage;//将最新的图像传入公共服务中（图像才会更新到下一张）
@@ -1286,38 +1314,6 @@ namespace HC.Identify.App
                 }
             }
         }
-
         #endregion
-
-        #region 写日志
-        //List<Logs> logs = new List<Logs>();
-        ///// <summary>
-        ///// 日志线程
-        ///// </summary>
-        //public void LogThread()
-        //{
-        //    var threadLog = new Thread(WriteLog);
-        //    //后台线程
-        //    threadLog.IsBackground = true;
-        //    //启动处理读码结果线程
-        //    threadLog.Start();
-        //}
-
-        ///// <summary>
-        ///// 写日志
-        ///// </summary>
-        //public  void WriteLog()
-        //{
-        //    while (true)
-        //    {
-        //        var LogsWr = logs;
-        //        logs.RemoveRange(0, LogsWr.Count);
-        //        CommHelper.WriteLogByThread(_appPath, LogsWr,"");
-        //        Thread.Sleep(200);
-        //    }
-        //}
-        #endregion
-
-
     }
 }

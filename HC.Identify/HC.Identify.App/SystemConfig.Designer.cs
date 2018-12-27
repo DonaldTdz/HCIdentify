@@ -43,9 +43,6 @@
             this.ck_photo = new System.Windows.Forms.CheckBox();
             this.lab_debug = new System.Windows.Forms.Label();
             this.check_debug = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtSleepTime = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.ckOrderSeq = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -68,6 +65,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.checkSmokeMode = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtSubSortLine = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -203,31 +202,6 @@
             this.check_debug.Text = "是否启用";
             this.check_debug.UseVisualStyleBackColor = true;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(292, 120);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(113, 12);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "视觉相机等待时间：";
-            // 
-            // txtSleepTime
-            // 
-            this.txtSleepTime.Location = new System.Drawing.Point(421, 114);
-            this.txtSleepTime.Name = "txtSleepTime";
-            this.txtSleepTime.Size = new System.Drawing.Size(100, 21);
-            this.txtSleepTime.TabIndex = 16;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(527, 123);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 17;
-            this.label6.Text = "ms";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -250,7 +224,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(292, 202);
+            this.label8.Location = new System.Drawing.Point(290, 160);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 12);
             this.label8.TabIndex = 20;
@@ -258,7 +232,7 @@
             // 
             // txtBoxSortLine
             // 
-            this.txtBoxSortLine.Location = new System.Drawing.Point(421, 196);
+            this.txtBoxSortLine.Location = new System.Drawing.Point(421, 151);
             this.txtBoxSortLine.Name = "txtBoxSortLine";
             this.txtBoxSortLine.Size = new System.Drawing.Size(100, 21);
             this.txtBoxSortLine.TabIndex = 21;
@@ -274,7 +248,7 @@
             // 
             // textMatchVal
             // 
-            this.textMatchVal.Location = new System.Drawing.Point(421, 243);
+            this.textMatchVal.Location = new System.Drawing.Point(421, 237);
             this.textMatchVal.Name = "textMatchVal";
             this.textMatchVal.Size = new System.Drawing.Size(100, 21);
             this.textMatchVal.TabIndex = 23;
@@ -283,7 +257,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(294, 160);
+            this.label10.Location = new System.Drawing.Point(292, 120);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(77, 12);
             this.label10.TabIndex = 24;
@@ -291,7 +265,7 @@
             // 
             // txtExposure
             // 
-            this.txtExposure.Location = new System.Drawing.Point(421, 154);
+            this.txtExposure.Location = new System.Drawing.Point(421, 111);
             this.txtExposure.Name = "txtExposure";
             this.txtExposure.Size = new System.Drawing.Size(100, 21);
             this.txtExposure.TabIndex = 25;
@@ -352,7 +326,7 @@
             this.groupBox1.Controls.Add(this.txtComRate);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Location = new System.Drawing.Point(294, 297);
+            this.groupBox1.Location = new System.Drawing.Point(294, 315);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(590, 113);
             this.groupBox1.TabIndex = 31;
@@ -412,7 +386,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(649, 246);
+            this.label16.Location = new System.Drawing.Point(651, 243);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(65, 12);
             this.label16.TabIndex = 32;
@@ -421,18 +395,36 @@
             // checkSmokeMode
             // 
             this.checkSmokeMode.AutoSize = true;
-            this.checkSmokeMode.Location = new System.Drawing.Point(812, 242);
+            this.checkSmokeMode.Location = new System.Drawing.Point(812, 239);
             this.checkSmokeMode.Name = "checkSmokeMode";
             this.checkSmokeMode.Size = new System.Drawing.Size(72, 16);
             this.checkSmokeMode.TabIndex = 33;
             this.checkSmokeMode.Text = "是否启用";
             this.checkSmokeMode.UseVisualStyleBackColor = true;
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(290, 202);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(89, 12);
+            this.label17.TabIndex = 34;
+            this.label17.Text = "分拣线路分线：";
+            // 
+            // txtSubSortLine
+            // 
+            this.txtSubSortLine.Location = new System.Drawing.Point(421, 197);
+            this.txtSubSortLine.Name = "txtSubSortLine";
+            this.txtSubSortLine.Size = new System.Drawing.Size(100, 21);
+            this.txtSubSortLine.TabIndex = 35;
+            // 
             // SystemConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 611);
+            this.Controls.Add(this.txtSubSortLine);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.checkSmokeMode);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.groupBox1);
@@ -444,9 +436,6 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.ckOrderSeq);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.txtSleepTime);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.check_debug);
             this.Controls.Add(this.lab_debug);
             this.Controls.Add(this.ck_photo);
@@ -488,9 +477,6 @@
         private System.Windows.Forms.CheckBox ck_photo;
         private System.Windows.Forms.Label lab_debug;
         private System.Windows.Forms.CheckBox check_debug;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtSleepTime;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox ckOrderSeq;
         private System.Windows.Forms.Label label8;
@@ -513,5 +499,7 @@
         private System.Windows.Forms.ComboBox coboComStop;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox checkSmokeMode;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtSubSortLine;
     }
 }

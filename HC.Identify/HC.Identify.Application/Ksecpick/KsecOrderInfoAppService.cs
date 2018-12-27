@@ -29,24 +29,46 @@ namespace HC.Identify.Application.Ksecpick
             var OrderInfoSum = new OrderInfoSum();
             //var result = ksecOrderInfoServic.GetOrderInfo(orderStartNum, sortLine, orderSum).OrderBy(o => o.SJOBNUM).ToList();
             var result = kescOrderInfoService.GetOrderInfo(orderStartNum, sortLine, orderSum, subSortLine).OrderBy(o => o.SJOBNUM).ToList();
-
+            #region 测试
+            //var jobNUM = "";
+            //if (result != null && result.Count > 0)
+            //{
+            //    foreach (var item in result)
+            //    {
+            //        if (item.SJOBNUM != jobNUM || string.IsNullOrEmpty(jobNUM))
+            //        {
+            //            OrderInfoSum.OrderSum.Add(new OrderSumDto
+            //            {
+            //                Id = Guid.NewGuid(),
+            //                UUID = item.uuid,
+            //                AreaName = item.SORTLINE,
+            //                RetailerCode = item.CUSTOMCODE,
+            //                RetailerName = item.CUSTOMNAME,
+            //                Num = (int)Math.Round(result.Where(o => o.SJOBNUM == item.SJOBNUM).Sum(o => o.orderqty), 0),
+            //                PostData = Convert.ToDateTime(item.MAKEBATCH),
+            //                JobNum = item.SJOBNUM,
+            //                RIndex = item.IndexNum,
+            //                Batch = item.batch
+            //            });
+            //            jobNUM = item.SJOBNUM;
+            //        }
+            //        var orderInfo = new OrderInfoDto();
+            //        orderInfo.Id = Guid.NewGuid();
+            //        orderInfo.UUID = item.uuid;
+            //        orderInfo.Brand = item.BARCODE;
+            //        orderInfo.Specification = item.BARCODE;
+            //        orderInfo.Num = (int)Math.Round(item.orderqty, 0); 
+            //        orderInfo.Matched = 0;
+            //        orderInfo.Sequence =(decimal) item.unitno;
+            //        orderInfo.JobNum = item.SJOBNUM;
+            //        OrderInfoSum.OrderInfoList.Add(orderInfo);
+            //    }
+            //}
+            #endregion
+            #region 正式
             var jobNUM = "";
             if (result != null && result.Count > 0)
             {
-                //OrderInfoSum.OrderSum.Add(new OrderSumDto
-                //{
-                //    Id = Guid.NewGuid(),
-                //    UUID = result[0].uuid,
-                //    AreaName = result[0].SORTLINE,
-                //    RetailerCode = result[0].CUSTOMCODE,
-                //    RetailerName = result[0].CUSTOMNAME,
-                //    Num = (int)Math.Round(result.Where(o => o.SJOBNUM == result[0].SJOBNUM).Sum(o => o.orderqty), 0),
-                //    PostData = Convert.ToDateTime(result[0].MAKEBATCH),
-                //    JobNum = result[0].SJOBNUM,
-                //    RIndex = result[0].IndexNum,
-
-                //});
-                //jobNUM = result[0].SJOBNUM;
                 foreach (var item in result)
                 {
                     if (item.SJOBNUM != jobNUM || string.IsNullOrEmpty(jobNUM))
@@ -69,7 +91,7 @@ namespace HC.Identify.Application.Ksecpick
                     var orderInfo = new OrderInfoDto();
                     orderInfo.Id = Guid.NewGuid();
                     orderInfo.UUID = item.ORDERNUM;
-                    orderInfo.Brand = item.BARCODE ;
+                    orderInfo.Brand = item.BARCODE;
                     orderInfo.Specification = item.ITEMNAME;
                     orderInfo.Num = (int)Math.Round(item.ITEMTOTAL, 0);
                     orderInfo.Matched = 0;
@@ -78,6 +100,7 @@ namespace HC.Identify.Application.Ksecpick
                     OrderInfoSum.OrderInfoList.Add(orderInfo);
                 }
             }
+            #endregion
             return OrderInfoSum;
         }
 

@@ -29,6 +29,11 @@ namespace HC.Identify.App
             labLine.Text = retailer.SORTLINE;
             labBatch.Text = retailer.BATCHCODE;
         }
+        /// <summary>
+        /// 确定事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             serialNum = txtSerNum.Text;

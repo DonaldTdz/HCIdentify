@@ -151,17 +151,18 @@ namespace HC.Identify.App
                     {
                         check_debug.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.视觉相机沉睡)
-                    {
-                        txtSleepTime.Text = item.Value;
-                    }
+                    //if (item.Code == ConfigEnum.视觉相机沉睡)
+                    //{
+                    //    txtSleepTime.Text = item.Value;
+                    //}
                     if (item.Code == ConfigEnum.订单顺序模式)
                     {
                         ckOrderSeq.Checked = item.IsAction;
                     }
                     if (item.Code == ConfigEnum.分拣线路)
                     {
-                        txtBoxSortLine.Text = item.Value;
+                        txtBoxSortLine.Text = string.IsNullOrEmpty(item.Value) ? "SortlineSpe10" : item.Value;
+                        txtSubSortLine.Text = string.IsNullOrEmpty(item.AdditiValue) ? "2" : item.AdditiValue;
                     }
                     if (item.Code == ConfigEnum.相机曝光度)
                     {
@@ -181,10 +182,10 @@ namespace HC.Identify.App
                             if (item.AdditiValue.Length > 0)
                             {
                                 arry = item.AdditiValue.Split(',');
-                                cOMDto.COMRate = arry.Length >= 0 ? int.Parse(arry[0]) : 9600;
-                                cOMDto.COMParity = arry.Length >= 1 ? int.Parse(arry[1]) : 0;
-                                cOMDto.ComData = arry.Length >= 2 ? int.Parse(arry[2]) : 8;
-                                cOMDto.ComStop = arry.Length >= 3 ? int.Parse(arry[3]) : 1;
+                                cOMDto.COMRate = (arry.Length > 0 && arry[0] != "") ? int.Parse(arry[0]) : 9600;
+                                cOMDto.COMParity = (arry.Length > 1 && arry[1] != "") ? int.Parse(arry[1]) : 0;
+                                cOMDto.ComData = (arry.Length > 2 && arry[2] != "") ? int.Parse(arry[2]) : 8;
+                                cOMDto.ComStop = (arry.Length > 3 && arry[3] != "") ? int.Parse(arry[3]) : 1;
                             }
                             txtComName.Text = item.Value;
                             //以下的数据位置不能错位
@@ -197,7 +198,7 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.烟序模板)
                     {
                         checkSmokeMode.Checked = item.IsAction;
-                    } 
+                    }
                 }
             }
         }
@@ -241,11 +242,11 @@ namespace HC.Identify.App
                 debugConfig.IsAction = check_debug.Checked;
                 Configs.Add(debugConfig);
 
-                //视觉相机沉睡时间
-                var sleepTimeConfig = new SystemConfigDto();
-                sleepTimeConfig.Code = ConfigEnum.视觉相机沉睡;
-                sleepTimeConfig.Value = txtSleepTime.Text;
-                Configs.Add(sleepTimeConfig);
+                ////视觉相机沉睡时间
+                //var sleepTimeConfig = new SystemConfigDto();
+                //sleepTimeConfig.Code = ConfigEnum.视觉相机沉睡;
+                //sleepTimeConfig.Value = txtSleepTime.Text;
+                //Configs.Add(sleepTimeConfig);
 
                 //订单顺序模式
                 var orderSeqConfig = new SystemConfigDto();
@@ -257,6 +258,7 @@ namespace HC.Identify.App
                 var sortLineConfig = new SystemConfigDto();
                 sortLineConfig.Code = ConfigEnum.订单顺序模式;
                 sortLineConfig.Value = txtBoxSortLine.Text;
+                sortLineConfig.AdditiValue = txtSubSortLine.Text;
                 Configs.Add(sortLineConfig);
 
                 //相机曝光度
@@ -335,10 +337,10 @@ namespace HC.Identify.App
                     {
                         check_debug.Checked = item.IsAction;
                     }
-                    if (item.Code == ConfigEnum.视觉相机沉睡)
-                    {
-                        txtSleepTime.Text = item.Value;
-                    }
+                    //if (item.Code == ConfigEnum.视觉相机沉睡)
+                    //{
+                    //    txtSleepTime.Text = item.Value;
+                    //}
                     if (item.Code == ConfigEnum.订单顺序模式)
                     {
                         ckOrderSeq.Checked = item.IsAction;
@@ -346,6 +348,7 @@ namespace HC.Identify.App
                     if (item.Code == ConfigEnum.分拣线路)
                     {
                         txtBoxSortLine.Text = item.Value;
+                        txtSubSortLine.Text = item.AdditiValue;
                     }
                     if (item.Code == ConfigEnum.相机曝光度)
                     {

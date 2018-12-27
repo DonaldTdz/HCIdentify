@@ -60,6 +60,9 @@
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolKunCLineName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolKunCLineVal = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -135,10 +138,13 @@
             this.toolStripStatusLabel7,
             this.toolStripStatusLabel6,
             this.toolS_zr,
+            this.toolStripStatusLabel4,
+            this.toolKunCLineName,
+            this.toolKunCLineVal,
             this.toolStripStatusLabel8,
             this.toolRunStatus,
-            this.toolRunStatusVal,
-            this.toolStripStatusLabel2});
+            this.toolStripStatusLabel2,
+            this.toolRunStatusVal});
             this.statusStrip1.Location = new System.Drawing.Point(0, 675);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.ShowItemToolTips = true;
@@ -234,7 +240,7 @@
             this.toolRunStatusVal.Image = ((System.Drawing.Image)(resources.GetObject("toolRunStatusVal.Image")));
             this.toolRunStatusVal.Name = "toolRunStatusVal";
             this.toolRunStatusVal.Size = new System.Drawing.Size(60, 17);
-            this.toolRunStatusVal.Text = "未开始";
+            this.toolRunStatusVal.Text = "未启用";
             // 
             // toolStripStatusLabel2
             // 
@@ -320,6 +326,25 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // toolKunCLineName
+            // 
+            this.toolKunCLineName.Name = "toolKunCLineName";
+            this.toolKunCLineName.Size = new System.Drawing.Size(68, 17);
+            this.toolKunCLineName.Text = "昆船通信：";
+            // 
+            // toolKunCLineVal
+            // 
+            this.toolKunCLineVal.Image = ((System.Drawing.Image)(resources.GetObject("toolKunCLineVal.Image")));
+            this.toolKunCLineVal.Name = "toolKunCLineVal";
+            this.toolKunCLineVal.Size = new System.Drawing.Size(60, 17);
+            this.toolKunCLineVal.Text = "未启用";
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(28, 17);
+            this.toolStripStatusLabel4.Text = "     ";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -382,6 +407,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolUser;
         private System.Windows.Forms.ToolStripStatusLabel toolUserName;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel9;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripStatusLabel toolKunCLineName;
+        private System.Windows.Forms.ToolStripStatusLabel toolKunCLineVal;
     }
 }
 

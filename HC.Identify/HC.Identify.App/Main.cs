@@ -28,6 +28,8 @@ namespace HC.Identify.App
         public FrameStatusEnum ZRStatus { get; set; }
         //读码器连接状态
         public FrameStatusEnum ScannerStatus { get; set; }
+        //昆船连接状态
+        public FrameStatusEnum KunCLineStatus { get; set; }
         //COMServer cOMServer;//串口通信测试
         //SocketServer socketServer;
         //SocketClient socketClient;
@@ -337,7 +339,7 @@ namespace HC.Identify.App
         /// <param name="frameStatusEnum"></param>
         public void SetScannerStatus(FrameStatusEnum frameStatusEnum)
         {
-            this.ScannerStatus = frameStatusEnum;
+            KunCLineStatus = frameStatusEnum;
             switch (frameStatusEnum)
             {
                 case FrameStatusEnum.NoConnected:
@@ -359,6 +361,41 @@ namespace HC.Identify.App
                         this.toolS_scan.Text = "未启用";
                         this.toolS_scan.ForeColor = Color.Gray;
                         this.toolS_scan.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 设置与昆船连接状态（获取切户信号和发出停皮带信号）
+        /// </summary>
+        /// <param name="frameStatusEnum"></param>
+        public void SetKunCLineStatus(FrameStatusEnum frameStatusEnum)
+        {
+            this.ScannerStatus = frameStatusEnum;
+            switch (frameStatusEnum)
+            {
+                case FrameStatusEnum.NoConnected:
+                    {
+                        this.toolKunCLineVal.Text = "未连接";
+                        this.toolKunCLineVal.ForeColor = Color.Red;
+                        this.toolKunCLineVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\red.ico");
+                    }
+                    break;
+                case FrameStatusEnum.Connected:
+                    {
+                        this.toolKunCLineVal.Text = "已连接";
+                        this.toolKunCLineVal.ForeColor = Color.Green;
+                        this.toolKunCLineVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\green.ico");
+                    }
+                    break;
+                case FrameStatusEnum.NotEnabled:
+                    {
+                        this.toolKunCLineVal.Text = "未启用";
+                        this.toolKunCLineVal.ForeColor = Color.Gray;
+                        this.toolKunCLineVal.Image = Image.FromFile(System.Windows.Forms.Application.StartupPath + @"\Resources\icon_status-dot.png");
                     }
                     break;
                 default:
