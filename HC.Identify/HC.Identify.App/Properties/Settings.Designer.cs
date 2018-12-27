@@ -12,7 +12,7 @@ namespace HC.Identify.App.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,11 +26,21 @@ namespace HC.Identify.App.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.1.20;Initial Catalog=IdentifyDB;Persist Security Info=True;Us" +
-            "er ID=sa")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa")]
         public string IdentifyDBConnectionString {
             get {
                 return ((string)(this["IdentifyDBConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=IBMOLEDB.IBMDBCL1;Data Source=sample;Persist Security Info=True;Password" +
+            "=hechuang123;User ID=admin;Location=192.168.0.121")]
+        public string DB2ConnectionString {
+            get {
+                return ((string)(this["DB2ConnectionString"]));
             }
         }
     }

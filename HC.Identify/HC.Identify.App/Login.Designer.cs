@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.Account = new System.Windows.Forms.TextBox();
@@ -36,6 +37,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.aCTBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet1 = new HC.Identify.App.DataSet1();
+            this.aCTTableAdapter = new HC.Identify.App.DataSet1TableAdapters.ACTTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.aCTBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -115,6 +121,20 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // aCTBindingSource
+            // 
+            this.aCTBindingSource.DataMember = "ACT";
+            this.aCTBindingSource.DataSource = this.dataSet1;
+            // 
+            // dataSet1
+            // 
+            this.dataSet1.DataSetName = "DataSet1";
+            this.dataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // aCTTableAdapter
+            // 
+            this.aCTTableAdapter.ClearBeforeFill = true;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -133,6 +153,9 @@
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "智能视觉识别控制系统";
+            this.Load += new System.EventHandler(this.Login_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.aCTBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,5 +171,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private DataSet1 dataSet1;
+        private System.Windows.Forms.BindingSource aCTBindingSource;
+        private DataSet1TableAdapters.ACTTableAdapter aCTTableAdapter;
     }
 }

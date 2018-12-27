@@ -54,6 +54,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="IBM.Data.DB2, Version=9.7.4.4, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=AMD64">
+      <HintPath>..\packages\IBM.Data.DB2.10.0.5.5\lib\net451\IBM.Data.DB2.dll</HintPath>
+    </Reference>
+    <Reference Include="IBM.Data.DB2.Entity, Version=9.7.4.4, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=AMD64">
+      <HintPath>..\packages\IBM.Data.DB2.10.0.5.5\lib\net451\IBM.Data.DB2.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="IBM.Data.DB2.EntityFramework, Version=10.5.5.6, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.IBM.DB2.6.1.0\lib\net40\IBM.Data.DB2.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -65,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBContexts\KescContext.cs" />
     <Compile Include="DBContexts\KsecpickContext.cs" />
     <Compile Include="DBContexts\Ms01Context.cs" />
     <Compile Include="QueryExtension.cs" />
@@ -77,12 +87,16 @@
     <Compile Include="Services\Identify\OrderSumService.cs" />
     <Compile Include="Services\Identify\SystemConfigService.cs" />
     <Compile Include="Services\Identify\UserService.cs" />
+    <Compile Include="Services\Kesc\KescOrderInfoService.cs" />
     <Compile Include="Services\Ksecpick\KsecOrderInfoServic.cs" />
     <Compile Include="Services\Ms01\OrderInfoMsService.cs" />
     <Compile Include="Services\Ms01\OrderSumMsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="db2spcdb.bnd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

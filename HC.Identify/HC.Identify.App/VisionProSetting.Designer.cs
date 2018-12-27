@@ -57,6 +57,8 @@
             this.txtCurrentSpec = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtPiPei = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtUseTime = new System.Windows.Forms.TextBox();
             this.txtMatchSpec = new System.Windows.Forms.TextBox();
@@ -67,8 +69,6 @@
             this.btnReMatchRun = new System.Windows.Forms.Button();
             this.btn_Recover = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtPiPei = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.cogToolBlockEditV2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay)).BeginInit();
             this.groupImgSaveBox.SuspendLayout();
@@ -87,7 +87,7 @@
             this.cogToolBlockEditV2.MinimumSize = new System.Drawing.Size(367, 0);
             this.cogToolBlockEditV2.Name = "cogToolBlockEditV2";
             this.cogToolBlockEditV2.ShowNodeToolTips = true;
-            this.cogToolBlockEditV2.Size = new System.Drawing.Size(676, 584);
+            this.cogToolBlockEditV2.Size = new System.Drawing.Size(845, 590);
             this.cogToolBlockEditV2.SuspendElectricRuns = false;
             this.cogToolBlockEditV2.TabIndex = 7;
             this.cogToolBlockEditV2.Visible = false;
@@ -107,7 +107,7 @@
             this.cogRecordDisplay.MouseWheelSensitivity = 1D;
             this.cogRecordDisplay.Name = "cogRecordDisplay";
             this.cogRecordDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay.OcxState")));
-            this.cogRecordDisplay.Size = new System.Drawing.Size(814, 608);
+            this.cogRecordDisplay.Size = new System.Drawing.Size(860, 604);
             this.cogRecordDisplay.TabIndex = 6;
             // 
             // btnToolSetting
@@ -368,6 +368,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "型号匹配";
             // 
+            // txtPiPei
+            // 
+            this.txtPiPei.Location = new System.Drawing.Point(298, 62);
+            this.txtPiPei.Name = "txtPiPei";
+            this.txtPiPei.Size = new System.Drawing.Size(104, 21);
+            this.txtPiPei.TabIndex = 10;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(236, 68);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "匹配值：";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -459,22 +475,6 @@
             this.btn_Save.Text = "保存当前设置";
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(236, 68);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "匹配值：";
-            // 
-            // txtPiPei
-            // 
-            this.txtPiPei.Location = new System.Drawing.Point(298, 62);
-            this.txtPiPei.Name = "txtPiPei";
-            this.txtPiPei.Size = new System.Drawing.Size(104, 21);
-            this.txtPiPei.TabIndex = 10;
             // 
             // VisionProSetting
             // 

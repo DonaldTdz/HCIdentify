@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkbenchNew));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnPreviousHouse = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -54,16 +54,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnOrderInit = new System.Windows.Forms.Button();
             this.gvOrderInfo = new System.Windows.Forms.DataGridView();
-            this.txtId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtSpecification = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtUUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtMatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtUnmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BeginSeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endSeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Seq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cogRecordDisplay = new Cognex.VisionPro.CogRecordDisplay();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -118,13 +108,24 @@
             this.labOrderNotCheck = new System.Windows.Forms.Label();
             this.labOrderTotalNum = new System.Windows.Forms.Label();
             this.groupMatchOrder = new System.Windows.Forms.GroupBox();
+            this.labReadCode = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.labTrigger = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.labCheckRate = new System.Windows.Forms.Label();
             this.proBarCheck = new System.Windows.Forms.ProgressBar();
             this.orderInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label6 = new System.Windows.Forms.Label();
-            this.labReadCode = new System.Windows.Forms.Label();
+            this.txtId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtSpecification = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtUUID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtMatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtUnmatched = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BeginSeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endSeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Seq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrderInfo)).BeginInit();
@@ -254,14 +255,14 @@
             this.gvOrderInfo.AllowUserToAddRows = false;
             this.gvOrderInfo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gvOrderInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvOrderInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvOrderInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gvOrderInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvOrderInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.txtId,
@@ -273,102 +274,22 @@
             this.txtUnmatched,
             this.BeginSeq,
             this.endSeq,
-            this.Seq});
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gvOrderInfo.DefaultCellStyle = dataGridViewCellStyle16;
+            this.Seq,
+            this.JobNum});
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gvOrderInfo.DefaultCellStyle = dataGridViewCellStyle4;
             this.gvOrderInfo.Location = new System.Drawing.Point(7, 47);
             this.gvOrderInfo.Name = "gvOrderInfo";
             this.gvOrderInfo.RowTemplate.Height = 23;
             this.gvOrderInfo.Size = new System.Drawing.Size(645, 482);
             this.gvOrderInfo.StandardTab = true;
             this.gvOrderInfo.TabIndex = 0;
-            // 
-            // txtId
-            // 
-            this.txtId.DataPropertyName = "Id";
-            this.txtId.HeaderText = "Id";
-            this.txtId.Name = "txtId";
-            this.txtId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.txtId.Visible = false;
-            // 
-            // txtSpecification
-            // 
-            this.txtSpecification.DataPropertyName = "Specification";
-            this.txtSpecification.FillWeight = 122.3898F;
-            this.txtSpecification.HeaderText = "规格";
-            this.txtSpecification.Name = "txtSpecification";
-            this.txtSpecification.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Brand
-            // 
-            this.Brand.DataPropertyName = "Brand";
-            this.Brand.FillWeight = 119.9907F;
-            this.Brand.HeaderText = "条码";
-            this.Brand.Name = "Brand";
-            this.Brand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Num
-            // 
-            this.Num.DataPropertyName = "Num";
-            this.Num.FillWeight = 81.34964F;
-            this.Num.HeaderText = "数量";
-            this.Num.Name = "Num";
-            this.Num.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // txtUUID
-            // 
-            this.txtUUID.DataPropertyName = "UUID";
-            this.txtUUID.HeaderText = "UUID";
-            this.txtUUID.Name = "txtUUID";
-            this.txtUUID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.txtUUID.Visible = false;
-            // 
-            // txtMatched
-            // 
-            this.txtMatched.DataPropertyName = "Matched";
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.LightGreen;
-            this.txtMatched.DefaultCellStyle = dataGridViewCellStyle14;
-            this.txtMatched.FillWeight = 77.25452F;
-            this.txtMatched.HeaderText = "已匹配";
-            this.txtMatched.Name = "txtMatched";
-            this.txtMatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // txtUnmatched
-            // 
-            this.txtUnmatched.DataPropertyName = "Unmatched";
-            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Red;
-            this.txtUnmatched.DefaultCellStyle = dataGridViewCellStyle15;
-            this.txtUnmatched.FillWeight = 72.42555F;
-            this.txtUnmatched.HeaderText = "未匹配";
-            this.txtUnmatched.Name = "txtUnmatched";
-            this.txtUnmatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // BeginSeq
-            // 
-            this.BeginSeq.DataPropertyName = "BeginSeq";
-            this.BeginSeq.FillWeight = 106.599F;
-            this.BeginSeq.HeaderText = "开始序号";
-            this.BeginSeq.Name = "BeginSeq";
-            // 
-            // endSeq
-            // 
-            this.endSeq.DataPropertyName = "endSeq";
-            this.endSeq.FillWeight = 119.9907F;
-            this.endSeq.HeaderText = "结束序号";
-            this.endSeq.Name = "endSeq";
-            // 
-            // Seq
-            // 
-            this.Seq.DataPropertyName = "Sequence";
-            this.Seq.HeaderText = "序号";
-            this.Seq.Name = "Seq";
-            this.Seq.Visible = false;
             // 
             // tabPage1
             // 
@@ -783,14 +704,14 @@
             // 
             this.gvMatchResult.AllowUserToAddRows = false;
             this.gvMatchResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvMatchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvMatchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.gvMatchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvMatchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SortNum,
@@ -801,25 +722,25 @@
             this.Match,
             this.UUID,
             this.Sequence});
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gvMatchResult.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gvMatchResult.DefaultCellStyle = dataGridViewCellStyle11;
             this.gvMatchResult.Location = new System.Drawing.Point(1, 0);
             this.gvMatchResult.Name = "gvMatchResult";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle24.NullValue = "Index";
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvMatchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.NullValue = "Index";
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvMatchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.gvMatchResult.RowHeadersVisible = false;
             this.gvMatchResult.RowTemplate.Height = 23;
             this.gvMatchResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -838,8 +759,8 @@
             // Id
             // 
             this.Id.DataPropertyName = "Id";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Id.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Id.DefaultCellStyle = dataGridViewCellStyle6;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
             this.Id.Visible = false;
@@ -847,8 +768,8 @@
             // BrandS
             // 
             this.BrandS.DataPropertyName = "Brand";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.BrandS.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.BrandS.DefaultCellStyle = dataGridViewCellStyle7;
             this.BrandS.FillWeight = 177.204F;
             this.BrandS.HeaderText = "条码";
             this.BrandS.Name = "BrandS";
@@ -857,8 +778,8 @@
             // Specific
             // 
             this.Specific.DataPropertyName = "Specification";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Specific.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Specific.DefaultCellStyle = dataGridViewCellStyle8;
             this.Specific.FillWeight = 25.52285F;
             this.Specific.HeaderText = "规格";
             this.Specific.Name = "Specific";
@@ -867,8 +788,8 @@
             // MatchTime
             // 
             this.MatchTime.DataPropertyName = "MatchTime";
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.MatchTime.DefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MatchTime.DefaultCellStyle = dataGridViewCellStyle9;
             this.MatchTime.FillWeight = 134.9363F;
             this.MatchTime.HeaderText = "匹配时间";
             this.MatchTime.Name = "MatchTime";
@@ -878,10 +799,10 @@
             // Match
             // 
             this.Match.DataPropertyName = "MatchStatus";
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.Match.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.Match.DefaultCellStyle = dataGridViewCellStyle10;
             this.Match.FillWeight = 103.9612F;
             this.Match.HeaderText = "状态";
             this.Match.Name = "Match";
@@ -938,6 +859,24 @@
             this.groupMatchOrder.TabIndex = 21;
             this.groupMatchOrder.TabStop = false;
             // 
+            // labReadCode
+            // 
+            this.labReadCode.AutoSize = true;
+            this.labReadCode.Location = new System.Drawing.Point(301, 507);
+            this.labReadCode.Name = "labReadCode";
+            this.labReadCode.Size = new System.Drawing.Size(11, 12);
+            this.labReadCode.TabIndex = 13;
+            this.labReadCode.Text = "0";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(230, 507);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "读码计数：";
+            // 
             // labTrigger
             // 
             this.labTrigger.AutoSize = true;
@@ -974,23 +913,93 @@
             this.proBarCheck.Size = new System.Drawing.Size(304, 23);
             this.proBarCheck.TabIndex = 8;
             // 
-            // label6
+            // txtId
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(230, 507);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 12);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "读码计数：";
+            this.txtId.DataPropertyName = "Id";
+            this.txtId.HeaderText = "Id";
+            this.txtId.Name = "txtId";
+            this.txtId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.txtId.Visible = false;
             // 
-            // labReadCode
+            // txtSpecification
             // 
-            this.labReadCode.AutoSize = true;
-            this.labReadCode.Location = new System.Drawing.Point(301, 507);
-            this.labReadCode.Name = "labReadCode";
-            this.labReadCode.Size = new System.Drawing.Size(11, 12);
-            this.labReadCode.TabIndex = 13;
-            this.labReadCode.Text = "0";
+            this.txtSpecification.DataPropertyName = "Specification";
+            this.txtSpecification.FillWeight = 122.3898F;
+            this.txtSpecification.HeaderText = "规格";
+            this.txtSpecification.Name = "txtSpecification";
+            this.txtSpecification.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Brand
+            // 
+            this.Brand.DataPropertyName = "Brand";
+            this.Brand.FillWeight = 119.9907F;
+            this.Brand.HeaderText = "条码";
+            this.Brand.Name = "Brand";
+            this.Brand.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Num
+            // 
+            this.Num.DataPropertyName = "Num";
+            this.Num.FillWeight = 81.34964F;
+            this.Num.HeaderText = "数量";
+            this.Num.Name = "Num";
+            this.Num.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // txtUUID
+            // 
+            this.txtUUID.DataPropertyName = "UUID";
+            this.txtUUID.HeaderText = "UUID";
+            this.txtUUID.Name = "txtUUID";
+            this.txtUUID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.txtUUID.Visible = false;
+            // 
+            // txtMatched
+            // 
+            this.txtMatched.DataPropertyName = "Matched";
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.LightGreen;
+            this.txtMatched.DefaultCellStyle = dataGridViewCellStyle2;
+            this.txtMatched.FillWeight = 77.25452F;
+            this.txtMatched.HeaderText = "已匹配";
+            this.txtMatched.Name = "txtMatched";
+            this.txtMatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // txtUnmatched
+            // 
+            this.txtUnmatched.DataPropertyName = "Unmatched";
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Red;
+            this.txtUnmatched.DefaultCellStyle = dataGridViewCellStyle3;
+            this.txtUnmatched.FillWeight = 72.42555F;
+            this.txtUnmatched.HeaderText = "未匹配";
+            this.txtUnmatched.Name = "txtUnmatched";
+            this.txtUnmatched.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // BeginSeq
+            // 
+            this.BeginSeq.DataPropertyName = "BeginSeq";
+            this.BeginSeq.FillWeight = 106.599F;
+            this.BeginSeq.HeaderText = "开始序号";
+            this.BeginSeq.Name = "BeginSeq";
+            // 
+            // endSeq
+            // 
+            this.endSeq.DataPropertyName = "endSeq";
+            this.endSeq.FillWeight = 119.9907F;
+            this.endSeq.HeaderText = "结束序号";
+            this.endSeq.Name = "endSeq";
+            // 
+            // Seq
+            // 
+            this.Seq.DataPropertyName = "Sequence";
+            this.Seq.HeaderText = "序号";
+            this.Seq.Name = "Seq";
+            this.Seq.Visible = false;
+            // 
+            // JobNum
+            // 
+            this.JobNum.DataPropertyName = "JobNum";
+            this.JobNum.HeaderText = "任务号";
+            this.JobNum.Name = "JobNum";
+            this.JobNum.Visible = false;
             // 
             // WorkbenchNew
             // 
@@ -1086,16 +1095,6 @@
         private System.Windows.Forms.Label labOrderTotalNum;
         private System.Windows.Forms.GroupBox groupMatchOrder;
         private System.Windows.Forms.BindingSource orderInfoBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtSpecification;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Brand;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Num;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtUUID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtMatched;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtUnmatched;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BeginSeq;
-        private System.Windows.Forms.DataGridViewTextBoxColumn endSeq;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Seq;
         private System.Windows.Forms.DataGridViewTextBoxColumn SortNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn BrandS;
@@ -1119,5 +1118,16 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label labReadCode;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txtId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txtSpecification;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Brand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txtUUID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txtMatched;
+        private System.Windows.Forms.DataGridViewTextBoxColumn txtUnmatched;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BeginSeq;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endSeq;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Seq;
+        private System.Windows.Forms.DataGridViewTextBoxColumn JobNum;
     }
 }

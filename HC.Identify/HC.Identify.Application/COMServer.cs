@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace HC.Identify.Application
 {
@@ -17,28 +18,41 @@ namespace HC.Identify.Application
         public int DataBits { get; set; }
         public StopBits StopBits { get; set; }
         public Parity Parity { get; set; }
-
-        public COMServer(string portName, int baudRate, int dataBits, StopBits stopBits, Parity parity)
+        public bool IsConnection = false;
+        public bool IsAction { get; set; }
+        public COMServer(string portName, int baudRate, int dataBits, StopBits stopBits, Parity parity, bool isAction)
         {
-            this.PortName = portName;
-            this.BaudRate = baudRate;
-            this.DataBits = dataBits;
-            this.StopBits = stopBits;
-            this.Parity = parity;
+            PortName = portName;
+            BaudRate = baudRate;
+            DataBits = dataBits;
+            StopBits = stopBits;
+            Parity = parity;
+            IsAction = isAction;
         }
 
         public void Open()
         {
-            COM = new SerialPort();
-            COM.PortName = PortName;
-            COM.BaudRate = this.BaudRate; //9600;//注意 这里默认9600 
-            COM.DataBits = this.DataBits; //8;
-            COM.ReadTimeout = 500;
-            COM.WriteTimeout = 500;
-            COM.StopBits = this.StopBits;
-            COM.Parity = this.Parity;
-            COM.Open();
-            IsOpen = true;
+            if (IsAction && !IsConnection)
+            {
+                try
+                {
+                    COM = new SerialPort();
+                    COM.PortName = PortName;
+                    COM.BaudRate = this.BaudRate; //9600;//注意 这里默认9600 
+                    COM.DataBits = this.DataBits; //8;
+                    COM.ReadTimeout = 500;
+                    COM.WriteTimeout = 500;
+                    COM.StopBits = this.StopBits;
+                    COM.Parity = this.Parity;
+                    COM.Open();
+                    IsConnection = true;
+                }
+                catch (Exception ex)
+                {
+                    IsConnection = false;
+                    MessageBox.Show("连接失败,错误信息：" + ex.Message);
+                }
+            }
         }
 
         public void Send(byte[] sendByte)
@@ -48,20 +62,28 @@ namespace HC.Identify.Application
         #region 测试
         public string Recive()
         {
-            //创建接收字节数组
-            Byte[] receivedData = new Byte[COM.BytesToRead];
-            //读取数据GB2312
-            COM.Read(receivedData, 0, receivedData.Length);
-            //var resultData = new ASCIIEncoding().GetString(receivedData);ToBase64String
-            var resultData = Encoding.ASCII.GetString(receivedData);
-            return resultData;
+            if (IsAction && IsConnection)
+            {
+                //创建接收字节数组
+                Byte[] receivedData = new Byte[COM.BytesToRead];
+                //读取数据GB2312
+                COM.Read(receivedData, 0, receivedData.Length);
+
+                //var resultData = new ASCIIEncoding().GetString(receivedData);ToBase64String
+                var resultData = Encoding.ASCII.GetString(receivedData);
+                return resultData;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         public void Close()
         {
             COM.Close();
         }
-      #endregion
+        #endregion
 
     }
 }

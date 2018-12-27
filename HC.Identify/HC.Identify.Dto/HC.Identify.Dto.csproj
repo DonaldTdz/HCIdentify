@@ -58,12 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ComboBoxDto.cs" />
+    <Compile Include="Common\COMDto.cs" />
     <Compile Include="Common\Logs.cs" />
     <Compile Include="Identify\CameraSettingDto.cs" />
     <Compile Include="Identify\OrderInfoDto.cs" />
     <Compile Include="Identify\OrderSumDto.cs" />
     <Compile Include="Identify\SystemConfigDto.cs" />
     <Compile Include="Identify\UserDto.cs" />
+    <Compile Include="Kesc\KescOrderInfoDto.cs" />
     <Compile Include="Ksecpick\VTaskOrderInfoDto.cs" />
     <Compile Include="Ms01\OderInfoMsDto.cs" />
     <Compile Include="Ms01\OrderSumMsDto.cs" />

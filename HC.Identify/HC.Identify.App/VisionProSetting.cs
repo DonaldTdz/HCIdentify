@@ -37,6 +37,7 @@ namespace HC.Identify.App
         CogToolBlock cogToolBlockCopy = new CogToolBlock();
         CogImageFileTool cogImageFile = new CogImageFileTool(); //图像处理工具
         private VisionProAppService visionProAppService;
+        CogAcqFifoTool cogAcq = new CogAcqFifoTool();
         //FileSystemInfo[] fileInfos;
         //int imgIndex;
         //ArrayList cogResultArray = new ArrayList();
@@ -61,7 +62,7 @@ namespace HC.Identify.App
             GetCameraSetting();
             //cameraSettingShowDto = new CameraSettingShowDto();
             InitImage();
-            
+
         }
 
         public VisionProSetting(Main mainForm)
@@ -127,24 +128,38 @@ namespace HC.Identify.App
             {
                 isCameraOnline = true;
                 //获取第一个相机图片
-                icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+                try
+                {
+                    currentrDirectory = Directory.GetCurrentDirectory();
+                    cogAcq = (CogAcqFifoTool)CogSerializer.LoadObjectFromFile(currentrDirectory + "\\CogAcqFifoTool.Vpp");
+                    icogAcqFifo = cogAcq.Operator;
+                    //cogAcqFifoEditV21.Subject = cogAcq;
+                }
+                catch
+                {
+                    MessageBox.Show("连接相机失败，请重试");
+                }
+
+                //icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Mono)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
                 // icogAcqFifo = mFrameGrabbers[0].CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format3Plane, 0, true);//Format3Plane
                 //添加获取完成处理事件
                 icogAcqFifo.Complete += new CogCompleteEventHandler(CompleteAcquire);
-                int numReadyVal;   //读取值
-                int numPendingVal; //等待值
-                int iNum = icogAcqFifo.StartAcquire(); //开始获取
-                //获取图片
-                icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
-                //显示图片
-                cogRecordDisplay.Image = icogColorImage;
-                cogRecordDisplay.Fit(false);
-                //icogAcqFifo.OwnedExposureParams.Exposure = 1;
+                #region 初始显示图像
+                //int numReadyVal;   //读取值
+                //int numPendingVal; //等待值
+                //int iNum = icogAcqFifo.StartAcquire(); //开始获取
+                ////获取图片
+                //icogColorImage = icogAcqFifo.CompleteAcquire(iNum, out numReadyVal, out numPendingVal);
+                ////显示图片
+                //cogRecordDisplay.Image = icogColorImage;
+                //cogRecordDisplay.Fit(false);
+                #endregion
                 icogAcqFifo.OwnedExposureParams.Exposure = double.Parse(SystemConfig[ConfigEnum.相机曝光度].Value);
 
             }
             //ConnectionCamera();
             currentrDirectory = Directory.GetCurrentDirectory();
+
             cogToolBlock = (CogToolBlock)CogSerializer.LoadObjectFromFile(currentrDirectory + "\\TB_Set.Vpp");
             var csvDataPath = currentrDirectory + "\\Data\\Data.csv";
             if (!File.Exists(csvDataPath))
@@ -155,7 +170,7 @@ namespace HC.Identify.App
             VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
             csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
             BindRegisteredSpec();
-            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,double.Parse( SystemConfig[ConfigEnum.匹配值].Value));
+            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay, double.Parse(SystemConfig[ConfigEnum.匹配值].Value), false);
         }
 
         private void VisionProSetting_FormClosing(object sender, FormClosingEventArgs e)
@@ -216,8 +231,8 @@ namespace HC.Identify.App
                 if (numReadyVal > 0)
                 {
                     icogColorImage = icogAcqFifo.CompleteAcquireEx(info);
-                    cogRecordDisplay.Image = icogColorImage;
-                    cogRecordDisplay.Fit(false);
+                    //cogRecordDisplay.Image = icogColorImage;
+                    //cogRecordDisplay.Fit(false);
                 }
             }
             catch (CogException ce)
@@ -367,7 +382,7 @@ namespace HC.Identify.App
             if (icogColorImage != null)
             {
                 double dMaxScore;
-                var spec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore,null);//获取匹配结果
+                var spec = visionProAppService.GetMatchSpecification(out cogResultArray, out dMaxScore, null);//获取匹配结果
                 if (spec != null)
                 {
                     txtMatchSpec.Text = spec.Specification;
@@ -395,7 +410,7 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("请选择图片！！！");
             }
-           
+
 
         }
 
@@ -569,7 +584,7 @@ namespace HC.Identify.App
             {
                 MessageBox.Show("请选择图片！！！");
             }
-           
+
         }
 
         #endregion
@@ -585,7 +600,7 @@ namespace HC.Identify.App
                 MessageBox.Show("请先输入型号再保存数据");
                 return;
             }
-            if(!Regex.IsMatch(spec, @"^\d*$"))
+            if (!Regex.IsMatch(spec, @"^\d*$"))
             {
                 MessageBox.Show("请先正确的型号再保存数据");
                 return;
@@ -754,7 +769,7 @@ namespace HC.Identify.App
                     cogRecordDisplay.StopLiveDisplay();
                     btnLiveDisplay.Text = "连续取像";
                 }
-               
+
                 CreamOn();
             }
             else
@@ -915,6 +930,7 @@ namespace HC.Identify.App
             }
         }
 
+        #region 相机外部模式开启与关闭
         /// <summary>
         /// 打开相机外部模式
         /// </summary>
@@ -937,5 +953,6 @@ namespace HC.Identify.App
             icogAcqFifo.OwnedTriggerParams.TriggerModel = CogAcqTriggerModelConstants.Manual;
             icogAcqFifo.OwnedTriggerParams.TriggerEnabled = true;
         }
+        #endregion
     }
 }

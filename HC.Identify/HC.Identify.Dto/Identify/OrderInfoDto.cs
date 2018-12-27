@@ -58,7 +58,7 @@ namespace HC.Identify.Dto.Identify
                 return Num - Matched;
             }
         }
-        public int? Sequence { get; set; }
+        public decimal Sequence { get; set; }
 
         /// <summary>
         /// 开始序号
@@ -69,6 +69,11 @@ namespace HC.Identify.Dto.Identify
         /// 结束序号
         /// </summary>
         public int? endSeq { get; set; }
+
+        /// <summary>
+        /// 任务号（实时订单特有）
+        /// </summary>
+        public string JobNum { get; set; }
 
     }
 

@@ -100,5 +100,17 @@ namespace HC.Identify.App
             //    xdoc.Save("userList.xml");
             //}
         }
+
+        private void bindingSource1_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            // TODO: 这行代码将数据加载到表“dataSet1.ACT”中。您可以根据需要移动或删除它。
+            //this.aCTTableAdapter.Fill(this.dataSet1.ACT);
+
+        }
     }
 }

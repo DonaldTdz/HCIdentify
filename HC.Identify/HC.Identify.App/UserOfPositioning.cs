@@ -1,4 +1,5 @@
-﻿using HC.Identify.Dto.Ksecpick;
+﻿using HC.Identify.Dto.Kesc;
+using HC.Identify.Dto.Ksecpick;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,20 +14,20 @@ namespace HC.Identify.App
 {
     public partial class UserOfPositioning : Form
     {
-        public VTaskOrderInfoDto retailer;
+        public KescOrderInfoDto retailer;
         public string serialNum;//烟的序号
-        public UserOfPositioning(VTaskOrderInfoDto entity)
+        public UserOfPositioning(KescOrderInfoDto entity)
         {
             InitializeComponent();
             retailer = entity;
-            labRetailerName.Text = retailer.CUSTOMNAME.Length > 15 ? retailer.CUSTOMNAME.Substring(0, 15) + "..." : retailer.CUSTOMNAME;
+            labRetailerName.Text = retailer.CUSTOMDESC.Length > 15 ? retailer.CUSTOMDESC.Substring(0, 15) + "..." : retailer.CUSTOMDESC;
             //labRetailerName.Text = retailer.CUSTOMNAME;
             labCode.Text = retailer.CUSTOMCODE;
             labIndex.Text = retailer.IndexNum.ToString();
-            labNum.Text = retailer.orderqty.ToString();
+            labNum.Text = retailer.ITEMTOTAL.ToString();
             labOrderNum.Text = retailer.SJOBNUM;
             labLine.Text = retailer.SORTLINE;
-            labBatch.Text = retailer.batch;
+            labBatch.Text = retailer.BATCHCODE;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -47,14 +48,14 @@ namespace HC.Identify.App
 
                 if (!string.IsNullOrEmpty(txtNum))
                 {
-                    if (0 < int.Parse(txtNum) && int.Parse(txtNum) <= retailer.orderqty)
+                    if (0 < int.Parse(txtNum) && int.Parse(txtNum) <= retailer.ITEMTOTAL)
                     {
                         e.Handled = false;
                     }
                     else
                     {
                         e.Handled = true;//不会将输入的内容显示
-                        MessageBox.Show(string.Format("只能输入1-{0}的数字", (int)retailer.orderqty));
+                        MessageBox.Show(string.Format("只能输入1-{0}的数字", (int)retailer.ITEMTOTAL));
                     }
                 }
                 else

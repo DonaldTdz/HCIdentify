@@ -20,9 +20,13 @@ namespace HC.Identify.App
     {
         public MainChildrenCollection MainChildList = new MainChildrenCollection();
         UserAppService userAppServer;
+        //相机连接状态
         public FrameStatusEnum FrameStatus { get; set; }
+        //主界面状态
         public RunStatusEnum RunStatus { get; set; }
+        //中软连接状态
         public FrameStatusEnum ZRStatus { get; set; }
+        //读码器连接状态
         public FrameStatusEnum ScannerStatus { get; set; }
         //COMServer cOMServer;//串口通信测试
         //SocketServer socketServer;

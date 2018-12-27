@@ -20,7 +20,7 @@ namespace HC.Identify.Application.Common
             _appPath = appPath;
             _fileName = fileName;
             _isErrorLog = isErrorLog;
-            LogThread();
+            //LogThread();
         }
         /// <summary>
         /// 独立线程调用写日志

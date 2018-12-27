@@ -1,11 +1,14 @@
 ﻿using HC.Identify.Application;
+using HC.Identify.Application.Common;
 using HC.Identify.Application.Identify;
+using HC.Identify.Dto.Common;
 using HC.Identify.Dto.Identify;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +25,9 @@ namespace HC.Identify.App
         SocketClient socketClient;
         Workbench workbench;
         public Main MainForm;
+        List<ComboBoxDto> ParityBit = new List<ComboBoxDto>();
+        List<ComboBoxDto> StopBit = new List<ComboBoxDto>();
+        COMDto cOMDto = new COMDto();//切户相关COM口信息
         public SystemConfig()
         {
             InitializeComponent();
@@ -29,9 +35,94 @@ namespace HC.Identify.App
         public SystemConfig(Main mainForm)
         {
             InitializeComponent();
+            InitPartityBit();//初始化校验位下拉框值
+            InitStopBit();//初始化停止位下拉框值
             InitAddress();
             MainForm = mainForm;
         }
+        #region 串口配置下拉框值初始化
+        /// <summary>
+        /// 初始化数据位数据
+        /// </summary>
+        public void InitPartityBit()
+        {
+            ParityBit.Add(new ComboBoxDto
+            {
+                Name = "None",
+                Value = 0,
+            });
+            ParityBit.Add(new ComboBoxDto
+            {
+                Name = "Odd",
+                Value = 1,
+            });
+            ParityBit.Add(new ComboBoxDto
+            {
+                Name = "Even",
+                Value = 2,
+            });
+            ParityBit.Add(new ComboBoxDto
+            {
+                Name = "Mark",
+                Value = 3,
+            });
+            ParityBit.Add(new ComboBoxDto
+            {
+                Name = "Space",
+                Value = 4,
+            });
+            coboComParity.DataSource = ParityBit;
+            coboComParity.DisplayMember = "name";
+            coboComParity.ValueMember = "value";
+        }
+        /// <summary>
+        /// 初始化停止位数据
+        /// </summary>
+        public void InitStopBit()
+        {
+            StopBit.Add(new ComboBoxDto
+            {
+                Name = "None",
+                Value = 0,
+            });
+            StopBit.Add(new ComboBoxDto
+            {
+                Name = "One",
+                Value = 1,
+            });
+            StopBit.Add(new ComboBoxDto
+            {
+                Name = "Two",
+                Value = 2,
+            });
+            StopBit.Add(new ComboBoxDto
+            {
+                Name = "OnePointFive",
+                Value = 3,
+            });
+
+            coboComStop.DataSource = StopBit;
+            coboComStop.DisplayMember = "name";
+            coboComStop.ValueMember = "value";
+        }
+        #endregion
+        public void ComboxGetValue()
+        {
+            //var datas = orderSumAppService.GetAreaList();
+            //if (datas.Count > 0)
+            //{
+            //    //下拉框数据赋值
+            //    coboComParity.DataSource = StopBits;
+            //    coboComParity.DisplayMember = "name";
+            //    coboComParity.ValueMember = "value";
+            //}
+        }
+        //public void InitCoBoData()
+        //{
+        //    var data = new List<CommonEnumData>();
+        //    data.Add({ });
+
+        //}
         public void InitAddress()
         {
             systemConfigAppService = new SystemConfigAppService();
@@ -56,7 +147,7 @@ namespace HC.Identify.App
                     {
                         ck_photo.Checked = item.IsAction;
                     }
-                    if(item.Code== ConfigEnum.调试模式)
+                    if (item.Code == ConfigEnum.调试模式)
                     {
                         check_debug.Checked = item.IsAction;
                     }
@@ -80,6 +171,33 @@ namespace HC.Identify.App
                     {
                         textMatchVal.Text = item.Value;
                     }
+                    if (item.Code == ConfigEnum.Com口)
+                    {
+                        ckAutoSwitchUser.Checked = item.IsAction;
+                        cOMDto.COMName = string.IsNullOrEmpty(item.Value) ? "COM8" : item.Value;
+                        string[] arry = { };
+                        if (item.AdditiValue != null)
+                        {
+                            if (item.AdditiValue.Length > 0)
+                            {
+                                arry = item.AdditiValue.Split(',');
+                                cOMDto.COMRate = arry.Length >= 0 ? int.Parse(arry[0]) : 9600;
+                                cOMDto.COMParity = arry.Length >= 1 ? int.Parse(arry[1]) : 0;
+                                cOMDto.ComData = arry.Length >= 2 ? int.Parse(arry[2]) : 8;
+                                cOMDto.ComStop = arry.Length >= 3 ? int.Parse(arry[3]) : 1;
+                            }
+                            txtComName.Text = item.Value;
+                            //以下的数据位置不能错位
+                            txtComRate.Text = cOMDto.COMRate != 0 ? cOMDto.COMRate.ToString() : "";
+                            coboComParity.SelectedValue = cOMDto.COMParity;
+                            txtComData.Text = cOMDto.ComData.ToString();
+                            coboComStop.SelectedValue = cOMDto.ComStop;
+                        }
+                    }
+                    if (item.Code == ConfigEnum.烟序模板)
+                    {
+                        checkSmokeMode.Checked = item.IsAction;
+                    } 
                 }
             }
         }
@@ -140,7 +258,7 @@ namespace HC.Identify.App
                 sortLineConfig.Code = ConfigEnum.订单顺序模式;
                 sortLineConfig.Value = txtBoxSortLine.Text;
                 Configs.Add(sortLineConfig);
-                
+
                 //相机曝光度
                 var exposureConfig = new SystemConfigDto();
                 exposureConfig.Code = ConfigEnum.相机曝光度;
@@ -153,6 +271,24 @@ namespace HC.Identify.App
                 matchValueConfig.Value = textMatchVal.Text;
                 Configs.Add(matchValueConfig);
 
+                //自动切户
+                var autoSwitchUserConfig = new SystemConfigDto();
+                autoSwitchUserConfig.Code = ConfigEnum.Com口;
+                autoSwitchUserConfig.IsAction = ckAutoSwitchUser.Checked;
+                autoSwitchUserConfig.Value = txtComName.Text;
+                var comValue = "";//下列的数据顺序要与上面获取的顺序保持一致
+                comValue += txtComRate.Text + ",";
+                comValue += coboComParity.SelectedValue + ",";
+                comValue += txtComData.Text + ",";
+                comValue += coboComStop.SelectedValue;
+                autoSwitchUserConfig.AdditiValue = comValue;
+                Configs.Add(autoSwitchUserConfig);
+
+                //烟序模板
+                var SmokeModeConfig = new SystemConfigDto();
+                SmokeModeConfig.Code = ConfigEnum.烟序模板;
+                SmokeModeConfig.IsAction = checkSmokeMode.Checked;
+                Configs.Add(SmokeModeConfig);
                 try
                 {
                     systemConfigAppService.UpdateOrCreate(Configs);
@@ -219,6 +355,10 @@ namespace HC.Identify.App
                     {
                         textMatchVal.Text = item.Value;
                     }
+                    if (item.Code == ConfigEnum.Com口)
+                    {
+                        ckAutoSwitchUser.Checked = item.IsAction;
+                    }
                 }
             }
         }
@@ -233,7 +373,7 @@ namespace HC.Identify.App
             var zrIp = txt_ZRIP.Text;
             var zrPort = txt_ZRPort.Text;
             var zrIsCheck = check_isActionzr.Checked;
-            if(!string.IsNullOrEmpty(zrIp)&&!string.IsNullOrEmpty(zrPort))
+            if (!string.IsNullOrEmpty(zrIp) && !string.IsNullOrEmpty(zrPort))
             {
                 socketClient = new SocketClient(zrIp, int.Parse(zrPort), zrIsCheck);
                 socketClient.Open();
@@ -241,7 +381,7 @@ namespace HC.Identify.App
             var brIp = txt_brandIP.Text;
             var brPort = txt_brandPort.Text;
             var brIsCheck = check_isActionBr.Checked;
-            if (!string.IsNullOrEmpty(brIp) && !string.IsNullOrEmpty(brPort)&& brIsCheck)
+            if (!string.IsNullOrEmpty(brIp) && !string.IsNullOrEmpty(brPort) && brIsCheck)
             {
                 workbench = new Workbench();
                 workbench.configs = systemConfigAppService.GetAllConfig();
@@ -275,7 +415,7 @@ namespace HC.Identify.App
                     }
                 }
             }
-          
+
         }
         /// <summary>
         /// 限制匹配值只能输入浮点数据

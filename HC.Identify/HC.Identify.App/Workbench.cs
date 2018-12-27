@@ -196,7 +196,7 @@ namespace HC.Identify.App
             VisionProDataAppService.Instance.CsvDataPath = csvDataPath;
             //csvSpecList = VisionProDataAppService.Instance.GetCsvSpecificationList();
             //ToolBlockRun();
-            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,0.8);
+            visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,0.8,false);
         }
         #endregion
 
@@ -248,7 +248,7 @@ namespace HC.Identify.App
                     cogRecordDisplay.Fit(false);
                     currentrDirectory = Directory.GetCurrentDirectory();
                     cogToolBlock = (CogToolBlock)CogSerializer.LoadObjectFromFile(currentrDirectory + "\\TB_Set.Vpp");
-                    visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,0.8);
+                    visionProAppService = new VisionProAppService(cogToolBlock, icogColorImage, cogRecordDisplay,0.8,false);
                     this.MainForm.SetFrameStatus(FrameStatusEnum.Connected);
                 }
             }

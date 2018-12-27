@@ -27,13 +27,16 @@ namespace HC.Identify.Application.VisionPro
         CogImageFileTool _cogImageFile = new CogImageFileTool(); //图像处理工具
         double _matchValue = 0.8;
         AboutLog helper = new AboutLog(System.Windows.Forms.Application.StartupPath, @"MatchErrorLog\",true);//日志
-        public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay, double MatchValue)
+        double myMean;//灰度平均值
+        bool isSmokeMode = false;//是否开启带2序的模板
+        public VisionProAppService(CogToolBlock cogToolBlock, ICogImage icogColorImage, CogRecordDisplay cogRecordDisplay, double MatchValue,bool IsSmokeModes)
         {
             _cogToolBlock = cogToolBlock;
             _icogColorImage = icogColorImage;
             _cogRecordDisplay = cogRecordDisplay;
             _appPath = System.Windows.Forms.Application.StartupPath;
             _matchValue = MatchValue;
+            isSmokeMode = IsSmokeModes;
             var csvDataPath = _appPath + "\\Data\\Data.csv";
             if (!File.Exists(csvDataPath))
             {
@@ -54,8 +57,8 @@ namespace HC.Identify.Application.VisionPro
         {
 
             List<CsvSpecification> _csvSpecListveWhe = new List<CsvSpecification>();
-            ////排除黑白格调相互识别错误的情况
-            //_csvSpecListveWhe = _csvSpecList;
+            //排除黑白格调相互识别错误的情况
+            _csvSpecListveWhe = _csvSpecList;
             //if (specs != null)
             //{
             //    if (specs[0] == "6901028084772" || specs[0] == "6901028085762")
@@ -63,7 +66,10 @@ namespace HC.Identify.Application.VisionPro
             //        _csvSpecListveWhe = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();//筛选出对当前订单的规格匹配数据
             //    }
             //}
-            _csvSpecListveWhe = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();
+            if (isSmokeMode && specs != null)
+            {
+                _csvSpecListveWhe = _csvSpecList.Where(s => specs.Contains(s.Specification)).ToList();
+            }
             var tbvals = GetToolBlockValues();
             cogResultArray = tbvals;
             dMaxScore = -9999;
@@ -120,6 +126,17 @@ namespace HC.Identify.Application.VisionPro
                 //配置结果值
                 if (dMaxScore > _matchValue)//0.80
                 {
+                    if (maxSpec.Specification == "6901028085762" || maxSpec.Specification == "6901028084772")
+                    {
+                        if (myMean > 50)
+                        {
+                            maxSpec.Specification = "6901028085762";
+                        }
+                        else
+                        {
+                            maxSpec.Specification = "6901028084772";
+                        }
+                    }
                     return maxSpec;
                 }
                 else
@@ -130,11 +147,12 @@ namespace HC.Identify.Application.VisionPro
             catch(Exception ex)
             {
                 //写日志
-                helper.AddLogs(new Logs() {
-                    Title = "匹配异常：",
-                    Msg = ex.InnerException.Message,
-                    DateStr = DateTime.Now.ToString("yyyy-MM-dd:HH:mm:ss:ffff")
-                });
+                //helper.AddLogs(new Logs()
+                //{
+                //    Title = "匹配异常：",
+                //    Msg = ex.InnerException.Message,
+                //    DateStr = DateTime.Now.ToString("yyyy-MM-dd:HH:mm:ss:ffff")
+                //});
                 return null;
             }
            
@@ -147,7 +165,7 @@ namespace HC.Identify.Application.VisionPro
             _cogToolBlock.Inputs["iCol"].Value = 12;
             _cogToolBlock.Inputs["bForceLeft"].Value = false;    //左边线错误
             _cogToolBlock.Inputs["bForceRight"].Value = false;   //右边线错误
-            _cogToolBlock.Inputs["bShowGraphic"].Value = false;  //显示图形
+            //_cogToolBlock.Inputs["bShowGraphic"].Value = false;  //显示图形
             _cogToolBlock.Run();
 
             ICogRecords subRecords = _cogToolBlock.CreateLastRunRecord().SubRecords;
@@ -158,7 +176,10 @@ namespace HC.Identify.Application.VisionPro
             _cogRecordDisplay.Fit(true);
             //return (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
             var cogResultArray = (ArrayList)_cogToolBlock.Outputs["SubRectValues"].Value;
-            if (cogResultArray.Count == 0)
+             myMean = (Double)_cogToolBlock.Outputs["Mean"].Value;//平均值
+            var rectNum= (int)_cogToolBlock.Outputs["RectNum"].Value;//计算矩形框小格子数量
+            //if (cogResultArray.Count == 0)
+            if (rectNum < 0)
             {
                 //MessageBox.Show("ToolBlock结果为空！");
                 _cogRecordDisplay.Image = _icogColorImage;

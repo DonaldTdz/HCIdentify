@@ -5,10 +5,18 @@
     <Setting Name="IdentifyDBConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=192.168.1.20;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Data Source=.;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=192.168.1.20;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa</Value>
+      <Value Profile="(Default)">Data Source=.;Initial Catalog=IdentifyDB;Persist Security Info=True;User ID=sa</Value>
+    </Setting>
+    <Setting Name="DB2ConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=IBMOLEDB.IBMDBCL1;Data Source=sample;Persist Security Info=True;Password=hechuang123;User ID=admin;Location=192.168.0.121&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=IBMOLEDB.IBMDBCL1;Data Source=sample;Persist Security Info=True;Password=hechuang123;User ID=admin;Location=192.168.0.121</Value>
     </Setting>
   </Settings>
 </SettingsFile>
